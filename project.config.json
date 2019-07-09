@@ -14,12 +14,14 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.6.1",
-	"appid": "wx1e3bc514b1d29f4d",
-	"projectname": "PJI-Frontend",
+	"appid": "wx0f7ae4ec596582aa",
+	"projectname": "ONFH",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
 	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
