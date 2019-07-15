@@ -2,7 +2,7 @@
     <view class="cu-avatar round xl bg-gray margin-xs" style="background-image:url({{avatarUrl}});">
     </view>
     <view class='text-xl'>
-        PJI-登记系统
+        ONFH-登记系统
         <text class='text-df'>v2.0</text>
     </view>
     <view class='margin-top-sm'>
