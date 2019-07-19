@@ -89,7 +89,7 @@
                 </view>
             </view>
             <view class="center-notice-inner-btn" wx:if="{{isAdmin}}">
-               > 进入公告管理
+                <view bindtap="onClickNoticeManagement">> 进入公告管理</view>
             </view>
         </view>
         <!-- ONFH设计结束: 中心列表 -->

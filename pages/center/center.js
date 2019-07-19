@@ -282,6 +282,11 @@ Page({
             url: '../center/specimen/specimen?centerId=' + e.target.dataset.center.center_id + "&centerName=" + e.target.dataset.center.center_name
         })
     },
+    onClickNoticeManagement: function(e) {
+        wx.navigateTo({
+            url: '../notice/notice'
+        })
+    },
     backToAuth: function() {
         wx.navigateTo({
             url: '../auth/auth'

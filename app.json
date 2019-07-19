@@ -11,7 +11,8 @@
     "pages/center/case/detail/detail",
     "pages/center/specimen/specimen",
     "pages/center/specimen/detail/detail",
-    "pages/center/specimen/save/save"
+    "pages/center/specimen/save/save",
+    "pages/notice/notice"
   ],
   "window": {
     "backgroundTextStyle": "light",
