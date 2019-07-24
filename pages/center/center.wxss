@@ -15,7 +15,6 @@
 .center-card {
     height:200rpx;
     padding:0;
-    margin:15rpx;
     display:flex;
     margin:15rpx;
     -webkit-border-radius: 20rpx 20rpx 0rpx 0rpx;
@@ -81,7 +80,7 @@
 }
 .center-notice {
     height: 300rpx;
-    padding: 30rpx 20rpx;
+    padding: 20rpx;
     display: flex;
     align-items: center;
     justify-content: center;

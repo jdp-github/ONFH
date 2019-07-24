@@ -40,7 +40,7 @@
                     <view class="cu-avatar round xl bg-gray margin-xs" style="background-image:url({{avatarUrl}});"></view>
                 </view>
                 <view class="notice-content">
-                    明天可能全体放假，具体通知请...
+                    明天全体放假ssssdsfdsafsdfsaf，具体通知请...
                 </view>
                 <view class="notice-time">
                     8天
