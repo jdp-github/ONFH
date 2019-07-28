@@ -2,6 +2,7 @@
   "pages": [
     "pages/auth/auth",
     "pages/center/center",
+    "pages/notice/notice",
     "pages/stats/stats",
     "pages/person/person",
     "pages/service/service",
@@ -11,8 +12,7 @@
     "pages/center/case/detail/detail",
     "pages/center/specimen/specimen",
     "pages/center/specimen/detail/detail",
-    "pages/center/specimen/save/save",
-    "pages/notice/notice"
+    "pages/center/specimen/save/save"
   ],
   "window": {
     "backgroundTextStyle": "light",

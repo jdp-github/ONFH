@@ -41,11 +41,13 @@ Page({
         this.onLoad();
     },
     onLoad: function() {
+        this.loadProgress()
         let that = this;
         this.setData({
             isAdmin: app.globalData.is_admin == '1'
         });
         this.initData();
+        this.completeProgress()
     },
     onPullDownRefresh: function() {
         this.setData({
@@ -130,6 +132,7 @@ Page({
     },
     initData: function() {
         let that = this;
+        that.showLoading()
         wx.request({
             url: constant.basePath,
             data: {
@@ -140,7 +143,7 @@ Page({
                 'content-type': 'application/json'
             },
             success(res) {
-                wx.stopPullDownRefresh();
+                that.hideLoading()
                 if (res.data.data.code == constant.response_success) {
                     for (let i = 0, len = res.data.data.list.length; i < len; i++) {
                         let center = res.data.data.list[i];
@@ -171,7 +174,7 @@ Page({
                 }
             },
             fail(res) {
-                wx.stopPullDownRefresh();
+                that.hideLoading()
             }
         });
     },
@@ -231,12 +234,12 @@ Page({
     },
     onClickCase: function(e) {
         wx.navigateTo({
-            url: '../center/case/case?centerId=' + e.target.dataset.center.center_id + "&centerName=" + e.target.dataset.center.center_name
+            url: '../center/case/case?centerId=' + e.currentTarget.dataset.center.center_id + "&centerName=" + e.currentTarget.dataset.center.center_name
         });
     },
-    onClickMember: function(e) {
+    onClickMember: function (e) {
         wx.navigateTo({
-            url: '../center/member/member?centerId=' + e.target.dataset.centerid
+            url: '../center/member/member?centerId=' + e.currentTarget.dataset.centerid
         });
     },
     // onClickSpecimen: function(e) {
@@ -246,7 +249,7 @@ Page({
     // },
     onClickNoticeManagement: function(e) {
         wx.navigateTo({
-            url: '../notice/notice'
+            url: '../notice/notice?centerId=' + e.currentTarget.dataset.centerid
         })
     },
     backToAuth: function() {

@@ -24,6 +24,7 @@ Page({
         indexBarDisplay: true
     },
     onLoad: function (options) {
+        console.log(JSON.stringify(options))
         this.loadProgress();
         this.setData({
             centerId: options.centerId,

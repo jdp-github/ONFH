@@ -193,9 +193,16 @@ map, .mapBox {
     align-items: center;
 }
 
-.notice-tag {
+.notice-left {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+}
+
+.notice-tag {
+    position: absolute;
+    top: 95rpx;
+    left: 35rpx;
+    z-index: 1;
 }
 
 .notice-avatar {
@@ -208,11 +215,17 @@ map, .mapBox {
     height: 70rpx;
 }
 
+.notice-middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .notice-content {
     display: flex;
     align-items: center;
     font-size: 24rpx;
-    width: 350rpx;
+    width: 500rpx;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -222,12 +235,12 @@ map, .mapBox {
     display: flex;
     align-items: center;
     font-size: 24rpx;
-    margin-left: 15rpx;
+    margin-top: 5rpx;
 }
 
 .notice-icon {
-    display: flex;
-    align-items: center;
+    position: absolute;
+    right: 50rpx;
     font-size: 24rpx;
     margin-left: 30rpx;
     margin-top: 5rpx;

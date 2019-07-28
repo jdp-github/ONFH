@@ -18,32 +18,35 @@
 </view>
 <scroll-view scroll-y class="indexes margin-bottom" scroll-into-view="indexes-{{listCurID}}" style='padding-top:125rpx;height:calc(100vh - {{CustomBar}}px)' scroll-with-animation="true" enable-back-to-top="true">
     <view class="cu-list menu menu-avatar">
-        <!-- ONFH设计: 公告列表 -->
         <view style='display:flex;flex-direction:row'>
             <view class="flex-sub">
-                <button class='cu-btn bg-green shadow margin-btn block'>
+                <button class='cu-btn bg-green shadow margin-btn block' bindtap='showModal'>
                     发布公告
                 </button>
             </view>
             <view class="flex-sub">
-                <button class='cu-btn bg-green shadow margin-btn block'>
+                <button class='cu-btn bg-green shadow margin-btn block' bindtap='refresh'>
                     刷新列表
                 </button>
             </view>
         </view>
+        <!-- 列表 -->
         <view class="notice-list">
-            <view class="notice-block">
+            <view class="notice-block" wx:for="{{noticeList}}" wx:key="{{item.id}}" bindtap='onItemClick' data-item="{{item}}">
+                <!-- item -->
                 <view class="notice-tag">
-                    <view class='cu-tag radius bg-green small fl'>置顶</view>
+                    <view wx:if="{{item.is_top == 1}}" class='cu-tag radius bg-green small fl'><i class="fa fa-bookmark-retro"></i></view>
                 </view>
                 <view class="notice-avatar">
-                    <view class="cu-avatar round xl bg-gray margin-xs" style="background-image:url({{avatarUrl}});"></view>
+                    <view class="cu-avatar round xl bg-gray margin-xs" style="background-image:url({{item.staff_avatar}});"></view>
                 </view>
-                <view class="notice-content">
-                    明天全体放假ssssdsfdsafsdfsaf，具体通知请...
-                </view>
-                <view class="notice-time">
-                    8天
+                <view class='notice-middle'>
+                    <view class="notice-content">
+                        {{item.content}}
+                    </view>
+                    <view class="notice-time">
+                        {{item.ctime}}
+                    </view>
                 </view>
                 <view class="notice-icon">
                     <text class='icon-right'></text>
@@ -57,37 +60,39 @@
     <view class='load-progress-bar bg-green' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
     <view class='load-progress-spinner text-green'></view>
 </view>
-<view class='cu-load load-modal' wx:if="{{loadModal}}">
-    <view class='gray-text'>处理中...</view>
-</view>
-<view class="load-curtain" wx:if="{{loadProgress!=0}}"></view>
-<view class="cu-modal {{modalName=='AddCenterModal'?'show':''}}">
+<!-- dialog -->
+<view class="cu-modal show" wx:if="{{modalName=='AddNotice'}}">
     <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
-            <view class='content'>新增中心</view>
+            <view class='content'>{{isAdd?"新增":"编辑"}}公告</view>
             <view class='action' bindtap='hideModal'>
                 <text class='icon-close text-red'></text>
             </view>
         </view>
-        <view class='padding-xl' wx:if="{{isAdmin}}">
-            <view class="cu-form-group margin-top">
-                <view class='title'>中心名称</view>
-                <input placeholder="请输入中心名称" class='radius' name='input' value="{{centerName}}" bindinput="centerNameInput"></input>
+        <view class='padding-xl'>
+            <view class="cu-form-group" style='height:150px'>
+                <textarea class='radius' placeholder="请输入公告内容" bindinput='onNoticeInput' value='{{currNoticeContent}}' />
             </view>
-        </view>
-        <view class='solids-bottom padding-xs flex align-center' wx:if="{{!isAdmin}}">
-            <view class='flex-sub text-center'>
-                <view class='solid-bottom text-sl padding'>
-                    <text class='icon-warnfill text-red'></text>
+            <view class="cu-form-group">
+                <view style='display:flex;flex-direction: column; '>
+                    <view class='title' style='text-align:left'>置顶</view>
                 </view>
-                <view class='padding'>当前用户暂无权限</view>
+                <switch class='green sm' bindchange="onTopChange" style='margin-left:15rpx;' checked='{{currIsTop}}'></switch>
             </view>
         </view>
         <view class="cu-bar bg-white justify-end">
             <view class='action'>
-                <button class='cu-btn line-green text-green' bindtap='hideModal'>取消</button>
-                <button class='cu-btn bg-green margin-left' bindtap='hideModal' wx:if="{{isAdmin}}" bindtap="addCenter">确定</button>
+                <button wx:if="{{!isAdd}}" class='cu-btn bg-green margin-left' bindtap="editNotice" style='margin-left:10rpx'>编辑</button>
+                <button wx:if="{{isAdd}}" class='cu-btn bg-green margin-left' bindtap="addNotice" style='margin-left:10rpx'>确定</button>
+                <button wx:if="{{!isAdd}}" class='cu-btn bg-green margin-left' bindtap="deleNotice" style='margin-left:10rpx'>删除</button>
+                <button class='cu-btn line-green text-green' bindtap='hideModal' style='margin-left:10rpx'>取消</button>
             </view>
         </view>
     </view>
+
 </view>
+
+<view class='cu-load load-modal' wx:if="{{loadModal}}">
+    <view class='gray-text'>处理中...</view>
+</view>
+<view class="load-curtain" wx:if="{{loadProgress!=0}}"></view>
