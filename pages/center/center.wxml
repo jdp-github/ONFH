@@ -81,7 +81,8 @@
         <view class="center-notice">
             <view class="center-notice-inner">
                 <view>
-                    <text class='icon-notificationfill'></text> 公告: 301中心公告，请于10月24日上午9:00到301中心报道，骨科学术论坛！！
+                    <text class='icon-notificationfill'></text>公告:
+                    <view class='center-notice-content'>{{noticeContent}}</view> 
                 </view>
             </view>
             <view class="center-notice-inner-btn" >

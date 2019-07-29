@@ -18,7 +18,8 @@ Page({
         centerList: [],
         centerTempList: [], // 存储中心列表，取消搜索时恢复数据用
         visibleCenter: false,
-        centerName: ''
+        centerName: '',
+        noticeContent: ""
     },
     onHide: function() {
         this.setData({
@@ -143,7 +144,6 @@ Page({
                 'content-type': 'application/json'
             },
             success(res) {
-                that.hideLoading()
                 if (res.data.data.code == constant.response_success) {
                     for (let i = 0, len = res.data.data.list.length; i < len; i++) {
                         let center = res.data.data.list[i];
@@ -172,9 +172,42 @@ Page({
                 } else {
                     that.showToast(res.data.msg);
                 }
+
+                if (that.data.centerList && that.data.centerList.length > 0) {
+
+                    that.requestNotice(that.data.centerList[0].center_id)
+                }
             },
             fail(res) {
                 that.hideLoading()
+            }
+        });
+    },
+    requestNotice(centerId) {
+        let that = this;
+        wx.request({
+            url: constant.basePath,
+            data: {
+                service: 'Notice.GetDisplayNotice',
+                center_id: centerId
+            },
+            header: {
+                'content-type': 'application/json'
+            },
+            success(res) {
+                console.log("Notice.GetDisplayNotice:" + JSON.stringify(res))
+                that.hideLoading();
+                if (res.data.data.code == constant.response_success) {
+
+                    that.setData({
+                        noticeContent: res.data.data.info.content
+                    });
+                } else {
+                    that.showToast(res.data.msg);
+                }
+            },
+            fail(res) {
+                that.hideLoading();
             }
         });
     },
@@ -237,7 +270,7 @@ Page({
             url: '../center/case/case?centerId=' + e.currentTarget.dataset.center.center_id + "&centerName=" + e.currentTarget.dataset.center.center_name
         });
     },
-    onClickMember: function (e) {
+    onClickMember: function(e) {
         wx.navigateTo({
             url: '../center/member/member?centerId=' + e.currentTarget.dataset.centerid
         });

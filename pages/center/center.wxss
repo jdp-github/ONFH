@@ -1,27 +1,31 @@
 .cu-list.menu>.cu-item .content {
-    line-height:1.1em;
-    flex:1;
-    font-size:30rpx;
+    line-height: 1.1em;
+    flex: 1;
+    font-size: 30rpx;
 }
+
 .margin-tab-bottom {
     margin-bottom: 120rpx;
 }
+
 .leader-text {
     width: 100rpx;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
 .center-card {
-    height:200rpx;
-    padding:0;
-    display:flex;
-    margin:15rpx;
+    height: 200rpx;
+    padding: 0;
+    display: flex;
+    margin: 15rpx;
     -webkit-border-radius: 20rpx 20rpx 0rpx 0rpx;
     -moz-border-radius: 20rpx 20rpx 0rpx 0rpx;
     border-radius: 20rpx 20rpx 0rpx 0rpx;
     background-color: #fff;
 }
+
 .center-img {
     height: 200rpx;
     width: 100%;
@@ -33,18 +37,21 @@
     -moz-border-radius: 20rpx 20rpx 0rpx 0rpx;
     border-radius: 20rpx 20rpx 0rpx 0rpx;
 }
+
 .center-name {
     height: 100%;
     width: 100%;
     display: block;
-    position: relative
+    position: relative;
 }
+
 .center-name-inner {
     position: absolute;
     bottom: 30rpx;
     left: 30rpx;
-    color: #ffffff;
+    color: #fff;
 }
+
 .center-btn {
     height: 150rpx;
     padding: 30 20rpx;
@@ -55,31 +62,36 @@
     background-color: #fff;
     margin: -12rpx 15rpx 0rpx 15rpx;
 }
+
 .cu-btn.lg {
     padding: 0 40rpx;
     font-size: 32rpx;
     height: 120rpx;
 }
+
 .center-btn-inner {
     margin: 0rpx 20rpx;
     -webkit-border-radius: 20rpx;
     -moz-border-radius: 20rpx;
     border-radius: 20rpx;
-    background-color: #cccccc;
+    background-color: #ccc;
 }
+
 .center-btn-icon {
     width: 100%;
     padding: 15rpx 5rpx 15rpx 5rpx;
     font-size: 45rpx;
     color: #13227a;
 }
+
 .center-btn-txt {
     width: 100%;
     padding: 5rpx;
-    font-size: 25rpx
+    font-size: 25rpx;
 }
+
 .center-notice {
-    height: 300rpx;
+    /* height: 300rpx; */
     padding: 20rpx;
     display: flex;
     align-items: center;
@@ -92,6 +104,7 @@
     border-radius: 0rpx 0rpx 20rpx 20rpx;
     flex-direction: column;
 }
+
 .center-notice-inner {
     width: 100%;
     height: 250rpx;
@@ -104,10 +117,17 @@
     border-color: #ffeeba;
     padding: 30rpx;
 }
+
 .center-notice-inner-btn {
     width: 100%;
     height: 20rpx;
     margin: 0rpx 30rpx 10rpx 30rpx;
     text-align: right;
     color: #13227a;
+}
+
+.center-notice-content {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
 }
