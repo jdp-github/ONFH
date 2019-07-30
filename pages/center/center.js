@@ -144,6 +144,7 @@ Page({
                 'content-type': 'application/json'
             },
             success(res) {
+                that.hideLoading()
                 if (res.data.data.code == constant.response_success) {
                     for (let i = 0, len = res.data.data.list.length; i < len; i++) {
                         let center = res.data.data.list[i];
@@ -173,8 +174,7 @@ Page({
                     that.showToast(res.data.msg);
                 }
 
-                if (that.data.centerList && that.data.centerList.length > 0) {
-
+                if (that.data.centerList && that.data.centerList.length > 0) { 
                     that.requestNotice(that.data.centerList[0].center_id)
                 }
             },

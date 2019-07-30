@@ -35,7 +35,7 @@
             <view class="notice-block" wx:for="{{noticeList}}" wx:key="{{item.id}}" bindtap='onItemClick' data-item="{{item}}">
                 <!-- item -->
                 <view class="notice-tag">
-                    <view wx:if="{{item.is_top == 1}}" class='cu-tag radius bg-green small fl'><i class="fa fa-bookmark-retro"></i></view>
+                    <view wx:if="{{item.is_top == 1}}" class='cu-tag radius bg-green small fl'><i class="fa fa-bookmark"></i></view>
                 </view>
                 <view class="notice-avatar">
                     <view class="cu-avatar round xl bg-gray margin-xs" style="background-image:url({{item.staff_avatar}});"></view>
