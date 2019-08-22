@@ -4,10 +4,10 @@ let constant = require('../../../utils/constant.js');
 let util = require('../../../utils/util.js');
 
 const app = getApp();
-const SORT_BY_CHUANCI_DATA_ASC= 1;
-const SORT_BY_CHUANCI_DATA_DESC= -1;
+const SORT_BY_CHUANCI_DATA_ASC = 1;
+const SORT_BY_CHUANCI_DATA_DESC = -1;
 const SORT_BY_SHOUSHU_DATA_ASC = 2;
-const SORT_BY_SHOUSHU_DATA_DESC= -2;
+const SORT_BY_SHOUSHU_DATA_DESC = -2;
 
 Page({
     data: {
@@ -18,39 +18,28 @@ Page({
         Custom: app.globalData.Custom,
         hidden: true,
         isAdmin: false,
+
+        // --------- filter begin --------- //
+        fenqiIndex: 0,
+        fenqiArr: ['首诊分期:全部', '首诊分期:ARCO I', '首诊分期:ARCO II', '首诊分期:ARCO III', '首诊分期:ARCO IV', '首诊分期:未发病', ],
+        leixingIndex: 0,
+        leixingArr: ['首诊类型:全部', '首诊类型:激素', '首诊类型:酒精', '首诊类型:创伤', '首诊类型:其他', '首诊类型:未发病',],
+        ziliaoIndex: 0,
+        ziliaoArr: ['首诊资料:全部', '首诊资料:未完成', '首诊资料:已完成'],
+        zhongjieIndex: 0,
+        zhongjieArr: ['随访终结:全部', '随访终结:未终结', '随访终结:已终结'],
+        chaoshiIndex: 0,
+        chaoshiArr: ['超时未随访:>6（月）', '超时未随访:>12（月）', '超时未随访:>24（月)'],
+        // --------- filter end --------- //
+
         searchValue: '',
         caseList: [],
         selectedCase: {},
         sortType: SORT_BY_CHUANCI_DATA_ASC,
-        filterItems: [{
-                type: 'sort',
-                label: '穿刺日期',
-                value: 'chuanci',
-                groups: ['001'],
-            },
-            {
-                type: 'sort',
-                label: '手术日期',
-                value: 'shoushu',
-                groups: ['002'],
-            },
-        ],
         errMsg: ''
     },
-    onLoad: function(options) {
-        this.setData({
-            centerId: options.centerId,
-            centerName: options.centerName,
-            isAdmin: app.globalData.is_admin == '1'
-        });
-        this.initData()
-    },
 
-    initData() {
-        this.loadProgress();
-        this.requestCaseList(this.data.searchValue, this.data.sortType);
-    },
-
+    // ======================== event begin ======================== //
     loadProgress: function() {
         if (this.data.loadProgress < 96) {
             this.setData({
@@ -90,6 +79,20 @@ Page({
             });
         }, 1500);
     },
+    showModal: function(modalName, msg = '') {
+        this.setData({
+            modalName: modalName,
+            errMsg: msg
+        });
+    },
+    hideModal: function(e) {
+        this.setData({
+            modalName: null
+        });
+    },
+    onPageScroll: function(e) {
+
+    },
     onSearchChange: function(e) {
         this.setData({
             searchValue: e.detail.value
@@ -99,38 +102,7 @@ Page({
         this.loadProgress();
         this.requestCaseList(this.data.searchValue, this.data.sortType);
     },
-    onFilterChange(e) {
-        const checkedItems = e.detail.checkedItems;
-        const params = {};
 
-        checkedItems.forEach((n) => {
-            if (n.checked) {
-                if (n.value === 'chuanci') {
-                    params.sort = n.value;
-                    params.order = n.sort === 1 ? SORT_BY_CHUANCI_DATA_ASC : SORT_BY_CHUANCI_DATA_DESC;
-                } else if (n.value === 'shoushu') {
-                    params.sort = n.value;
-                    params.order = n.sort === 1 ? SORT_BY_SHOUSHU_DATA_ASC : SORT_BY_SHOUSHU_DATA_DESC;
-                }
-
-                this.setData({
-                    sortType: params.order
-                });
-                this.loadProgress();
-                this.requestCaseList(this.data.searchValue, this.data.sortType);
-            }
-        });
-    },
-    onFilterOpen: function(e) {
-        this.setData({
-            pageStyle: 'height: 100%; overflow: hidden',
-        });
-    },
-    onFilterClose: function(e) {
-        this.setData({
-            pageStyle: '',
-        });
-    },
     ListTouchStart: function(e) {
         this.setData({
             ListTouchStart: e.touches[0].pageX
@@ -155,6 +127,56 @@ Page({
             ListTouchDirection: null
         });
     },
+
+    PickerChange(e) {
+        let typeIndex = e.currentTarget.dataset.type
+        switch (typeIndex) {
+            case "1":
+                this.setData({
+                    fenqiIndex: e.detail.value
+                })
+                break;
+            case "2":
+                this.setData({
+                    leixingIndex: e.detail.value
+                })
+                break;
+            case "3":
+                this.setData({
+                    ziliaoIndex: e.detail.value
+                })
+                break;
+            case "4":
+                this.setData({
+                    zhongjieIndex: e.detail.value
+                })
+                break;
+            case "5":
+                this.setData({
+                    chaoshiIndex: e.detail.value
+                })
+                break;
+            case "6":
+                break;
+        }
+        
+    },
+    // ======================== event end ======================== //
+
+    onLoad: function(options) {
+        this.setData({
+            centerId: options.centerId,
+            centerName: options.centerName,
+            isAdmin: app.globalData.is_admin == '1'
+        });
+        this.initData()
+    },
+
+    initData() {
+        this.loadProgress();
+        this.requestCaseList(this.data.searchValue, this.data.sortType);
+    },
+
     requestCaseList: function(searchValue, sortType) {
         let that = this;
         wx.request({
@@ -339,18 +361,4 @@ Page({
             }
         });
     },
-    showModal: function(modalName, msg = '') {
-        this.setData({
-            modalName: modalName,
-            errMsg: msg
-        });
-    },
-    hideModal: function(e) {
-        this.setData({
-            modalName: null
-        });
-    },
-    onPageScroll: function(e) {
-
-    }
 });
