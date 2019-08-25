@@ -79,7 +79,11 @@
                         </picker>
                     </view>
                     <view class="filter-container" style="width:100px">
-                        <view>腿/病例数</view>
+                        <picker class="filter-picker" bindchange="PickerChange" data-type="6" value="{{statisIndex}}" range="{{statisArr}}">
+                            <view class="picker">
+                                {{statisArr[statisIndex]}}
+                            </view>
+                        </picker>
                     </view>
                 </view>
             </view>

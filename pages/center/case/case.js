@@ -23,13 +23,15 @@ Page({
         fenqiIndex: 0,
         fenqiArr: ['首诊分期:全部', '首诊分期:ARCO I', '首诊分期:ARCO II', '首诊分期:ARCO III', '首诊分期:ARCO IV', '首诊分期:未发病', ],
         leixingIndex: 0,
-        leixingArr: ['首诊类型:全部', '首诊类型:激素', '首诊类型:酒精', '首诊类型:创伤', '首诊类型:其他', '首诊类型:未发病',],
+        leixingArr: ['首诊类型:全部', '首诊类型:激素', '首诊类型:酒精', '首诊类型:创伤', '首诊类型:其他', '首诊类型:未发病', ],
         ziliaoIndex: 0,
         ziliaoArr: ['首诊资料:全部', '首诊资料:未完成', '首诊资料:已完成'],
         zhongjieIndex: 0,
         zhongjieArr: ['随访终结:全部', '随访终结:未终结', '随访终结:已终结'],
         chaoshiIndex: 0,
         chaoshiArr: ['超时未随访:>6（月）', '超时未随访:>12（月）', '超时未随访:>24（月)'],
+        statisIndex: 0,
+        statisArr: ['按髋统计', '病例数统计'],
         // --------- filter end --------- //
 
         searchValue: '',
@@ -157,9 +159,12 @@ Page({
                 })
                 break;
             case "6":
+                this.setData({
+                    statisIndex: e.detail.value
+                })
                 break;
         }
-        
+
     },
     // ======================== event end ======================== //
 

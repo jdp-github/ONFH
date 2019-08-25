@@ -17,12 +17,14 @@ Page({
         isAdmin: false,
         // -------- modal begin ----------- //
         modalName: '',
+        imageModalName: '上传图片',
+        imageType: '',
         errMsg: '',
         // -------- modal end ------------- //
         // -------- tab切换 begin -------- //
         TabCur: 0,
         VerticalNavTop: 0,
-        TabTitle: ['基本信息', '诊断性穿刺', '入院后信息'],
+        TabTitle: ['基本信息', '左侧', '右侧'],
         ShowBasic: true,
         ShowDiagnose: false,
         ShowAdmission: false,
@@ -54,27 +56,12 @@ Page({
         tel1: '',
         tel2: '',
         tel2Disabled: true,
-        // 部位
-        part: 0,
-        partPicker: ['请选择', '髋', '膝'],
-        // 类型
-        type: 0,
-        typePicker: ['请选择', '置换术后', '占位器', '初次', '其他内置物'],
-        // 末次手术至今时长
-        operationDateMultiArray: [
-            ['单位'],
-            ['天', '周', '月', '年'],
-            (() => {
-                let temp = ['请选择'];
-                for (let i = 1; i <= 250; i++) {
-                    temp.push(i + '')
-                }
-                return temp
-            })()
-        ],
-        operationDateMultiIndex: [0, 0, 0],
-        operationDateValue: '请选择',
-        operationDisabled: true,
+        qtbsjb: '',
+        jybs: '',
+        isBaseLock: 0,
+        // -------- 基本信息 end -------- //
+
+        // -------- 左侧 begin -------- //
         // 症状出现时长
         symptomDateMultiArray: [
             ['单位'],
@@ -89,70 +76,51 @@ Page({
         ],
         symptomDateMultiIndex: [0, 0, 0],
         symptomDateValue: '请选择',
-        xingzhiIndex: 0,
-        xingzhiValue: '',
-        // 是否合并风湿免疫性疾病
-        ris: 0,
-        risPicker: ['请选择', '否', '类风湿', '强制性脊柱炎', '其他 (请在备注中标明)'],
-        qtbsjb: '',
-        antibiotic: 0,
-        antibioticPicker: ['请选择', '是', '否'],
-        jybs: '',
-        cbzd: '',
-        tssxbz: '',
-        isBaseLock: 0,
-        // -------- 基本信息 end -------- //
+        symptomDisabled: false,
+        // 首诊治疗
+        sszlIndex: 0,
+        sszlPicker: ["未治疗", "药物治疗", "钻孔减压", "腓骨移植", "其他"],
+        sszlDisabled: false,
+        // 类型
+        leixingIndex: 0,
+        leixingPicker: ["请选择", "激素型", "酒精性", "创伤性", "特发性", "其他"],
+        leixingDisabled: false,
+        // 理由
+        liyou: '',
+        liyouDisabled: false,
+        // ARCO
+        arcoIndex: 0,
+        arcoPicker: ["请选择", "ARCO I期", "ARCO II期", "ARCO III期", "ARCO IV期", "未发病"],
+        // harris
+        harris: '',
+        harrisImgArr: [],
+        // VAS
+        vasIndex: 0,
+        vasPicker: ["请选择", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        vasImgArr: [],
+        // x光左
+        xleftIndex: 0,
+        xleftPicker: ["请选择", "已拍", "未拍"],
+        xleftImgArr: [],
+        // CT左
+        ctLeftIndex: 0,
+        ctLeftPicker: ["请选择", "已拍", "未拍"],
+        ctLeftImgArr: [],
+        // MRI左
+        mriLeftIndex: 0,
+        mriLeftPicker: ["请选择", "已拍", "未拍"],
+        mriLeftImgArr: [],
+        // 本次治疗方法
+        bczlIndex: 0,
+        bczlPicker: ["请选择", "无治疗", "药物治疗", "钻孔减压", "手术", "其他"],
+        bczlDisabled: false,
+        // 具体治疗措施
+        jtzl: '',
+        jtzlDisabled: false,
 
-        // -------- 诊断性穿刺 begin -------- //
-        chuangciDate: '请选择日期',
-        ccDateDisabled: false,
-        ccDescribe: '',
-        ccDescribeDisabeld: false,
-        ccgjy: '',
-        ccgjyDisabled: false,
-        ccgxy: '',
-        ccgxyDisabled: false,
-        leIndex: 0,
-        lePicker: ["请选择", "无法判定", "neg.", "25", "75", "250 (+)", "500 (++)", ],
-        leDisabled: false,
-        leAfterIndex: 0,
-        leAfterPicker: ["请选择", "无法判定", "neg.", "25", "75", "250 (+)", "500 (++)"],
-        leAfterDisabled: false,
-        gjybxb: '',
-        gjybxbDisabled: true,
-        gjyzx: '',
-        gjyzxDisabled: true,
-        bcpysjIndex: 0,
-        bcpysjPicker: ["请选择", "关节液", "灌洗液", "混合液"],
-        bcpysjDisabled: false,
-        drgpyp: '',
-        drgpypDisabled: false,
-        bcxyResult: '',
-        bcxyResultDisabled: true,
-        bcxyLast: '',
-        bcxyLastDisabled: true,
-        bcyyResult: '',
-        bcyyResultDisabled: true,
-        bcyyLast: '',
-        bcyyLastDisabled: true,
-        mNGSTypeIndex: 0,
-        mNGSTypePicker: ["请选择", "关节液", "灌洗液", "混合液"],
-        mNGSTypeDisabled: true,
-        mNGSResult: '',
-        mNGSResultDisabled: true,
-        sqSecondxy: '',
-        sqSecondxyDisabled: true,
-        sqSecondyy: '',
-        sqSecondyyDisabled: true,
-        sqThirdxy: '',
-        sqThirdxyDisabled: true,
-        sqThirdyy: '',
-        sqThirdyyDisabled: true,
-        sample_desc: '',
-        sample_used: '',
-        // -------- 诊断性穿刺 end -------- //
+        // -------- 左侧 end -------- //
 
-        // -------- 入院后信息 begin -------- //
+        // -------- 右侧 begin -------- //
         doudaoIndex: 0,
         doudaoPicker: ["请选择", "有", "无"],
         sqesr: '',
@@ -212,33 +180,18 @@ Page({
         zzclIndex: 0,
         zzclPicker: ["请选择", "失访-不详", "未手术-门诊随访", "未手术-抗生素压制", "手术-清创换垫", "手术-关节融合", "手术-截肢", "未手术-抗生素压制", "手术-假体植入", "手术-占位器植入"],
         zzclDisabled: true,
-        // -------- 入院后信息 end -------- //
+        // -------- 右侧 end -------- //
 
         // ------- 图片上传 start --------- //
         pic1: '',
-        pic1Upload: '',
         pic2: '',
-        pic2Upload: '',
         pic3: '',
-        pic3Upload: '',
         pic4: '',
-        pic4Upload: '',
         pic5: '',
-        pic5Upload: '',
         pic6: '',
-        pic6Upload: '',
         pic7: '',
-        pic7Upload: '',
         pic8: '',
-        pic8Upload: '',
         pic9: '',
-        pic9Upload: '',
-        pic10: '',
-        pic10Upload: '',
-        pic11: '',
-        pic11Upload: '',
-        pic12: '',
-        pic12Upload: '',
         // ------- 图片上传 end  ---------- //
     },
 
@@ -370,183 +323,19 @@ Page({
             });
         }
     },
-    onPartChange: function(e) {
+    onQtbsjbInput: function(e) {
         this.setData({
-            part: e.detail.value,
+            qtbsjb: e.detail.value
         });
     },
-    onTypeChange: function(e) {
+    onJybsInput: function(e) {
         this.setData({
-            type: e.detail.value,
+            jybs: e.detail.value
         });
     },
-    operationDateChange: function(e) {
-        this.setData({
-            operationDateMultiIndex: e.detail.value,
-            operationDateValue: '' + e.detail.value[2] + this.data.operationDateMultiArray[1][e.detail.value[1]]
-        })
-    },
-    operationDateColumnChange: function(e) {
-        let data = {
-            operationDateMultiArray: this.data.operationDateMultiArray,
-            operationDateMultiIndex: this.data.operationDateMultiIndex
-        };
-        data.operationDateMultiIndex[e.detail.column] = e.detail.value;
-        switch (e.detail.column) {
-            case 0:
-                switch (data.operationDateMultiIndex[0]) {
-                    case 0:
-                        data.operationDateMultiArray[1] = ['天', '周', '月', '年'];
-                        data.operationDateMultiArray[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                    case 1:
-                        data.operationDateMultiArray[1] = ['天', '周', '月', '年'];
-                        data.operationDateMultiArray[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                    case 2:
-                        data.operationDateMultiArray[1] = ['天', '周', '月', '年'];
-                        data.operationDateMultiArray[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                    case 3:
-                        data.operationDateMultiArray[1] = ['天', '周', '月', '年'];
-                        data.operationDateMultiArray[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                }
-                data.operationDateMultiIndex[1] = 0;
-                data.operationDateMultiIndex[2] = 0;
-                break;
-            case 1:
-                switch (data.operationDateMultiIndex[0]) {
-                    case 0:
-                        switch (data.operationDateMultiIndex[1]) {
-                            case 0:
-                                data.operationDateMultiArray[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                            case 1:
-                                data.operationDateMultiArray[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                            case 2:
-                                data.operationDateMultiArray[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                            case 3:
-                                data.operationDateMultiArray[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                        }
-                        break;
-                }
-                data.operationDateMultiIndex[2] = 0;
-                break;
-        }
-        this.setData(data);
-    },
-    onOperationcSwitchChange: function(e) {
-        this.setData({
-            operationDisabled: !e.detail.value
-        });
-        if (this.data.operationDisabled) {
-            this.setData({
-                operationDateMultiIndex: [0, 0]
-            })
-        }
-    },
-    defaultOperationDate: function() {
-        let data = {
-            operationDateMultiArray: this.data.operationDateMultiArray,
-            operationDateMultiIndex: this.data.operationDateMultiIndex
-        };
-        switch (data.operationDateMultiIndex[1]) {
-            case 0:
-                data.operationDateMultiArray[1] = ['天', '周', '月', '年'];
-                data.operationDateMultiArray[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-            case 1:
-                data.operationDateMultiArray[1] = ['天', '周', '月', '年'];
-                data.operationDateMultiArray[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-            case 2:
-                data.operationDateMultiArray[1] = ['天', '周', '月', '年'];
-                data.operationDateMultiArray[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-            case 3:
-                data.operationDateMultiArray[1] = ['天', '周', '月', '年'];
-                data.operationDateMultiArray[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-        }
-        this.setData(data);
-        return data.operationDateMultiArray;
-    },
+    // -------- 基本信息事件 end -------- //
+
+    // -------- 左侧 begin -------- //
     defaultSymptomDate: function() {
         let data = {
             symptomDateMultiArray: this.data.symptomDateMultiArray,
@@ -716,362 +505,124 @@ Page({
         }
         this.setData(data);
     },
-    onRisChange: function(e) {
+    onSymptomSwitchChange: function(e) {
         this.setData({
-            ris: e.detail.value,
+            symptomDisabled: !e.detail.value
+        });
+        if (this.data.symptomDisabled) {
+            this.setData({
+                symptomDateValue: ""
+            })
+        }
+    },
+    onSzzlChange: function(e) {
+        this.setData({
+            szzlIndex: e.detail.value,
         });
     },
-    onQtbsjbInput: function(e) {
+    onSzzlSwitchChange: function(e) {
         this.setData({
-            qtbsjb: e.detail.value
+            sszlDisabled: !e.detail.value
+        });
+        if (this.data.sszlDisabled) {
+            this.setData({
+                sszlIndex: 0
+            });
+        }
+    },
+    onLeixingChange: function(e) {
+        this.setData({
+            leixingIndex: e.detail.value,
         });
     },
-    onAntibioticChange: function(e) {
+    onLeixingSwitchChange: function(e) {
         this.setData({
-            antibiotic: e.detail.value,
+            leixingDisabled: !e.detail.value
+        });
+        if (this.data.leixingDisabled) {
+            this.setData({
+                leixingIndex: 0
+            });
+        }
+    },
+    onLiyouInput: function(e) {
+        this.setData({
+            liyou: e.detail.value
         });
     },
-    onJybsInput: function(e) {
+    onLiyouSwitchChange: function(e) {
         this.setData({
-            jybs: e.detail.value
+            liyouDisabled: !e.detail.value
+        });
+        if (this.data.liyouDisabled) {
+            this.setData({
+                liyou: ''
+            });
+        }
+    },
+    onArcoChange: function(e) {
+        this.setData({
+            arcoIndex: e.detail.value,
         });
     },
-    onCbzdInput: function(e) {
+    onHarrisInput: function(e) {
         this.setData({
-            cbzd: e.detail.value
+            harris: e.detail.value
         });
     },
-    onTsssbzInput: function(e) {
+    onVASChange: function(e) {
         this.setData({
-            tssxbz: e.detail.value
+            vasIndex: e.detail.value,
         });
     },
-    // -------- 基本信息事件 end -------- //
+    onXLeftChange: function(e) {
+        this.setData({
+            xleftIndex: e.detail.value,
+        });
+    },
+    onCTLeftChange: function(e) {
+        this.setData({
+            ctLeftIndex: e.detail.value,
+        });
+    },
+    onMRILeftChange: function(e) {
+        this.setData({
+            mriLeftIndex: e.detail.value,
+        });
+    },
+    onBczlChange: function(e) {
+        this.setData({
+            bczlIndex: e.detail.value,
+        });
+    },
+    onBczlSwitchChange: function(e) {
+        this.setData({
+            bczlDisabled: !e.detail.value
+        });
+        if (this.data.bczlDisabled) {
+            this.setData({
+                bczlIndex: 0
+            })
+        }
+    },
+    onJtzlInput: function(e) {
+        this.setData({
+            jtzl: e.detail.value
+        });
+    },
+    onJtzlSwitchChange: function(e) {
+        this.setData({
+            jtzlDisabled: !e.detail.value
+        });
+        if (this.data.jtzlDisabled) {
+            this.setData({
+                jtzl: ''
+            });
+        }
+    },
+    // -------- 左侧 end -------- //
 
-    // -------- 诊断性穿刺 begin -------- //
-    onChuanciDateChange: function(e) {
-        this.setData({
-            chuangciDate: e.detail.value
-        });
-    },
-    onCCDateSwitchChange: function(e) {
-        this.setData({
-            ccDateDisabled: !e.detail.value
-        });
-        if (this.data.ccDateDisabled) {
-            this.setData({
-                chuangciDate: "请选择日期"
-            })
-        }
-    },
-    onCCDescribeInput: function(e) {
-        this.setData({
-            ccDescribe: e.detail.value
-        });
-    },
-    onCCDescribeSwitchChange: function(e) {
-        this.setData({
-            ccDescribeDisabeld: !e.detail.value
-        });
-        if (this.data.ccDescribeDisabeld) {
-            this.setData({
-                ccDescribe: ''
-            })
-        }
-    },
-    onCcgjyInput: function(e) {
-        this.setData({
-            ccgjy: e.detail.value
-        });
-    },
-    onCcgjySwitchChange: function(e) {
-        this.setData({
-            ccgjyDisabled: !e.detail.value
-        });
-        if (this.data.ccgjyDisabled) {
-            this.setData({
-                ccgjy: ''
-            })
-        }
-    },
-    onCcgxyInput: function(e) {
-        this.setData({
-            ccgxy: e.detail.value
-        });
-    },
-    onCcgxySwitchChange: function(e) {
-        this.setData({
-            ccgxyDisabled: !e.detail.value
-        });
-        if (this.data.ccgxyDisabled) {
-            this.setData({
-                ccgxy: ''
-            })
-        }
-    },
-    onLeChange: function(e) {
-        this.setData({
-            leIndex: e.detail.value,
-        });
-    },
-    onLeSwitchChange: function(e) {
-        this.setData({
-            leDisabled: !e.detail.value
-        });
-        if (this.data.leDisabled) {
-            this.setData({
-                leIndex: 0,
-                pic1: '',
-                pic1Upload: '',
-                pic2: '',
-                pic2Upload: '',
-                pic3: '',
-                pic3Upload: '',
-            })
-        }
-    },
-    onLeAfterChange: function(e) {
-        this.setData({
-            leAfterIndex: e.detail.value,
-        });
-    },
-    onLeAfterSwitchChange: function(e) {
-        this.setData({
-            leAfterDisabled: !e.detail.value
-        });
-        if (this.data.leAfterDisabled) {
-            this.setData({
-                leAfterIndex: 0,
-                pic4: '',
-                pic4Upload: '',
-                pic5: '',
-                pic5Upload: '',
-                pic6: '',
-                pic6Upload: ''
-            })
-        }
-    },
-    onGjybxbInput: function(e) {
-        this.setData({
-            gjybxb: e.detail.value
-        });
-    },
-    onGjybxbSwitchChange: function(e) {
-        this.setData({
-            gjybxbDisabled: !e.detail.value
-        });
-        if (this.data.gjybxbDisabled) {
-            this.setData({
-                gjybxb: ''
-            })
-        }
-    },
-    onGjyzxInput: function(e) {
-        this.setData({
-            gjyzx: e.detail.value
-        });
-    },
-    onGjyzxSwitchChange: function(e) {
-        this.setData({
-            gjyzxDisabled: !e.detail.value
-        });
-        if (this.data.gjyzxDisabled) {
-            this.setData({
-                gjyzx: ''
-            })
-        }
-    },
-    onBcpysjChange: function(e) {
-        this.setData({
-            bcpysjIndex: e.detail.value,
-        });
-    },
-    onBcpysjSwitchChange: function(e) {
-        this.setData({
-            bcpysjDisabled: !e.detail.value
-        });
-        if (this.data.bcpysjDisabled) {
-            this.setData({
-                bcpysjIndex: 0
-            })
-        }
-    },
-    onDrgpypjChange: function(e) {
-        this.setData({
-            drgpyp: e.detail.value,
-        });
-    },
-    onDrgpypSwitchChange: function(e) {
-        this.setData({
-            drgpypDisabled: !e.detail.value
-        });
-        if (this.data.drgpypDisabled) {
-            this.setData({
-                drgpyp: ''
-            })
-        }
-    },
-    onBcxyChange: function(e) {
-        this.setData({
-            bcxyResult: e.detail.value,
-        });
-    },
-    onBcxySwitchChange: function(e) {
-        this.setData({
-            bcxyResultDisabled: !e.detail.value
-        });
-        if (this.data.bcxyResultDisabled) {
-            this.setData({
-                bcxyResult: ''
-            })
-        }
-    },
-    onBcxyLastChange: function(e) {
-        this.setData({
-            bcxyLast: e.detail.value,
-        });
-    },
-    onBcxyLastSwitchChange: function(e) {
-        this.setData({
-            bcxyLastDisabled: !e.detail.value
-        });
-        if (this.data.bcxyLastDisabled) {
-            this.setData({
-                bcxyLast: ''
-            })
-        }
-    },
-    onBcyyChange: function(e) {
-        this.setData({
-            bcyyResult: e.detail.value,
-        });
-    },
-    onBcyySwitchChange: function(e) {
-        this.setData({
-            bcyyResultDisabled: !e.detail.value
-        });
-        if (this.data.bcyyResultDisabled) {
-            this.setData({
-                bcyyResult: ""
-            })
-        }
-    },
-    onBcyyLastChange: function(e) {
-        this.setData({
-            bcyyLast: e.detail.value,
-        });
-    },
-    onBcyyLastSwitchChange: function(e) {
-        this.setData({
-            bcyyLastDisabled: !e.detail.value
-        });
-        if (this.data.bcyyLastDisabled) {
-            this.setData({
-                bcyyLast: ''
-            })
-        }
-    },
-    onMNGSTypeChange: function(e) {
-        this.setData({
-            mNGSTypeIndex: e.detail.value,
-        });
-    },
-    oMNGSTypeSwitchChange: function(e) {
-        this.setData({
-            mNGSTypeDisabled: !e.detail.value
-        });
-        if (this.data.mNGSTypeDisabled) {
-            this.setData({
-                mNGSTypeIndex: 0
-            })
-        }
-    },
-    onMNGsChange: function(e) {
-        this.setData({
-            mNGSResult: e.detail.value,
-        });
-    },
-    onMNGSSwitchChange: function(e) {
-        this.setData({
-            mNGSResultDisabled: !e.detail.value
-        });
-        if (this.data.mNGSResultDisabled) {
-            this.setData({
-                mNGSResult: ''
-            })
-        }
-    },
-    onSQSecXYChange: function(e) {
-        this.setData({
-            sqSecondxy: e.detail.value,
-        });
-    },
-    onSQSecXYwitchChange: function(e) {
-        this.setData({
-            sqSecondxyDisabled: !e.detail.value
-        });
-        if (this.data.sqSecondxyDisabled) {
-            this.setData({
-                sqSecondxy: ''
-            })
-        }
-    },
-    onSQSecondYYChange: function(e) {
-        this.setData({
-            sqSecondyy: e.detail.value,
-        });
-    },
-    onSQSecondYYSwitchChange: function(e) {
-        this.setData({
-            sqSecondyyDisabled: !e.detail.value
-        });
-        if (this.data.sqSecondyyDisabled) {
-            this.setData({
-                sqSecondyy: ''
-            })
-        }
-    },
-    onSQThirdXYChange: function(e) {
-        this.setData({
-            sqThirdxy: e.detail.value,
-        });
-    },
-    onSQThirdXYSwitchChange: function(e) {
-        this.setData({
-            sqThirdxyDisabled: !e.detail.value
-        });
-        if (this.data.sqThirdxyDisabled) {
-            this.setData({
-                sqThirdxy: ''
-            })
-        }
-    },
-    onSQThridYYChange: function(e) {
-        this.setData({
-            sqThirdyy: e.detail.value,
-        });
-    },
-    onSQThirdYYSwitchChange: function(e) {
-        this.setData({
-            sqThirdyyDisabled: !e.detail.value
-        });
-        if (this.data.sqThirdyyDisabled) {
-            this.setData({
-                sqThirdyy: ''
-            })
-        }
-    },
-    // 标本存放情况
-    onSpecimenDesc: function(e) {
-        if (this.data.sample_desc.length > 0) {
-            wx.navigateTo({
-                url: '../../specimen/detail/detail?boxId=' + this.data.sample_desc[0].box_id + '&centerId=' + this.data.centerId + "&caseId=" + this.data.caseId + "&boxUse=" + this.data.sample_desc[0].uses
-            })
-        }
-    },
-    // -------- 诊断性穿刺 end -------- //
-
-    // -------- 入院后信息 begin -------- //
+    // -------- 右侧 begin -------- //
     onDoudaoChange: function(e) {
         this.setData({
             doudaoIndex: e.detail.value,
@@ -1190,12 +741,6 @@ Page({
         if (this.data.szLEDisabled) {
             this.setData({
                 szLEIndex: 0,
-                pic7: '',
-                pic7Upload: '',
-                pic8: '',
-                pic8Upload: '',
-                pic9: '',
-                pic9Upload: ''
             })
         }
     },
@@ -1462,7 +1007,7 @@ Page({
     //         })
     //     }
     // },
-    // -------- 入院后信息 end -------- //
+    // -------- 右侧 end -------- //
 
     // -------- 提示框 begin -------- //
     loadProgress: function() {
@@ -1508,16 +1053,63 @@ Page({
 
     // -------- 模态对话框 start -------- //
     showModal: function(e, errMessage = '') {
+        let that = this
         if (e.currentTarget) {
             this.setData({
-                modalName: e.currentTarget.dataset.target
+                modalName: e.currentTarget.dataset.target,
+                imageType: e.currentTarget.dataset.imgtype
             });
+            if (that.data.imageType == "Harris") {
+                that.setData({
+                    pic1: that.data.harrisImgArr[0] ? that.data.harrisImgArr[0].pic : "",
+                    pic2: that.data.harrisImgArr[1] ? that.data.harrisImgArr[1].pic : "",
+                    pic3: that.data.harrisImgArr[2] ? that.data.harrisImgArr[2].pic : ""
+                })
+            } else if (that.data.imageType == "VAS") {
+                that.setData({
+                    pic1: that.data.vasImgArr[0] ? that.data.vasImgArr[0].pic : "",
+                    pic2: that.data.vasImgArr[1] ? that.data.vasImgArr[1].pic : "",
+                    pic3: that.data.vasImgArr[2] ? that.data.vasImgArr[2].pic : ""
+                })
+            } else if (that.data.imageType == "X-LEFT") {
+                that.setData({
+                    pic4: that.data.xleftImgArr[0] ? that.data.xleftImgArr[0].pic : "",
+                    pic5: that.data.xleftImgArr[1] ? that.data.xleftImgArr[1].pic : "",
+                    pic6: that.data.xleftImgArr[2] ? that.data.xleftImgArr[2].pic : "",
+                    pic7: that.data.xleftImgArr[3] ? that.data.xleftImgArr[3].pic : "",
+                    pic8: that.data.xleftImgArr[4] ? that.data.xleftImgArr[4].pic : "",
+                    pic9: that.data.xleftImgArr[5] ? that.data.xleftImgArr[5].pic : ""
+                })
+            } else if (that.data.imageType == "CT-LEFT") {
+                that.setData({
+                    pic4: that.data.ctLeftImgArr[0] ? that.data.ctLeftImgArr[0].pic : "",
+                    pic5: that.data.ctLeftImgArr[1] ? that.data.ctLeftImgArr[1].pic : "",
+                    pic6: that.data.ctLeftImgArr[2] ? that.data.ctLeftImgArr[2].pic : "",
+                    pic7: that.data.ctLeftImgArr[3] ? that.data.ctLeftImgArr[3].pic : "",
+                    pic8: that.data.ctLeftImgArr[4] ? that.data.ctLeftImgArr[4].pic : "",
+                    pic9: that.data.ctLeftImgArr[5] ? that.data.ctLeftImgArr[5].pic : ""
+                })
+            } else if (that.data.imageType == "MRI-LEFT") {
+                that.setData({
+                    pic4: that.data.mriLeftImgArr[0] ? that.data.mriLeftImgArr[0].pic : "",
+                    pic5: that.data.mriLeftImgArr[1] ? that.data.mriLeftImgArr[1].pic : "",
+                    pic6: that.data.mriLeftImgArr[2] ? that.data.mriLeftImgArr[2].pic : "",
+                    pic7: that.data.mriLeftImgArr[3] ? that.data.mriLeftImgArr[3].pic : "",
+                    pic8: that.data.mriLeftImgArr[4] ? that.data.mriLeftImgArr[4].pic : "",
+                    pic9: that.data.mriLeftImgArr[5] ? that.data.mriLeftImgArr[5].pic : ""
+                })
+            }
         } else {
             this.setData({
                 modalName: e,
                 errMsg: errMessage
             });
         }
+    },
+    hideModal: function(e) {
+        this.setData({
+            modalName: null
+        });
     },
     showImageModal: function(e) {
         if (e.target.dataset.img && e.target.dataset.img != '') {
@@ -1526,11 +1118,6 @@ Page({
                 modalImage: e.target.dataset.img
             });
         }
-    },
-    hideModal: function(e) {
-        this.setData({
-            modalName: null
-        });
     },
     hideImageModal: function(e) {
         this.setData({
@@ -1572,75 +1159,132 @@ Page({
                     switch (le) {
                         case "11":
                             that.setData({
-                                pic1: data.data.info.url,
-                                pic1Upload: data.data.info.file,
-                            });
+                                pic1: data.data.info.url
+                            })
+                            let img11 = {};
+                            img11.pic = data.data.info.url;
+                            img11.picUpload = data.data.info.file;
+                            if (that.data.imageType == "Harris") {
+                                that.data.harrisImgArr[0] = img11;
+                            } else if (that.data.imageType == "VAS") {
+                                that.data.vasImgArr[0] = img11;
+                            }
                             break;
                         case "12":
                             that.setData({
-                                pic2: data.data.info.url,
-                                pic2Upload: data.data.info.file,
-                            });
+                                pic2: data.data.info.url
+                            })
+                            let img12 = {};
+                            img12.pic = data.data.info.url;
+                            img12.picUpload = data.data.info.file;
+                            if (that.data.imageType == "Harris") {
+                                that.data.harrisImgArr[1] = img12;
+                            } else if (that.data.imageType == "VAS") {
+                                that.data.vasImgArr[0] = img11;
+                            }
                             break;
                         case "13":
                             that.setData({
-                                pic3: data.data.info.url,
-                                pic3Upload: data.data.info.file,
-                            });
+                                pic3: data.data.info.url
+                            })
+                            let img13 = {};
+                            img13.pic = data.data.info.url;
+                            img13.picUpload = data.data.info.file;
+                            if (that.data.imageType == "Harris") {
+                                that.data.harrisImgArr[2] = img13;
+                            } else if (that.data.imageType == "VAS") {
+                                that.data.vasImgArr[0] = img11;
+                            }
                             break;
                         case "21":
                             that.setData({
-                                pic4: data.data.info.url,
-                                pic4Upload: data.data.info.file,
-                            });
+                                pic4: data.data.info.url
+                            })
+                            let img21 = {}
+                            img21.pic = data.data.info.url;
+                            img21.picUpload = data.data.info.file;
+                            if (that.data.imageType == "X-LEFT") {
+                                that.data.xleftImgArr[0] = img21;
+                            } else if (that.data.imageType == "CT-LEFT") {
+                                that.data.ctLeftImgArr[0] = img21;
+                            } else if (that.data.imageType == "MRI-LEFT") {
+                                that.data.mriLeftImgArr[0] = img21;
+                            }
                             break;
                         case "22":
                             that.setData({
-                                pic5: data.data.info.url,
-                                pic5Upload: data.data.info.file,
-                            });
+                                pic5: data.data.info.url
+                            })
+                            let img22 = {}
+                            img22.pic = data.data.info.url;
+                            img22.picUpload = data.data.info.file;
+                            if (that.data.imageType == "X-LEFT") {
+                                that.data.xleftImgArr[1] = img22;
+                            } else if (that.data.imageType == "CT-LEFT") {
+                                that.data.ctLeftImgArr[1] = img22;
+                            } else if (that.data.imageType == "MRI-LEFT") {
+                                that.data.mriLeftImgArr[1] = img22;
+                            }
                             break;
                         case "23":
                             that.setData({
-                                pic6: data.data.info.url,
-                                pic6Upload: data.data.info.file,
-                            });
+                                pic6: data.data.info.url
+                            })
+                            let img23 = {}
+                            img23.pic = data.data.info.url;
+                            img23.picUpload = data.data.info.file;
+                            if (that.data.imageType == "X-LEFT") {
+                                that.data.xleftImgArr[2] = img23;
+                            } else if (that.data.imageType == "CT-LEFT") {
+                                that.data.ctLeftImgArr[2] = img23;
+                            } else if (that.data.imageType == "MRI-LEFT") {
+                                that.data.mriLeftImgArr[2] = img23;
+                            }
                             break;
                         case "31":
                             that.setData({
-                                pic7: data.data.info.url,
-                                pic7Upload: data.data.info.file,
-                            });
+                                pic7: data.data.info.url
+                            })
+                            let img31 = {}
+                            img31.pic = data.data.info.url;
+                            img31.picUpload = data.data.info.file;
+                            if (that.data.imageType == "X-LEFT") {
+                                that.data.xleftImgArr[3] = img31;
+                            } else if (that.data.imageType == "CT-LEFT") {
+                                that.data.ctLeftImgArr[3] = img31;
+                            } else if (that.data.imageType == "MRI-LEFT") {
+                                that.data.mriLeftImgArr[3] = img31;
+                            }
                             break;
                         case "32":
                             that.setData({
-                                pic8: data.data.info.url,
-                                pic8Upload: data.data.info.file,
-                            });
+                                pic8: data.data.info.url
+                            })
+                            let img32 = {}
+                            img32.pic = data.data.info.url;
+                            img32.picUpload = data.data.info.file;
+                            if (that.data.imageType == "X-LEFT") {
+                                that.data.xleftImgArr[4] = img32;
+                            } else if (that.data.imageType == "CT-LEFT") {
+                                that.data.ctLeftImgArr[4] = img32;
+                            } else if (that.data.imageType == "MRI-LEFT") {
+                                that.data.mriLeftImgArr[4] = img32;
+                            }
                             break;
                         case "33":
                             that.setData({
-                                pic9: data.data.info.url,
-                                pic9Upload: data.data.info.file,
-                            });
-                            break;
-                        case "41":
-                            that.setData({
-                                pic10: data.data.info.url,
-                                pic10Upload: data.data.info.file,
-                            });
-                            break;
-                        case "42":
-                            that.setData({
-                                pic11: data.data.info.url,
-                                pic11Upload: data.data.info.file,
-                            });
-                            break;
-                        case "43":
-                            that.setData({
-                                pic12: data.data.info.url,
-                                pic12Upload: data.data.info.file
-                            });
+                                pic9: data.data.info.url
+                            })
+                            let img33 = {}
+                            img33.pic = data.data.info.url;
+                            img33.picUpload = data.data.info.file;
+                            if (that.data.imageType == "X-LEFT") {
+                                that.data.xleftImgArr[5] = img33;
+                            } else if (that.data.imageType == "CT-LEFT") {
+                                that.data.ctLeftImgArr[5] = img33;
+                            } else if (that.data.imageType == "MRI-LEFT") {
+                                that.data.mriLeftImgArr[5] = img33;
+                            }
                             break;
                     }
                 } else {
@@ -1658,81 +1302,111 @@ Page({
             case "11":
                 that.setData({
                     pic1: '',
-                    pic1Upload: ''
                 });
+                if (that.data.imgtype == "Harris") {
+                    that.data.harrisImgArr[0] = null
+                } else if (that.data.imageType == "VAS") {
+                    that.data.vasImgArr[0] = null
+                }
                 break;
             case "12":
                 that.setData({
                     pic2: '',
-                    pic2Upload: ''
                 });
+                if (that.data.imgtype == "Harris") {
+                    that.data.harrisImgArr[1] = null
+                } else if (that.data.imageType == "VAS") {
+                    that.data.vasImgArr[1] = null
+                }
                 break;
             case "13":
                 that.setData({
                     pic3: '',
-                    pic3Upload: ''
                 });
+                if (that.data.imgtype == "Harris") {
+                    that.data.harrisImgArr[2] = null
+                } else if (that.data.imageType == "VAS") {
+                    that.data.vasImgArr[2] = null
+                }
                 break;
             case "21":
                 that.setData({
                     pic4: '',
-                    pic4Upload: ''
                 });
+                if (that.data.imageType == "X-LEFT") {
+                    that.data.xleftImgArr[0] = null;
+                } else if (that.data.imageType == "CT-LEFT") {
+                    that.data.ctLeftImgArr[0] = null;
+                } else if (that.data.imageType == "MRI-LEFT") {
+                    that.data.mriLeftImgArr[0] = null;
+                }
                 break;
             case "22":
                 that.setData({
                     pic5: '',
-                    pic5Upload: ''
                 });
+                if (that.data.imageType == "X-LEFT") {
+                    that.data.xleftImgArr[1] = null;
+                } else if (that.data.imageType == "CT-LEFT") {
+                    that.data.ctLeftImgArr[1] = null;
+                } else if (that.data.imageType == "MRI-LEFT") {
+                    that.data.mriLeftImgArr[1] = null;
+                }
                 break;
             case "23":
                 that.setData({
                     pic6: '',
-                    pic6Upload: ''
                 });
+                if (that.data.imageType == "X-LEFT") {
+                    that.data.xleftImgArr[2] = null;
+                } else if (that.data.imageType == "CT-LEFT") {
+                    that.data.ctLeftImgArr[2] = null;
+                } else if (that.data.imageType == "MRI-LEFT") {
+                    that.data.mriLeftImgArr[2] = null;
+                }
                 break;
             case "31":
                 that.setData({
                     pic7: '',
-                    pic7Upload: ''
                 });
+                if (that.data.imageType == "X-LEFT") {
+                    that.data.xleftImgArr[3] = null;
+                } else if (that.data.imageType == "CT-LEFT") {
+                    that.data.ctLeftImgArr[3] = null;
+                } else if (that.data.imageType == "MRI-LEFT") {
+                    that.data.mriLeftImgArr[3] = null;
+                }
                 break;
             case "32":
                 that.setData({
                     pic8: '',
-                    pic8Upload: ''
                 });
+                if (that.data.imageType == "X-LEFT") {
+                    that.data.xleftImgArr[4] = null;
+                } else if (that.data.imageType == "CT-LEFT") {
+                    that.data.ctLeftImgArr[4] = null;
+                } else if (that.data.imageType == "MRI-LEFT") {
+                    that.data.mriLeftImgArr[4] = null;
+                }
                 break;
             case "33":
                 that.setData({
                     pic9: '',
-                    pic9Upload: ''
                 });
-                break;
-            case "41":
-                that.setData({
-                    pic10: '',
-                    pic10Upload: ''
-                });
-                break;
-            case "42":
-                that.setData({
-                    pic11: '',
-                    pic11Upload: ''
-                });
-                break;
-            case "43":
-                that.setData({
-                    pic12: '',
-                    pic12Upload: ''
-                });
+                if (that.data.imageType == "X-LEFT") {
+                    that.data.xleftImgArr[5] = null;
+                } else if (that.data.imageType == "CT-LEFT") {
+                    that.data.ctLeftImgArr[5] = null;
+                } else if (that.data.imageType == "MRI-LEFT") {
+                    that.data.mriLeftImgArr[5] = null;
+                }
                 break;
         }
     },
     // -------- 上传图片 end  ---------- //
 
     onLoad: function(options) {
-        this.loadProgress();
+        // this.loadProgress();
         var caseId = options.case_id;
         this.setData({
             centerId: options.centerId ? options.centerId : '',
@@ -1783,7 +1457,6 @@ Page({
             caseInfo: info
         });
         // 基本信息
-        let tempOperationDateArray = [0, parseInt(info.base.last_to_now_unit), parseInt(info.base.last_to_now)];
         let tempSymptomsUnit = [0, parseInt(info.base.duration_symptoms_unit), parseInt(info.base.duration_symptoms)];
         this.setData({
             name: info.base.patient_name,
@@ -1798,88 +1471,19 @@ Page({
             tel1: info.base.telphone1,
             tel2: info.base.telphone2,
             tel2Disabled: this.getValueDisable(info.base.telphone2),
-            part: info.base.part,
-            type: info.base.type,
-            operationDateMultiIndex: tempOperationDateArray,
-            operationDisabled: this.getNumDisable(info.base.last_to_now),
-            operationDateValue: tempOperationDateArray[2] ? '' + tempOperationDateArray[2] + this.data.operationDateMultiArray[1][tempOperationDateArray[1]] : '请选择',
-            symptomDateMultiIndex: tempSymptomsUnit,
-            symptomDateValue: tempSymptomsUnit[2] ? '' + tempSymptomsUnit[2] + this.data.symptomDateMultiArray[1][tempSymptomsUnit[1]] : '请选择',
-            xingzhiIndex: info.base.duration_symptoms_prop,
-            xingzhiValue: info.base.duration_symptoms_prop == 1 ? "急性" : "慢性",
-            ris: info.base.is_merge_disease,
             qtbsjb: info.base.other_concomitant_diseases,
-            antibiotic: info.base.is_used_antibiotics,
             jybs: info.base.medical_history,
-            cbzd: info.base.diagnose,
-            tssxbz: info.base.special_matter,
             addAvatar: info.base.base_creator_avatar,
             updateAvatarArr: this.makeUpdateAvatar(info.base.base_editor_list),
             approveAvatar: info.base.base_auditor_avatar,
             isBaseLock: info.base.is_lock
         })
-        // 诊断性穿刺
+        // 左侧
         this.setData({
-            chuangciDate: this.getDefaultDate(info.puncture.puncture_date),
-            ccDateDisabled: this.getNumDisable(info.puncture.puncture_date),
-            ccDescribe: info.puncture.puncture_desc,
-            ccDescribeDisabeld: this.getValueDisable(info.puncture.puncture_desc),
-            ccgjy: this.getDefaultNum(info.puncture.rinse_fluid_volume),
-            ccgjyDisabled: this.getNumDisable(info.puncture.rinse_fluid_volume),
-            ccgxy: this.getDefaultNum(info.puncture.rinse_lavage_volume),
-            ccgxyDisabled: this.getNumDisable(info.puncture.rinse_lavage_volume),
-            leIndex: info.puncture.le_testpaper_stoste,
-            leDisabled: this.getNumDisable(info.puncture.le_testpaper_stoste),
-            pic1: info.puncture.le_testpaper_pic.pic1Upload ? info.puncture.le_testpaper_pic.pic1Upload : '',
-            pic1Upload: info.puncture.le_testpaper_pic_file.pic1Upload ? info.puncture.le_testpaper_pic_file.pic1Upload : '',
-            pic2: info.puncture.le_testpaper_pic.pic2Upload ? info.puncture.le_testpaper_pic.pic2Upload : '',
-            pic2Upload: info.puncture.le_testpaper_pic_file.pic2Upload ? info.puncture.le_testpaper_pic_file.pic2Upload : '',
-            pic3: info.puncture.le_testpaper_pic.pic3Upload ? info.puncture.le_testpaper_pic.pic3Upload : '',
-            pic3Upload: info.puncture.le_testpaper_pic_file.pic3Upload ? info.puncture.le_testpaper_pic_file.pic3Upload : '',
-            leAfterIndex: info.puncture.le_testpaper_centrifugal,
-            leAfterDisabled: this.getNumDisable(info.puncture.le_testpaper_centrifugal),
-            pic4: info.puncture.le_testpaper_centr_pic.pic4Upload ? info.puncture.le_testpaper_centr_pic.pic4Upload : '',
-            pic4Upload: info.puncture.le_testpaper_centr_pic_file.pic4Upload ? info.puncture.le_testpaper_centr_pic_file.pic4Upload : '',
-            pic5: info.puncture.le_testpaper_centr_pic.pic5Upload ? info.puncture.le_testpaper_centr_pic.pic5Upload : '',
-            pic5Upload: info.puncture.le_testpaper_centr_pic_file.pic5Upload ? info.puncture.le_testpaper_centr_pic_file.pic5Upload : '',
-            pic6: info.puncture.le_testpaper_centr_pic.pic6Upload ? info.puncture.le_testpaper_centr_pic.pic6Upload : '',
-            pic6Upload: info.puncture.le_testpaper_centr_pic_file.pic6Upload ? info.puncture.le_testpaper_centr_pic_file.pic6Upload : '',
-            gjybxb: this.getDefaultNum(info.puncture.joint_fluid_leukocyte),
-            gjybxbDisabled: this.getNumDisable(info.puncture.joint_fluid_leukocyte),
-            gjyzx: this.getDefaultNum(info.puncture.neutrophils_percent),
-            gjyzxDisabled: this.getNumDisable(info.puncture.neutrophils_percent),
-            bcpysjIndex: info.puncture.culture_type,
-            bcpysjDisabled: this.getNumDisable(info.puncture.culture_type),
-            drgpyp: this.getDefaultNum(info.puncture.culture_bottle_fluid_volume),
-            drgpypDisabled: this.getNumDisable(info.puncture.culture_bottle_fluid_volume),
-            bcxyResult: info.puncture.aerobic_culture_result,
-            bcxyResultDisabled: this.getValueDisable(info.puncture.aerobic_culture_result),
-            bcxyLast: this.getDefaultNum(info.puncture.aerobic_culture_time),
-            bcxyLastDisabled: this.getNumDisable(info.puncture.aerobic_culture_time),
-            bcyyResult: info.puncture.anaerobic_culture_result,
-            bcyyResultDisabled: this.getValueDisable(info.puncture.anaerobic_culture_result),
-            bcyyLast: this.getDefaultNum(info.puncture.anaerobic_culture_time),
-            bcyyLastDisabled: this.getNumDisable(info.puncture.anaerobic_culture_time),
-            mNGSTypeIndex: info.puncture.mngs_type,
-            mNGSTypeDisabled: this.getNumDisable(info.puncture.mngs_type),
-            mNGSResult: info.puncture.joint_fluid_mngs_result,
-            mNGSResultDisabled: this.getValueDisable(info.puncture.joint_fluid_mngs_result),
-            sqSecondxy: info.puncture.puncture_aerobic_culture_result2,
-            sqSecondxyDisabled: this.getValueDisable(info.puncture.puncture_aerobic_culture_result2),
-            sqSecondyy: info.puncture.puncture_anaerobic_culture_result2,
-            sqSecondyyDisabled: this.getValueDisable(info.puncture.puncture_anaerobic_culture_result2),
-            sqThirdxy: info.puncture.puncture_aerobic_culture_result3,
-            sqThirdxyDisabled: this.getValueDisable(info.puncture.puncture_aerobic_culture_result3),
-            sqThirdyy: info.puncture.puncture_anaerobic_culture_result3,
-            sqThirdyyDisabled: this.getValueDisable(info.puncture.puncture_anaerobic_culture_result3),
-            // 已存标本
-            sample_desc: info.puncture.sample_deposit,
-            // 已取标本
-            sample_used: info.puncture.sample_used,
-            saveMsg: '',
-            usedMsg: '',
+            symptomDateMultiIndex: tempSymptomsUnit,
+            symptomDateValue: tempSymptomsUnit[2] ? '' + tempSymptomsUnit[2] + this.data.symptomDateMultiArray[1][tempSymptomsUnit[1]] : '请选择',
         })
-        // 入院后信息
+        // 右侧
         this.setData({
             doudaoIndex: info.bein.sious,
             sqesr: this.getDefaultNum(info.bein.preoperative_esr),
@@ -1899,12 +1503,7 @@ Page({
             blDisabled: this.getNumDisable(info.bein.pathology),
             szLEIndex: info.bein.intrao_le_testpaper_stoste,
             szLEDisabled: this.getNumDisable(info.bein.intrao_le_testpaper_stoste),
-            pic7: info.bein.intrao_le_testpaper_pic.pic7Upload ? info.bein.intrao_le_testpaper_pic.pic7Upload : '',
-            pic7Upload: info.bein.intrao_le_testpaper_pic_file.pic7Upload ? info.bein.intrao_le_testpaper_pic_file.pic7Upload : '',
-            pic8: info.bein.intrao_le_testpaper_pic.pic8Upload ? info.bein.intrao_le_testpaper_pic.pic8Upload : '',
-            pic8Upload: info.bein.intrao_le_testpaper_pic_file.pic8Upload ? info.bein.intrao_le_testpaper_pic_file.pic8Upload : '',
-            pic9: info.bein.intrao_le_testpaper_pic.pic9Upload ? info.bein.intrao_le_testpaper_pic.pic9Upload : '',
-            pic9Upload: info.bein.intrao_le_testpaper_pic_file.pic9Upload ? info.bein.intrao_le_testpaper_pic_file.pic9Upload : '',
+
             szLEAfterIndex: info.bein.intrao_le_testpaper_centrifugal,
             szLEAfterDisabled: this.getNumDisable(info.bein.intrao_le_testpaper_centrifugal),
             pic10: info.bein.intrao_le_testpaper_centr_pic.pic10Upload ? info.bein.intrao_le_testpaper_centr_pic.pic10Upload : '',
@@ -1948,32 +1547,6 @@ Page({
             zzclDisabled: this.getNumDisable(info.bein.final_disposal)
         })
 
-        // 标本存放情况
-        this.setData({
-            saveMsg: this.getSpecimenInfo(this.data.sample_desc)
-        });
-        // 标本取出情况
-        this.setData({
-            usedMsg: this.getSpecimenInfo(this.data.sample_used)
-        });
-    },
-
-    getSpecimenInfo(specimenArr) {
-        let specimenMap = new Map()
-        for (let i = 0; i < specimenArr.length; i++) {
-            let box_name = specimenArr[i].box_name
-            if (!specimenMap.has(box_name)) {
-                specimenMap.set(box_name, [])
-            } else {
-                specimenMap.get(box_name).push(specimenArr[i].number)
-            }
-        }
-
-        let specimenMsg = '';
-        specimenMap.forEach(function(value, key, map) {
-            specimenMsg += "标本盒:" + key + ",标本序号:" + value + "   "
-        });
-        return specimenMsg
     },
 
     getDefaultNum(num) {
@@ -2014,9 +1587,9 @@ Page({
     submit: function(e) {
         if (this.data.ShowBasic) { // 基本信息
             this.submitBasic()
-        } else if (this.data.ShowDiagnose) { // 诊断性穿刺
-            this.submitDiagnose()
-        } else if (this.data.ShowAdmission) { // 入院后信息
+        } else if (this.data.ShowDiagnose) { // 左侧
+            this.submitLeft()
+        } else if (this.data.ShowAdmission) { // 右侧
             this.submitAdmission()
         }
     },
@@ -2080,32 +1653,21 @@ Page({
             pro_doctor: that.data.chiefDoc,
             telphone1: that.data.tel1,
             telphone2: that.data.tel2,
-            part: parseInt(that.data.part),
-            type: parseInt(that.data.type),
 
-            // 末次手术至今时长
-            last_to_now: parseInt(that.data.operationDateMultiIndex[2]),
-            // 末次手术至今时长单位。1天，2月
-            last_to_now_unit: parseInt(that.data.operationDateMultiIndex[1]),
             // 症状出现时长
             duration_symptoms: parseInt(that.data.symptomDateMultiIndex[2]),
             // 症状出现时长单位。1天，2月(必填项)
             duration_symptoms_unit: parseInt(that.data.symptomDateMultiIndex[1]),
             // 症状出现时长性质。1急性，2慢性(必填项)
             duration_symptoms_prop: parseInt(that.data.xingzhiIndex),
-
-            is_merge_disease: parseInt(that.data.ris),
             other_concomitant_diseases: that.data.qtbsjb,
-            is_used_antibiotics: parseInt(that.data.antibiotic),
             medical_history: that.data.jybs,
-            diagnose: that.data.cbzd,
-            special_matter: that.data.tssxbz,
         }
         console.log("基本信息：" + JSON.stringify(jsonData))
         return JSON.stringify(jsonData)
     },
-    submitDiagnose() {
-        if (!this.isDiagnoseValueRight()) {
+    submitLeft() {
+        if (!this.isLeftValueRight()) {
             return
         }
 
@@ -2118,7 +1680,7 @@ Page({
                 service: 'Case.CreateEditCasePuncture',
                 case_id: that.data.caseId,
                 openid: app.globalData.openid,
-                json_data: that.makeDiagnoseData()
+                json_data: that.makeLeftData()
             },
             header: {
                 'content-type': 'application/json'
@@ -2146,128 +1708,32 @@ Page({
         });
     },
 
-    isDiagnoseValueRight() {
-        if (!this.data.ccDateDisabled && this.data.chuangciDate == "请选择日期") {
-            this.showToast("请选择穿刺日期")
+    isLeftValueRight() {
+        if (this.data.sszlIndex == 0) {
+            this.showToast("请选择首诊治疗情况")
             return false;
         }
-        if (!this.data.ccDescribeDisabeld && this.data.ccDescribe.length == 0) {
-            this.showToast("请填写穿刺描述")
+        if (this.data.leixingIndex == 0) {
+            this.showToast("请选择类型")
             return false;
         }
-        if (!this.data.ccgjyDisabled && this.data.ccgjy.length == 0) {
-            this.showToast("请填写抽出关节液总量")
-            return false;
-        }
-        if (!this.data.ccgxyDisabled && this.data.ccgxy.length == 0) {
-            this.showToast("请填写抽出灌洗液总量")
-            return false;
-        }
-        if (!this.data.leDisabled && this.data.leIndex == 0) {
-            this.showToast("请选择LE试纸(原液)")
-            return false;
-        }
-        if (!this.data.leAfterDisabled && this.data.leAfterIndex == 0) {
-            this.showToast("请选择LE试纸(离心后)")
-            return false;
-        }
-        if (!this.data.gjybxbDisabled && this.data.gjybxb.length == 0) {
-            this.showToast("请填写关节液白细胞计数")
-            return false;
-        }
-        if (!this.data.gjyzxDisabled && this.data.gjyzx.length == 0) {
-            this.showToast("请填写关节液中心粒细胞百分比")
-            return false;
-        }
-        if (!this.data.bcpysjDisabled && this.data.bcpysjIndex == 0) {
-            this.showToast("请选择本次培养送检类型")
-            return false;
-        }
-        if (!this.data.drgpypDisabled && this.data.drgpyp.length == 0) {
-            this.showToast("请填写打入各培养瓶量")
-            return false;
-        }
-        if (!this.data.bcxyResultDisabled && this.data.bcxyResult.length == 0) {
-            this.showToast("请填写本次需氧+真菌培养结果")
-            return false;
-        }
-        if (!this.data.bcxyLastDisabled && this.data.bcxyLast.length == 0) {
-            this.showToast("请填写本次需氧+真菌培养时长")
-            return false;
-        }
-        if (!this.data.bcyyResultDisabled && this.data.bcyyResult.length == 0) {
-            this.showToast("请填写本次厌氧培养结果")
-            return false;
-        }
-        if (!this.data.bcyyLastDisabled && this.data.bcyyLast.length == 0) {
-            this.showToast("请填写本次厌氧培养时长")
-            return false;
-        }
-        if (!this.data.mNGSTypeDisabled && this.data.mNGSTypeIndex == 0) {
-            this.showToast("请选择mNGS送检类型")
-            return false;
-        }
-        if (!this.data.mNGSResultDisabled && this.data.mNGSResult.length == 0) {
-            this.showToast("请填写关节液/冲洗液mNGS结果")
-            return false;
-        }
-        if (!this.data.sqSecondxyDisabled && this.data.sqSecondxy.length == 0) {
-            this.showToast("术前第2次穿刺需氧+真菌培养结果")
-            return false;
-        }
-        if (!this.data.sqSecondyyDisabled && this.data.sqSecondyy.length == 0) {
-            this.showToast("术前第2次穿刺厌氧培养结果")
-            return false;
-        }
-        if (!this.data.sqThirdxyDisabled && this.data.sqThirdxy.length == 0) {
-            this.showToast("术前第3次穿刺需氧+真菌培养结果")
-            return false;
-        }
-        if (!this.data.sqThirdyyDisabled && this.data.sqThirdyy.length == 0) {
-            this.showToast("术前第3次穿刺厌氧培养结果")
-            return false;
-        }
+
 
         return true
     },
 
-    makeDiagnoseData() {
+    makeLeftData() {
         let that = this
-        var lePic = {
-            pic1Upload: that.data.pic1Upload,
-            pic2Upload: that.data.pic2Upload,
-            pic3Upload: that.data.pic3Upload,
-        }
-        var leCentrPic = {
-            pic4Upload: that.data.pic4Upload,
-            pic5Upload: that.data.pic5Upload,
-            pic6Upload: that.data.pic6Upload,
-        }
         var jsonData = {
-            puncture_date: that.data.ccDateDisabled ? 0 : new Date(that.data.chuangciDate).getTime() / 1000,
-            puncture_desc: that.data.ccDescribe,
-            rinse_fluid_volume: parseFloat(this.getDefaultValue(that.data.ccgjy)),
-            rinse_lavage_volume: parseFloat(this.getDefaultValue(that.data.ccgxy)),
-            le_testpaper_stoste: parseInt(this.getDefaultValue(that.data.leIndex)),
-            le_testpaper_pic: JSON.stringify(lePic),
-            le_testpaper_centrifugal: parseInt(this.getDefaultValue(that.data.leAfterIndex)),
-            le_testpaper_centr_pic: JSON.stringify(leCentrPic),
-            joint_fluid_leukocyte: parseInt(this.getDefaultValue(that.data.gjybxb)),
-            neutrophils_percent: parseFloat(this.getDefaultValue(that.data.gjyzx)),
-            culture_type: parseInt(this.getDefaultValue(that.data.bcpysjIndex)),
-            culture_bottle_fluid_volume: parseFloat(this.getDefaultValue(that.data.drgpyp)),
-            aerobic_culture_result: that.data.bcxyResult,
-            aerobic_culture_time: parseInt(this.getDefaultValue(that.data.bcxyLast)),
-            anaerobic_culture_result: that.data.bcyyResult,
-            anaerobic_culture_time: parseInt(this.getDefaultValue(that.data.bcyyLast)),
-            mngs_type: parseInt(that.data.mNGSTypeIndex),
-            joint_fluid_mngs_result: that.data.mNGSResult,
-            puncture_aerobic_culture_result2: that.data.sqSecondxy,
-            puncture_anaerobic_culture_result2: that.data.sqSecondyy,
-            puncture_aerobic_culture_result3: that.data.sqThirdxy,
-            puncture_anaerobic_culture_result3: that.data.sqThirdyy,
+            // le_testpaper_stoste: parseInt(this.getDefaultValue(that.data.leIndex)),
+            // le_testpaper_pic: JSON.stringify(lePic),
+            // le_testpaper_centrifugal: parseInt(this.getDefaultValue(that.data.leAfterIndex)),
+            // le_testpaper_centr_pic: JSON.stringify(leCentrPic),
+            // joint_fluid_leukocyte: parseInt(this.getDefaultValue(that.data.gjybxb)),
+            // neutrophils_percent: parseFloat(this.getDefaultValue(that.data.gjyzx)),
+
         }
-        console.log("穿刺：" + JSON.stringify(jsonData))
+        console.log("左侧" + JSON.stringify(jsonData))
         return JSON.stringify(jsonData)
     },
 
@@ -2390,48 +1856,20 @@ Page({
             this.showToast("请填写联系电话1")
             return false;
         }
-        if (this.data.part == 0) {
-            this.showToast("请选择部位")
-            return false;
-        }
         if (this.data.type == 0) {
             this.showToast("请选择类型")
-            return false;
-        }
-        if (this.data.xingzhiIndex == 0) {
-            this.showToast("请选择症状出现时长")
-            return false;
-        }
-        if (this.data.ris == 0) {
-            this.showToast("请选择是否合并风湿免疫性疾病")
             return false;
         }
         if (this.data.qtbsjb.length <= 0) {
             this.showToast("请填写其他伴随疾病")
             return false;
         }
-        if (this.data.antibiotic == 0) {
-            this.showToast("请选择近期(2周)应用抗生素")
-            return false;
-        }
         if (this.data.jybs.length <= 0) {
             this.showToast("请填写简要病史")
             return false;
         }
-        if (this.data.cbzd.length <= 0) {
-            this.showToast("请填写初步诊断")
-            return false;
-        }
-        if (this.data.tssxbz.length <= 0) {
-            this.showToast("请填写特殊事项备注")
-            return false;
-        }
         if (!this.data.tel2Disabled && this.data.tel2.length == 0) {
             this.showToast("请填写联系电话2")
-            return false;
-        }
-        if (!this.data.operationDisabled && this.data.operationDateValue == "请选择") {
-            this.showToast("请选择末次手术至今时长")
             return false;
         }
 
@@ -2553,9 +1991,9 @@ Page({
     verify: function(e) {
         if (this.data.ShowBasic) { // 基本信息
             this.verifyBasic()
-        } else if (this.data.ShowDiagnose) { // 诊断性穿刺
+        } else if (this.data.ShowDiagnose) { // 左侧
             this.verifyDiagnose()
-        } else if (this.data.ShowAdmission) { // 入院后信息
+        } else if (this.data.ShowAdmission) { // 右侧
             this.verifyAdmission()
         }
     },
