@@ -55,7 +55,7 @@ Page({
         chiefDoc: '',
         tel1: '',
         tel2: '',
-        tel2Disabled: true,
+        tel2Disabled: false,
         qtbsjb: '',
         jybs: '',
         isBaseLock: 0,
@@ -117,69 +117,67 @@ Page({
         // 具体治疗措施
         jtzl: '',
         jtzlDisabled: false,
+        beizhu: '',
 
         // -------- 左侧 end -------- //
 
         // -------- 右侧 begin -------- //
-        doudaoIndex: 0,
-        doudaoPicker: ["请选择", "有", "无"],
-        sqesr: '',
-        sqcrp: '',
-        bzhcrp: '',
-        il6: '',
-        il6Disabled: true,
-        xwdby: '',
-        xwdbyDisabled: true,
-        ddimer: '',
-        ddimerDisabled: true,
-        shoushuDate: '请选择日期',
-        ssDateDisabled: true,
-        szjnIndex: 0,
-        szjnPicker: ["请选择", "脓性液体", "未见脓液"],
-        szjnDisabled: true,
-        blIndex: 0,
-        blPicker: ["请选择", "<5", "5-10", ">10"],
-        blDisabled: true,
-        szLEIndex: 0,
-        szLEPicker: ["请选择", "无法判定", "neg.", "25", "75", "250(+)", "500(+)"],
-        szLEDisabled: true,
-        szLEAfterIndex: 0,
-        szLEAfterPicker: ["请选择", "无法判定", "neg.", "25", "75", "250(+)", "500(+)"],
-        szLEAfterDisabled: true,
-        szgjybxb: '',
-        szgjybxbDisabled: true,
-        szgjyzxl: '',
-        szgjyzxlDisabled: true,
-        szzz1: '',
-        szzz1Disabled: true,
-        szzz2: '',
-        szzz2Disabled: true,
-        szzz3: '',
-        szzz3Disabled: true,
-        szzz4: '',
-        szzz4Disabled: true,
-        szzz5: '',
-        szzz5Disabled: true,
-        szxy: '',
-        szxyDisabled: true,
-        szyy: '',
-        szyyDisabled: true,
-        szgjymNGS: '',
-        szgjymNGSDisabled: true,
-        szzzmNGS: '',
-        szzzmNGSDisabled: true,
-        csljymNGS: '',
-        csljymNGSDisabled: true,
-        zznMGSResult: '',
-        zznMGSResultDisabled: true,
-        csljy: '',
-        csljyDisabled: true,
-        msisIndex: 0,
-        msisPicker: ["请选择", "暂不能确定", "感染", "非感染"],
-        msisDisabled: true,
-        zzclIndex: 0,
-        zzclPicker: ["请选择", "失访-不详", "未手术-门诊随访", "未手术-抗生素压制", "手术-清创换垫", "手术-关节融合", "手术-截肢", "未手术-抗生素压制", "手术-假体植入", "手术-占位器植入"],
-        zzclDisabled: true,
+        symptomDateMultiArray_R: [
+            ['单位'],
+            ['天', '周', '月', '年'],
+            (() => {
+                let temp = ['请选择'];
+                for (let i = 1; i <= 250; i++) {
+                    temp.push(i + '')
+                }
+                return temp
+            })(),
+        ],
+        symptomDateMultiIndex_R: [0, 0, 0],
+        symptomDateValue_R: '请选择',
+        symptomDisabled_R: false,
+        // 首诊治疗
+        sszlIndex_R: 0,
+        sszlPicker_R: ["未治疗", "药物治疗", "钻孔减压", "腓骨移植", "其他"],
+        sszlDisabled_R: false,
+        // 类型
+        leixingIndex_R: 0,
+        leixingPicker_R: ["请选择", "激素型", "酒精性", "创伤性", "特发性", "其他"],
+        leixingDisabled_R: false,
+        // 理由
+        liyou_R: '',
+        liyouDisabled_R: false,
+        // ARCO
+        arcoIndex_R: 0,
+        arcoPicker_R: ["请选择", "ARCO I期", "ARCO II期", "ARCO III期", "ARCO IV期", "未发病"],
+        // harris
+        harris_R: '',
+        harrisImgArr_R: [],
+        // VAS
+        vasIndex_R: 0,
+        vasPicker_R: ["请选择", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        vasImgArr_R: [],
+        // x光左
+        xleftIndex_R: 0,
+        xleftPicker_R: ["请选择", "已拍", "未拍"],
+        xleftImgArr_R: [],
+        // CT左
+        ctLeftIndex_R: 0,
+        ctLeftPicker_R: ["请选择", "已拍", "未拍"],
+        ctLeftImgArr_R: [],
+        // MRI左
+        mriLeftIndex_R: 0,
+        mriLeftPicker_R: ["请选择", "已拍", "未拍"],
+        mriLeftImgArr_R: [],
+        // 本次治疗方法
+        bczlIndex_R: 0,
+        bczlPicker_R: ["请选择", "无治疗", "药物治疗", "钻孔减压", "手术", "其他"],
+        bczlDisabled_R: false,
+        // 具体治疗措施
+        jtzl_R: '',
+        jtzlDisabled_R: false,
+        beizhu_R: '',
+
         // -------- 右侧 end -------- //
 
         // ------- 图片上传 start --------- //
@@ -243,7 +241,6 @@ Page({
                         addAvatar: this.data.caseInfo.bein.bein_creator_avatar,
                         updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.bein.bein_editor_list),
                         approveAvatar: this.data.caseInfo.bein.bein_auditor_avatar,
-
                     })
                 }
                 break;
@@ -620,393 +617,292 @@ Page({
             });
         }
     },
+    onBeizhuInput: function(e) {
+        this.setData({
+            beizhu: e.detail.value
+        });
+    },
     // -------- 左侧 end -------- //
 
     // -------- 右侧 begin -------- //
-    onDoudaoChange: function(e) {
-        this.setData({
-            doudaoIndex: e.detail.value,
-        });
-    },
-    onSqesrChange: function(e) {
-        this.setData({
-            sqesr: e.detail.value,
-        });
-    },
-    onSqcrpChange: function(e) {
-        this.setData({
-            sqcrp: e.detail.value,
-            bzhcrp: e.detail.value * 10
-        });
-    },
-    onIl6Change: function(e) {
-        this.setData({
-            il6: e.detail.value
-        });
-    },
-    onIl6SwitchChange: function(e) {
-        this.setData({
-            il6Disabled: !e.detail.value
-        });
-        if (this.data.il6Disabled) {
-            this.setData({
-                il6: ''
-            })
+    defaultSymptomDate_R: function() {
+        let data = {
+            symptomDateMultiArray_R: this.data.symptomDateMultiArray_R,
+            symptomDateMultiIndex_R: this.data.symptomDateMultiIndex_R
+        };
+        switch (data.symptomDateMultiIndex_R[1]) {
+            case 0:
+                data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
+                data.symptomDateMultiArray_R[2] = (() => {
+                    let temp = ['请选择'];
+                    for (let i = 1; i <= 250; i++) {
+                        temp.push(i + '')
+                    }
+                    return temp
+                })();
+                break;
+            case 1:
+                data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
+                data.symptomDateMultiArray_R[2] = (() => {
+                    let temp = ['请选择'];
+                    for (let i = 1; i <= 250; i++) {
+                        temp.push(i + '')
+                    }
+                    return temp
+                })();
+                break;
+            case 2:
+                data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
+                data.symptomDateMultiArray_R[2] = (() => {
+                    let temp = ['请选择'];
+                    for (let i = 1; i <= 250; i++) {
+                        temp.push(i + '')
+                    }
+                    return temp
+                })();
+                break;
+            case 3:
+                data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
+                data.symptomDateMultiArray_R[2] = (() => {
+                    let temp = ['请选择'];
+                    for (let i = 1; i <= 250; i++) {
+                        temp.push(i + '')
+                    }
+                    return temp
+                })();
+                break;
         }
+        this.setData(data);
+        return data.symptomDateMultiArray_R;
     },
-    onXwdbyChange: function(e) {
+    symptomDateChange_R: function(e) {
         this.setData({
-            xwdby: e.detail.value
+            symptomDateMultiIndex_R: e.detail.value,
+            symptomDateValue_R: '' + e.detail.value[2] + this.data.symptomDateMultiArray_R[1][e.detail.value[1]]
         });
     },
-    onXwdbySwitchChange: function(e) {
-        this.setData({
-            xwdbyDisabled: !e.detail.value
-        });
-        if (this.data.xwdbyDisabled) {
-            this.setData({
-                xwdby: ''
-            })
+    symptomDateColumnChange_R: function(e) {
+        let data = {
+            symptomDateMultiArray_R: this.data.symptomDateMultiArray_R,
+            symptomDateMultiIndex_R: this.data.symptomDateMultiIndex_R
+        };
+        data.symptomDateMultiIndex_R[e.detail.column] = e.detail.value;
+        switch (e.detail.column) {
+            case 0:
+                switch (data.symptomDateMultiIndex_R[0]) {
+                    case 0:
+                        data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
+                        data.symptomDateMultiArray_R[2] = (() => {
+                            let temp = ['请选择'];
+                            for (let i = 1; i <= 250; i++) {
+                                temp.push(i + '')
+                            }
+                            return temp
+                        })();
+                        break;
+                    case 1:
+                        data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
+                        data.symptomDateMultiArray_R[2] = (() => {
+                            let temp = ['请选择'];
+                            for (let i = 1; i <= 250; i++) {
+                                temp.push(i + '')
+                            }
+                            return temp
+                        })();
+                        break;
+                    case 2:
+                        data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
+                        data.symptomDateMultiArray_R[2] = (() => {
+                            let temp = ['请选择'];
+                            for (let i = 1; i <= 250; i++) {
+                                temp.push(i + '')
+                            }
+                            return temp
+                        })();
+                        break;
+                    case 3:
+                        data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
+                        data.symptomDateMultiArray_R[2] = (() => {
+                            let temp = ['请选择'];
+                            for (let i = 1; i <= 250; i++) {
+                                temp.push(i + '')
+                            }
+                            return temp
+                        })();
+                        break;
+                }
+                data.symptomDateMultiIndex_R[1] = 0;
+                data.symptomDateMultiIndex_R[2] = 0;
+                break;
+            case 1:
+                switch (data.symptomDateMultiIndex_R[0]) {
+                    case 0:
+                        switch (data.symptomDateMultiIndex_R[1]) {
+                            case 0:
+                                data.symptomDateMultiArray_R[2] = (() => {
+                                    let temp = ['请选择'];
+                                    for (let i = 1; i <= 250; i++) {
+                                        temp.push(i + '')
+                                    }
+                                    return temp
+                                })();
+                                break;
+                            case 1:
+                                data.symptomDateMultiArray_R[2] = (() => {
+                                    let temp = ['请选择'];
+                                    for (let i = 1; i <= 250; i++) {
+                                        temp.push(i + '')
+                                    }
+                                    return temp
+                                })();
+                                break;
+                            case 2:
+                                data.symptomDateMultiArray_R[2] = (() => {
+                                    let temp = ['请选择'];
+                                    for (let i = 1; i <= 250; i++) {
+                                        temp.push(i + '')
+                                    }
+                                    return temp
+                                })();
+                                break;
+                            case 3:
+                                data.symptomDateMultiArray_R[2] = (() => {
+                                    let temp = ['请选择'];
+                                    for (let i = 1; i <= 250; i++) {
+                                        temp.push(i + '')
+                                    }
+                                    return temp
+                                })();
+                                break;
+                        }
+                        break;
+                }
+                data.symptomDateMultiIndex_R[2] = 0;
+                break;
         }
-    },
-    onDdimerChange: function(e) {
-        this.setData({
-            ddimer: e.detail.value
-        });
-    },
-    onDdimerSwitchChange: function(e) {
-        this.setData({
-            ddimerDisabled: !e.detail.value
-        });
-        if (this.data.ddimerDisabled) {
-            this.setData({
-                ddimer: ''
-            })
-        }
-    },
-    onShoushuDateChange: function(e) {
-        this.setData({
-            shoushuDate: e.detail.value
-        });
-    },
-    onShoushuSwitchChange: function(e) {
-        this.setData({
-            ssDateDisabled: !e.detail.value
-        });
-        if (this.data.ssDateDisabled) {
-            this.setData({
-                shoushuDate: '请选择日期'
-            })
-        }
-    },
-    onSzjnChange: function(e) {
-        this.setData({
-            szjnIndex: e.detail.value,
-        });
-    },
-    onSzjnSwitchChange: function(e) {
-        this.setData({
-            szjnDisabled: !e.detail.value
-        });
-        if (this.data.szjnDisabled) {
-            this.setData({
-                szjnIndex: 0
-            })
-        }
-    },
-    onBlChange: function(e) {
-        this.setData({
-            blIndex: e.detail.value,
-        });
-    },
-    onBlSwitchChange: function(e) {
-        this.setData({
-            blDisabled: !e.detail.value
-        });
-        if (this.data.blDisabled) {
-            this.setData({
-                blIndex: 0
-            })
-        }
-    },
-    onSZLEChange: function(e) {
-        this.setData({
-            szLEIndex: e.detail.value,
-        });
-    },
-    onSZLESwitchChange: function(e) {
-        this.setData({
-            szLEDisabled: !e.detail.value
-        });
-        if (this.data.szLEDisabled) {
-            this.setData({
-                szLEIndex: 0,
-            })
-        }
-    },
-    onSZLEAfterChange: function(e) {
-        this.setData({
-            szLEAfterIndex: e.detail.value,
-        });
-    },
-    onSZLEAfterSwitchChange: function(e) {
-        this.setData({
-            szLEAfterDisabled: !e.detail.value
-        });
-        if (this.data.szLEAfterDisabled) {
-            this.setData({
-                szLEAfterIndex: 0,
-                pic10: '',
-                pic10Upload: '',
-                pic11: '',
-                pic11Upload: '',
-                pic12: '',
-                pic12Upload: ''
-            })
-        }
-    },
-    onSzgjybxbInput: function(e) {
-        this.setData({
-            szgjybxb: e.detail.value
-        });
-    },
-    onSzgjybxbSwitchChange: function(e) {
-        this.setData({
-            szgjybxbDisabled: !e.detail.value
-        });
-        if (this.data.szgjybxbDisabled) {
-            this.setData({
-                szgjybxb: ""
-            })
-        }
-    },
-    onSzgjyzxlInput: function(e) {
-        this.setData({
-            szgjyzxl: e.detail.value
-        });
 
+        this.setData(data);
     },
-    onSzgjyzxlSwitchChange: function(e) {
+    onSymptomSwitchChange_R: function(e) {
         this.setData({
-            szgjyzxlDisabled: !e.detail.value
+            symptomDisabled_R: !e.detail.value
         });
-        if (this.data.szgjyzxlDisabled) {
+        if (this.data.symptomDisabled_R) {
             this.setData({
-                szgjyzxl: ""
+                symptomDateValue_R: ""
             })
         }
     },
-    onSzzz1Input: function(e) {
+    onSzzlChange_R: function(e) {
         this.setData({
-            szzz1: e.detail.value
+            sszlIndex_R: e.detail.value,
         });
     },
-    onSzzz1SwitchChange: function(e) {
+    onSzzlSwitchChange_R: function(e) {
         this.setData({
-            szzz1Disabled: !e.detail.value
+            sszlDisabled_R: !e.detail.value
         });
-        if (this.data.szzz1Disabled) {
+        if (this.data.sszlDisabled_R) {
             this.setData({
-                szzz1: ""
+                sszlIndex_R: 0
+            });
+        }
+    },
+    onLeixingChange_R: function(e) {
+        this.setData({
+            leixingIndex_R: e.detail.value,
+        });
+    },
+    onLeixingSwitchChange_R: function(e) {
+        this.setData({
+            leixingDisabled_R: !e.detail.value
+        });
+        if (this.data.leixingDisabled_R) {
+            this.setData({
+                leixingIndex_R: 0
+            });
+        }
+    },
+    onLiyouInput_R: function(e) {
+        this.setData({
+            liyou_R: e.detail.value
+        });
+    },
+    onLiyouSwitchChange_R: function(e) {
+        this.setData({
+            liyouDisabled_R: !e.detail.value
+        });
+        if (this.data.liyouDisabled_R) {
+            this.setData({
+                liyou_R: ''
+            });
+        }
+    },
+    onArcoChange_R: function(e) {
+        this.setData({
+            arcoIndex_R: e.detail.value,
+        });
+    },
+    onHarrisInput_R: function(e) {
+        this.setData({
+            harris_R: e.detail.value
+        });
+    },
+    onVASChange_R: function(e) {
+        this.setData({
+            vasIndex_R: e.detail.value,
+        });
+    },
+    onXLeftChange_R: function(e) {
+        this.setData({
+            xleftIndex_R: e.detail.value,
+        });
+    },
+    onCTLeftChange_R: function(e) {
+        this.setData({
+            ctLeftIndex_R: e.detail.value,
+        });
+    },
+    onMRILeftChange_R: function(e) {
+        this.setData({
+            mriLeftIndex_R: e.detail.value,
+        });
+    },
+    onBczlChange_R: function(e) {
+        this.setData({
+            bczlIndex_R: e.detail.value,
+        });
+    },
+    onBczlSwitchChange_R: function(e) {
+        this.setData({
+            bczlDisabled_R: !e.detail.value
+        });
+        if (this.data.bczlDisabled_R) {
+            this.setData({
+                bczlIndex_R: 0
             })
         }
     },
-    onSzzz2Input: function(e) {
+    onJtzlInput_R: function(e) {
         this.setData({
-            szzz2: e.detail.value
+            jtzl_R: e.detail.value
         });
     },
-    onSzzz2SwitchChange: function(e) {
+    onJtzlSwitchChange_R: function(e) {
         this.setData({
-            szzz2Disabled: !e.detail.value
+            jtzlDisabled_R: !e.detail.value
         });
-        if (this.data.szzz2Disabled) {
+        if (this.data.jtzlDisabled_R) {
             this.setData({
-                szzz2: ""
-            })
+                jtzl_R: ''
+            });
         }
     },
-    onSzzz3Input: function(e) {
+    onBeizhuInput_R: function(e) {
         this.setData({
-            szzz3: e.detail.value
+            beizhu_R: e.detail.value
         });
     },
-    onSzzz3SwitchChange: function(e) {
-        this.setData({
-            szzz3Disabled: !e.detail.value
-        });
-        if (this.data.szzz3Disabled) {
-            this.setData({
-                szzz3: ""
-            })
-        }
-    },
-    onSzzz4Input: function(e) {
-        this.setData({
-            szzz4: e.detail.value
-        });
-    },
-    onSzzz4SwitchChange: function(e) {
-        this.setData({
-            szzz4Disabled: !e.detail.value
-        });
-        if (this.data.szzz4Disabled) {
-            this.setData({
-                szzz4: ""
-            })
-        }
-    },
-    onSzzz5Input: function(e) {
-        this.setData({
-            szzz5: e.detail.value
-        });
-    },
-    onSzzz5SwitchChange: function(e) {
-        this.setData({
-            szzz5Disabled: !e.detail.value
-        });
-        if (this.data.szzz5Disabled) {
-            this.setData({
-                szzz5: ""
-            })
-        }
-    },
-    onSzxyInput: function(e) {
-        this.setData({
-            szxy: e.detail.value
-        });
-    },
-    onSzxySwitchChange: function(e) {
-        this.setData({
-            szxyDisabled: !e.detail.value
-        });
-        if (this.data.szxyDisabled) {
-            this.setData({
-                szxy: ""
-            })
-        }
-    },
-    onSzyyInput: function(e) {
-        this.setData({
-            szyy: e.detail.value
-        });
-    },
-    onSzyySwitchChange: function(e) {
-        this.setData({
-            szyyDisabled: !e.detail.value
-        });
-        if (this.data.szyyDisabled) {
-            this.setData({
-                szyy: ""
-            })
-        }
-    },
-    onSzgjymNGSInput: function(e) {
-        this.setData({
-            szgjymNGS: e.detail.value
-        });
-    },
-    onSzgjymNGSSwitchChange: function(e) {
-        this.setData({
-            szgjymNGSDisabled: !e.detail.value
-        });
-        if (this.data.szgjymNGSDisabled) {
-            this.setData({
-                szgjymNGS: ""
-            })
-        }
-    },
-    onSzzzmNGSInput: function(e) {
-        this.setData({
-            szzzmNGS: e.detail.value
-        });
-    },
-    onSzzzmNGSSwitchChange: function(e) {
-        this.setData({
-            szzzmNGSDisabled: !e.detail.value
-        });
-        if (this.data.szzzmNGSDisabled) {
-            this.setData({
-                szzzmNGS: ""
-            })
-        }
-    },
-    onCsljymNGSInput: function(e) {
-        this.setData({
-            csljymNGS: e.detail.value
-        });
-    },
-    onCsljymNGSSwitchChange: function(e) {
-        this.setData({
-            csljymNGSDisabled: !e.detail.value
-        });
-        if (this.data.csljymNGSDisabled) {
-            this.setData({
-                csljymNGS: ""
-            })
-        }
-    },
-
-    onZznMGSResultInput: function(e) {
-        this.setData({
-            zznMGSResult: e.detail.value
-        });
-    },
-    onZznMGSResultSwitchChange: function(e) {
-        this.setData({
-            zznMGSResultDisabled: !e.detail.value
-        });
-        if (this.data.zznMGSResultDisabled) {
-            this.setData({
-                zznMGSResult: ""
-            })
-        }
-    },
-    onCsljyInput: function(e) {
-        this.setData({
-            csljy: e.detail.value
-        });
-    },
-    onCsljySwitchChange: function(e) {
-        this.setData({
-            csljyDisabled: !e.detail.value
-        });
-        if (this.data.csljyDisabled) {
-            this.setData({
-                csljy: ""
-            })
-        }
-    },
-    onMsisChange: function(e) {
-        this.setData({
-            msisIndex: e.detail.value,
-        });
-    },
-    // onMsisSwitchChange: function(e) {
-    //     this.setData({
-    //         msisDisabled: !e.detail.value
-    //     });
-    //     if (this.data.msisDisabled) {
-    //         this.setData({
-    //             msisIndex: 0
-    //         })
-    //     }
-    // },
-    onZzclChange: function(e) {
-        this.setData({
-            zzclIndex: e.detail.value,
-        });
-    },
-    // onZzclSwitchChange: function(e) {
-    //     this.setData({
-    //         zzclDisabled: !e.detail.value
-    //     });
-    //     if (this.data.zzclDisabled) {
-    //         this.setData({
-    //             zzclIndex: 0
-    //         })
-    //     }
-    // },
     // -------- 右侧 end -------- //
 
     // -------- 提示框 begin -------- //
@@ -1098,6 +994,45 @@ Page({
                     pic8: that.data.mriLeftImgArr[4] ? that.data.mriLeftImgArr[4].pic : "",
                     pic9: that.data.mriLeftImgArr[5] ? that.data.mriLeftImgArr[5].pic : ""
                 })
+            } else if (that.data.imageType == "Harris_R") {
+                that.setData({
+                    pic1: that.data.harrisImgArr_R[0] ? that.data.harrisImgArr_R[0].pic : "",
+                    pic2: that.data.harrisImgArr_R[1] ? that.data.harrisImgArr_R[1].pic : "",
+                    pic3: that.data.harrisImgArr_R[2] ? that.data.harrisImgArr_R[2].pic : ""
+                })
+            } else if (that.data.imageType == "VAS_R") {
+                that.setData({
+                    pic1: that.data.vasImgArr_R[0] ? that.data.vasImgArr_R[0].pic : "",
+                    pic2: that.data.vasImgArr_R[1] ? that.data.vasImgArr_R[1].pic : "",
+                    pic3: that.data.vasImgArr_R[2] ? that.data.vasImgArr_R[2].pic : ""
+                })
+            } else if (that.data.imageType == "X-LEFT_R") {
+                that.setData({
+                    pic4: that.data.xleftImgArr_R[0] ? that.data.xleftImgArr_R[0].pic : "",
+                    pic5: that.data.xleftImgArr_R[1] ? that.data.xleftImgArr_R[1].pic : "",
+                    pic6: that.data.xleftImgArr_R[2] ? that.data.xleftImgArr_R[2].pic : "",
+                    pic7: that.data.xleftImgArr_R[3] ? that.data.xleftImgArr_R[3].pic : "",
+                    pic8: that.data.xleftImgArr_R[4] ? that.data.xleftImgArr_R[4].pic : "",
+                    pic9: that.data.xleftImgArr_R[5] ? that.data.xleftImgArr_R[5].pic : ""
+                })
+            } else if (that.data.imageType == "CT-LEFT_R") {
+                that.setData({
+                    pic4: that.data.ctLeftImgArr_R[0] ? that.data.ctLeftImgArr_R[0].pic : "",
+                    pic5: that.data.ctLeftImgArr_R[1] ? that.data.ctLeftImgArr_R[1].pic : "",
+                    pic6: that.data.ctLeftImgArr_R[2] ? that.data.ctLeftImgArr_R[2].pic : "",
+                    pic7: that.data.ctLeftImgArr_R[3] ? that.data.ctLeftImgArr_R[3].pic : "",
+                    pic8: that.data.ctLeftImgArr_R[4] ? that.data.ctLeftImgArr_R[4].pic : "",
+                    pic9: that.data.ctLeftImgArr_R[5] ? that.data.ctLeftImgArr_R[5].pic : ""
+                })
+            } else if (that.data.imageType == "MRI-LEFT_R") {
+                that.setData({
+                    pic4: that.data.mriLeftImgArr_R[0] ? that.data.mriLeftImgArr_R[0].pic : "",
+                    pic5: that.data.mriLeftImgArr_R[1] ? that.data.mriLeftImgArr_R[1].pic : "",
+                    pic6: that.data.mriLeftImgArr_R[2] ? that.data.mriLeftImgArr_R[2].pic : "",
+                    pic7: that.data.mriLeftImgArr_R[3] ? that.data.mriLeftImgArr_R[3].pic : "",
+                    pic8: that.data.mriLeftImgArr_R[4] ? that.data.mriLeftImgArr_R[4].pic : "",
+                    pic9: that.data.mriLeftImgArr_R[5] ? that.data.mriLeftImgArr_R[5].pic : ""
+                })
             }
         } else {
             this.setData({
@@ -1168,6 +1103,10 @@ Page({
                                 that.data.harrisImgArr[0] = img11;
                             } else if (that.data.imageType == "VAS") {
                                 that.data.vasImgArr[0] = img11;
+                            } else if (that.data.imageType == "Harris_R") {
+                                that.data.harrisImgArr_R[0] = img11;
+                            } else if (that.data.imageType == "VAS_R") {
+                                that.data.vasImgArr_R[0] = img11;
                             }
                             break;
                         case "12":
@@ -1180,7 +1119,11 @@ Page({
                             if (that.data.imageType == "Harris") {
                                 that.data.harrisImgArr[1] = img12;
                             } else if (that.data.imageType == "VAS") {
-                                that.data.vasImgArr[0] = img11;
+                                that.data.vasImgArr[1] = img12;
+                            } else if (that.data.imageType == "Harris_R") {
+                                that.data.harrisImgArr_R[1] = img12;
+                            } else if (that.data.imageType == "VAS_R") {
+                                that.data.vasImgArr_R[1] = img12;
                             }
                             break;
                         case "13":
@@ -1193,7 +1136,11 @@ Page({
                             if (that.data.imageType == "Harris") {
                                 that.data.harrisImgArr[2] = img13;
                             } else if (that.data.imageType == "VAS") {
-                                that.data.vasImgArr[0] = img11;
+                                that.data.vasImgArr[2] = img13;
+                            } else if (that.data.imageType == "Harris_R") {
+                                that.data.harrisImgArr_R[2] = img13;
+                            } else if (that.data.imageType == "VAS_R") {
+                                that.data.vasImgArr_R[2] = img13;
                             }
                             break;
                         case "21":
@@ -1209,6 +1156,12 @@ Page({
                                 that.data.ctLeftImgArr[0] = img21;
                             } else if (that.data.imageType == "MRI-LEFT") {
                                 that.data.mriLeftImgArr[0] = img21;
+                            } else if (that.data.imageType == "X-LEFT_R") {
+                                that.data.xleftImgArr_R[0] = img21;
+                            } else if (that.data.imageType == "CT-LEFT_R") {
+                                that.data.ctLeftImgArr_R[0] = img21;
+                            } else if (that.data.imageType == "MRI-LEFT_R") {
+                                that.data.mriLeftImgArr_R[0] = img21;
                             }
                             break;
                         case "22":
@@ -1224,6 +1177,12 @@ Page({
                                 that.data.ctLeftImgArr[1] = img22;
                             } else if (that.data.imageType == "MRI-LEFT") {
                                 that.data.mriLeftImgArr[1] = img22;
+                            } else if (that.data.imageType == "X-LEFT_R") {
+                                that.data.xleftImgArr_R[1] = img22;
+                            } else if (that.data.imageType == "CT-LEFT_R") {
+                                that.data.ctLeftImgArr_R[1] = img22;
+                            } else if (that.data.imageType == "MRI-LEFT_R") {
+                                that.data.mriLeftImgArr_R[1] = img22;
                             }
                             break;
                         case "23":
@@ -1239,6 +1198,12 @@ Page({
                                 that.data.ctLeftImgArr[2] = img23;
                             } else if (that.data.imageType == "MRI-LEFT") {
                                 that.data.mriLeftImgArr[2] = img23;
+                            } else if (that.data.imageType == "X-LEFT_R") {
+                                that.data.xleftImgArr_R[2] = img23;
+                            } else if (that.data.imageType == "CT-LEFT_R") {
+                                that.data.ctLeftImgArr_R[2] = img23;
+                            } else if (that.data.imageType == "MRI-LEFT_R") {
+                                that.data.mriLeftImgArr_R[2] = img23;
                             }
                             break;
                         case "31":
@@ -1254,6 +1219,12 @@ Page({
                                 that.data.ctLeftImgArr[3] = img31;
                             } else if (that.data.imageType == "MRI-LEFT") {
                                 that.data.mriLeftImgArr[3] = img31;
+                            } else if (that.data.imageType == "X-LEFT_R") {
+                                that.data.xleftImgArr_R[3] = img31;
+                            } else if (that.data.imageType == "CT-LEFT_R") {
+                                that.data.ctLeftImgArr_R[3] = img31;
+                            } else if (that.data.imageType == "MRI-LEFT_R") {
+                                that.data.mriLeftImgArr_R[3] = img31;
                             }
                             break;
                         case "32":
@@ -1269,6 +1240,12 @@ Page({
                                 that.data.ctLeftImgArr[4] = img32;
                             } else if (that.data.imageType == "MRI-LEFT") {
                                 that.data.mriLeftImgArr[4] = img32;
+                            } else if (that.data.imageType == "X-LEFT_R") {
+                                that.data.xleftImgArr_R[4] = img32;
+                            } else if (that.data.imageType == "CT-LEFT_R") {
+                                that.data.ctLeftImgArr_R[4] = img32;
+                            } else if (that.data.imageType == "MRI-LEFT_R") {
+                                that.data.mriLeftImgArr_R[4] = img32;
                             }
                             break;
                         case "33":
@@ -1284,6 +1261,12 @@ Page({
                                 that.data.ctLeftImgArr[5] = img33;
                             } else if (that.data.imageType == "MRI-LEFT") {
                                 that.data.mriLeftImgArr[5] = img33;
+                            } else if (that.data.imageType == "X-LEFT_R") {
+                                that.data.xleftImgArr_R[5] = img33;
+                            } else if (that.data.imageType == "CT-LEFT_R") {
+                                that.data.ctLeftImgArr_R[5] = img33;
+                            } else if (that.data.imageType == "MRI-LEFT_R") {
+                                that.data.mriLeftImgArr_R[5] = img33;
                             }
                             break;
                     }
@@ -1307,6 +1290,10 @@ Page({
                     that.data.harrisImgArr[0] = null
                 } else if (that.data.imageType == "VAS") {
                     that.data.vasImgArr[0] = null
+                } else if (that.data.imgtype == "Harris_R") {
+                    that.data.harrisImgArr_R[0] = null
+                } else if (that.data.imageType == "VAS_R") {
+                    that.data.vasImgArr_R[0] = null
                 }
                 break;
             case "12":
@@ -1317,6 +1304,10 @@ Page({
                     that.data.harrisImgArr[1] = null
                 } else if (that.data.imageType == "VAS") {
                     that.data.vasImgArr[1] = null
+                } else if (that.data.imgtype == "Harris_R") {
+                    that.data.harrisImgArr_R[1] = null
+                } else if (that.data.imageType == "VAS_R") {
+                    that.data.vasImgArr_R[1] = null
                 }
                 break;
             case "13":
@@ -1327,6 +1318,10 @@ Page({
                     that.data.harrisImgArr[2] = null
                 } else if (that.data.imageType == "VAS") {
                     that.data.vasImgArr[2] = null
+                } else if (that.data.imgtype == "Harris_R") {
+                    that.data.harrisImgArr_R[2] = null
+                } else if (that.data.imageType == "VAS_R") {
+                    that.data.vasImgArr_R[2] = null
                 }
                 break;
             case "21":
@@ -1339,6 +1334,12 @@ Page({
                     that.data.ctLeftImgArr[0] = null;
                 } else if (that.data.imageType == "MRI-LEFT") {
                     that.data.mriLeftImgArr[0] = null;
+                } else if (that.data.imageType == "X-LEFT_R") {
+                    that.data.xleftImgArr_R[0] = null;
+                } else if (that.data.imageType == "CT-LEFT_R") {
+                    that.data.ctLeftImgArr_R[0] = null;
+                } else if (that.data.imageType == "MRI-LEFT_R") {
+                    that.data.mriLeftImgArr_R[0] = null;
                 }
                 break;
             case "22":
@@ -1351,6 +1352,12 @@ Page({
                     that.data.ctLeftImgArr[1] = null;
                 } else if (that.data.imageType == "MRI-LEFT") {
                     that.data.mriLeftImgArr[1] = null;
+                } else if (that.data.imageType == "X-LEFT_R") {
+                    that.data.xleftImgArr_R[1] = null;
+                } else if (that.data.imageType == "CT-LEFT_R") {
+                    that.data.ctLeftImgArr_R[1] = null;
+                } else if (that.data.imageType == "MRI-LEFT_R") {
+                    that.data.mriLeftImgArr_R[1] = null;
                 }
                 break;
             case "23":
@@ -1363,6 +1370,12 @@ Page({
                     that.data.ctLeftImgArr[2] = null;
                 } else if (that.data.imageType == "MRI-LEFT") {
                     that.data.mriLeftImgArr[2] = null;
+                } else if (that.data.imageType == "X-LEFT_R") {
+                    that.data.xleftImgArr_R[2] = null;
+                } else if (that.data.imageType == "CT-LEFT_R") {
+                    that.data.ctLeftImgArr_R[2] = null;
+                } else if (that.data.imageType == "MRI-LEFT_R") {
+                    that.data.mriLeftImgArr_R[2] = null;
                 }
                 break;
             case "31":
@@ -1375,6 +1388,12 @@ Page({
                     that.data.ctLeftImgArr[3] = null;
                 } else if (that.data.imageType == "MRI-LEFT") {
                     that.data.mriLeftImgArr[3] = null;
+                } else if (that.data.imageType == "X-LEFT_R") {
+                    that.data.xleftImgArr_R[3] = null;
+                } else if (that.data.imageType == "CT-LEFT_R") {
+                    that.data.ctLeftImgArr_R[3] = null;
+                } else if (that.data.imageType == "MRI-LEFT_R") {
+                    that.data.mriLeftImgArr_R[3] = null;
                 }
                 break;
             case "32":
@@ -1387,6 +1406,12 @@ Page({
                     that.data.ctLeftImgArr[4] = null;
                 } else if (that.data.imageType == "MRI-LEFT") {
                     that.data.mriLeftImgArr[4] = null;
+                } else if (that.data.imageType == "X-LEFT_R") {
+                    that.data.xleftImgArr_R[4] = null;
+                } else if (that.data.imageType == "CT-LEFT_R") {
+                    that.data.ctLeftImgArr_R[4] = null;
+                } else if (that.data.imageType == "MRI-LEFT_R") {
+                    that.data.mriLeftImgArr_R[4] = null;
                 }
                 break;
             case "33":
@@ -1399,6 +1424,12 @@ Page({
                     that.data.ctLeftImgArr[5] = null;
                 } else if (that.data.imageType == "MRI-LEFT") {
                     that.data.mriLeftImgArr[5] = null;
+                } else if (that.data.imageType == "X-LEFT_R") {
+                    that.data.xleftImgArr_R[5] = null;
+                } else if (that.data.imageType == "CT-LEFT_R") {
+                    that.data.ctLeftImgArr_R[5] = null;
+                } else if (that.data.imageType == "MRI-LEFT_R") {
+                    that.data.mriLeftImgArr_R[5] = null;
                 }
                 break;
         }
@@ -1406,7 +1437,7 @@ Page({
     // -------- 上传图片 end  ---------- //
 
     onLoad: function(options) {
-        // this.loadProgress();
+        this.loadProgress();
         var caseId = options.case_id;
         this.setData({
             centerId: options.centerId ? options.centerId : '',
@@ -1482,71 +1513,16 @@ Page({
         this.setData({
             symptomDateMultiIndex: tempSymptomsUnit,
             symptomDateValue: tempSymptomsUnit[2] ? '' + tempSymptomsUnit[2] + this.data.symptomDateMultiArray[1][tempSymptomsUnit[1]] : '请选择',
+            // zzclIndex = data.zzcl,
+            // zzclDisabled = this.getNumDisable(data.zzcl),
+            // harris = this.getDefaultNum(data.harris),
+            // liyou = data.liyou,
+            // liyouDisabled = this.getValueDisable(data.liyou)
         })
         // 右侧
         this.setData({
-            doudaoIndex: info.bein.sious,
-            sqesr: this.getDefaultNum(info.bein.preoperative_esr),
-            sqcrp: this.getDefaultNum(info.bein.preoperative_crp),
-            bzhcrp: this.getDefaultNum(info.bein.normal_crp),
-            il6: this.getDefaultNum(info.bein.il6),
-            il6Disabled: this.getNumDisable(info.bein.il6),
-            xwdby: this.getDefaultNum(info.bein.fibrinogen),
-            xwdbyDisabled: this.getNumDisable(info.bein.fibrinogen),
-            ddimer: this.getDefaultNum(info.bein.dimer),
-            ddimerDisabled: this.getNumDisable(info.bein.dimer),
-            shoushuDate: this.getDefaultDate(info.bein.operation_date),
-            ssDateDisabled: this.getNumDisable(info.bein.operation_date),
-            szjnIndex: info.bein.culture_pus,
-            szjnDisabled: this.getNumDisable(info.bein.culture_pus),
-            blIndex: info.bein.pathology,
-            blDisabled: this.getNumDisable(info.bein.pathology),
-            szLEIndex: info.bein.intrao_le_testpaper_stoste,
-            szLEDisabled: this.getNumDisable(info.bein.intrao_le_testpaper_stoste),
 
-            szLEAfterIndex: info.bein.intrao_le_testpaper_centrifugal,
-            szLEAfterDisabled: this.getNumDisable(info.bein.intrao_le_testpaper_centrifugal),
-            pic10: info.bein.intrao_le_testpaper_centr_pic.pic10Upload ? info.bein.intrao_le_testpaper_centr_pic.pic10Upload : '',
-            pic10Upload: info.bein.intrao_le_testpaper_centr_pic_file.pic10Upload ? info.bein.intrao_le_testpaper_centr_pic_file.pic10Upload : '',
-            pic11: info.bein.intrao_le_testpaper_centr_pic.pic11Upload ? info.bein.intrao_le_testpaper_centr_pic.pic11Upload : '',
-            pic11Upload: info.bein.intrao_le_testpaper_centr_pic_file.pic11Upload ? info.bein.intrao_le_testpaper_centr_pic_file.pic11Upload : '',
-            pic12: info.bein.intrao_le_testpaper_centr_pic.pic12Upload ? info.bein.intrao_le_testpaper_centr_pic.pic12Upload : '',
-            pic12Upload: info.bein.intrao_le_testpaper_centr_pic_file.pic12Upload ? info.bein.intrao_le_testpaper_centr_pic_file.pic12Upload : '',
-            szgjybxb: this.getDefaultNum(info.bein.intrao_joint_fluid_leukocyte),
-            szgjybxbDisabled: this.getNumDisable(info.bein.intrao_joint_fluid_leukocyte),
-            szgjyzxl: this.getDefaultNum(info.bein.intrao_neutrophils_percent),
-            szgjyzxlDisabled: this.getNumDisable(info.bein.intrao_neutrophils_percent),
-            szzz1: info.bein.culture_result1,
-            szzz1Disabled: this.getValueDisable(info.bein.culture_result1),
-            szzz2: info.bein.culture_result2,
-            szzz2Disabled: this.getValueDisable(info.bein.culture_result2),
-            szzz3: info.bein.culture_result3,
-            szzz3Disabled: this.getValueDisable(info.bein.culture_result3),
-            szzz4: info.bein.culture_result4,
-            szzz4Disabled: this.getValueDisable(info.bein.culture_result4),
-            szzz5: info.bein.culture_result5,
-            szzz5Disabled: this.getValueDisable(info.bein.culture_result5),
-            szxy: info.bein.intrao_aerobic_culture_result,
-            szxyDisabled: this.getValueDisable(info.bein.intrao_aerobic_culture_result),
-            szyy: info.bein.intrao_anaerobic_culture_result,
-            szyyDisabled: this.getValueDisable(info.bein.intrao_anaerobic_culture_result),
-            szgjymNGS: info.bein.culture_ngs_result,
-            szgjymNGSDisabled: this.getValueDisable(info.bein.culture_ngs_result),
-            szzzmNGS: info.bein.tissue_ngs_result,
-            szzzmNGSDisabled: this.getValueDisable(info.bein.tissue_ngs_result),
-            csljymNGS: info.bein.ultrasonic_degradation_ngs_result,
-            csljymNGSDisabled: this.getValueDisable(info.bein.ultrasonic_degradation_ngs_result),
-
-            zznMGSResult: info.bein.tissue_ngs_result,
-            zznMGSResultDisabled: this.getNumDisable(info.bein.tissue_ngs_result),
-            csljy: info.bein.ultrasonic_degradation_ngs_result,
-            csljyDisabled: this.getNumDisable(info.bein.ultrasonic_degradation_ngs_result),
-            msisIndex: info.bein.msis,
-            msisDisabled: this.getNumDisable(info.bein.msis),
-            zzclIndex: info.bein.final_disposal,
-            zzclDisabled: this.getNumDisable(info.bein.final_disposal)
         })
-
     },
 
     getDefaultNum(num) {
@@ -1590,7 +1566,7 @@ Page({
         } else if (this.data.ShowDiagnose) { // 左侧
             this.submitLeft()
         } else if (this.data.ShowAdmission) { // 右侧
-            this.submitAdmission()
+            this.submitRight()
         }
     },
 
@@ -1638,191 +1614,6 @@ Page({
         });
     },
 
-    makeBasicData() {
-        let that = this;
-        var jsonData = {
-            center_id: that.data.centerId,
-            patient_name: that.data.name,
-            case_no: that.data.caseNO,
-            create_time: new Date(that.data.createDate).getTime() / 1000,
-            sex: that.data.sex,
-            age: parseInt(that.data.age),
-            height: parseFloat(that.data.height),
-            weight: parseFloat(that.data.weight),
-            bmi: parseFloat(that.data.bmi),
-            pro_doctor: that.data.chiefDoc,
-            telphone1: that.data.tel1,
-            telphone2: that.data.tel2,
-
-            // 症状出现时长
-            duration_symptoms: parseInt(that.data.symptomDateMultiIndex[2]),
-            // 症状出现时长单位。1天，2月(必填项)
-            duration_symptoms_unit: parseInt(that.data.symptomDateMultiIndex[1]),
-            // 症状出现时长性质。1急性，2慢性(必填项)
-            duration_symptoms_prop: parseInt(that.data.xingzhiIndex),
-            other_concomitant_diseases: that.data.qtbsjb,
-            medical_history: that.data.jybs,
-        }
-        console.log("基本信息：" + JSON.stringify(jsonData))
-        return JSON.stringify(jsonData)
-    },
-    submitLeft() {
-        if (!this.isLeftValueRight()) {
-            return
-        }
-
-        let that = this;
-        that.showLoading();
-
-        wx.request({
-            url: constant.basePath,
-            data: {
-                service: 'Case.CreateEditCasePuncture',
-                case_id: that.data.caseId,
-                openid: app.globalData.openid,
-                json_data: that.makeLeftData()
-            },
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                console.log("Case.CreateEditCasePuncture:" + JSON.stringify(res))
-                that.hideLoading();
-                if (res.data.data.code == 0) {
-                    that.showToast("提交成功")
-                    var args = {
-                        currentTarget: {
-                            dataset: {
-                                id: 2
-                            }
-                        }
-                    }
-                    that.tabSelect(args)
-                } else {
-                    that.showModal("ErrModal", res.data.data.msg);
-                }
-            },
-            fail(res) {
-                that.hideLoading();
-            }
-        });
-    },
-
-    isLeftValueRight() {
-        if (this.data.sszlIndex == 0) {
-            this.showToast("请选择首诊治疗情况")
-            return false;
-        }
-        if (this.data.leixingIndex == 0) {
-            this.showToast("请选择类型")
-            return false;
-        }
-
-
-        return true
-    },
-
-    makeLeftData() {
-        let that = this
-        var jsonData = {
-            // le_testpaper_stoste: parseInt(this.getDefaultValue(that.data.leIndex)),
-            // le_testpaper_pic: JSON.stringify(lePic),
-            // le_testpaper_centrifugal: parseInt(this.getDefaultValue(that.data.leAfterIndex)),
-            // le_testpaper_centr_pic: JSON.stringify(leCentrPic),
-            // joint_fluid_leukocyte: parseInt(this.getDefaultValue(that.data.gjybxb)),
-            // neutrophils_percent: parseFloat(this.getDefaultValue(that.data.gjyzx)),
-
-        }
-        console.log("左侧" + JSON.stringify(jsonData))
-        return JSON.stringify(jsonData)
-    },
-
-    getDefaultValue(value) {
-        return value.length == 0 ? 0 : value
-    },
-
-    // 入院后
-    submitAdmission() {
-        if (!this.isAdmissionValueRight()) {
-            return;
-        }
-        let that = this;
-        that.showLoading();
-        wx.request({
-            url: constant.basePath,
-            data: {
-                service: 'Case.CreateEditCaseBein',
-                case_id: that.data.caseId,
-                openid: app.globalData.openid,
-                json_data: that.makePunctureData()
-            },
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                console.log("Case.CreateEditCaseBein:" + JSON.stringify(res))
-                that.hideLoading();
-                if (res.data.data.code == 0) {
-                    that.showToast("提交成功")
-                    that.reloadPrePage()
-                    wx.navigateBack({
-                        delta: 1
-                    })
-                } else {
-                    that.showModal("ErrModal", res.data.data.msg);
-                }
-            },
-            fail(res) {
-                that.hideLoading();
-            }
-        });
-    },
-    makePunctureData() {
-        let that = this
-        var lePic = {
-            pic7Upload: that.data.pic7Upload,
-            pic8Upload: that.data.pic8Upload,
-            pic9Upload: that.data.pic9Upload,
-        }
-        var leCentrPic = {
-            pic10Upload: that.data.pic10Upload,
-            pic11Upload: that.data.pic11Upload,
-            pic12Upload: that.data.pic12Upload,
-        }
-        var jsonData = {
-            sious: parseInt(that.data.doudaoIndex),
-            preoperative_esr: parseInt(this.getDefaultValue(that.data.sqesr)),
-            preoperative_crp: parseFloat(this.getDefaultValue(that.data.sqcrp)),
-            normal_crp: parseFloat(this.getDefaultValue(that.data.bzhcrp)),
-            il6: parseFloat(this.getDefaultValue(that.data.il6)),
-            fibrinogen: parseFloat(this.getDefaultValue(that.data.xwdby)),
-            dimer: parseFloat(this.getDefaultValue(that.data.ddimer)),
-            operation_date: that.data.ssDateDisabled ? 0 : new Date(that.data.shoushuDate).getTime() / 1000,
-            culture_pus: parseInt(this.getDefaultValue(that.data.szjnIndex)),
-            pathology: parseInt(this.getDefaultValue(that.data.blIndex)),
-            intrao_le_testpaper_stoste: parseInt(this.getDefaultValue(that.data.szLEIndex)),
-            intrao_le_testpaper_pic: JSON.stringify(lePic),
-            intrao_le_testpaper_centrifugal: parseInt(this.getDefaultValue(that.data.szLEAfterIndex)),
-            intrao_le_testpaper_centr_pic: JSON.stringify(leCentrPic),
-            intrao_joint_fluid_leukocyte: parseFloat(this.getDefaultValue(that.data.szgjybxb)),
-            intrao_neutrophils_percent: parseFloat(this.getDefaultValue(that.data.szgjyzxl)),
-            culture_result1: that.data.szzz1,
-            culture_result2: that.data.szzz2,
-            culture_result3: that.data.szzz3,
-            culture_result4: that.data.szzz4,
-            culture_result5: that.data.szzz5,
-            intrao_aerobic_culture_result: that.data.szxy,
-            intrao_anaerobic_culture_result: that.data.szyy,
-            culture_ngs_result: that.data.szgjymNGS,
-            tissue_ngs_result: that.data.zznMGSResult,
-            ultrasonic_degradation_ngs_result: that.data.csljy,
-            msis: parseInt(this.getDefaultValue(that.data.msisIndex)),
-            final_disposal: parseInt(this.getDefaultValue(that.data.zzclIndex)),
-        }
-        console.log("入院后：" + JSON.stringify(jsonData))
-        return JSON.stringify(jsonData)
-    },
-
     isBasicValueRight() {
         if (this.data.name.length <= 0) {
             this.showToast("请填写姓名")
@@ -1856,8 +1647,8 @@ Page({
             this.showToast("请填写联系电话1")
             return false;
         }
-        if (this.data.type == 0) {
-            this.showToast("请选择类型")
+        if (!this.data.tel2Disabled && this.data.tel2.length == 0) {
+            this.showToast("请填写联系电话2")
             return false;
         }
         if (this.data.qtbsjb.length <= 0) {
@@ -1868,120 +1659,333 @@ Page({
             this.showToast("请填写简要病史")
             return false;
         }
-        if (!this.data.tel2Disabled && this.data.tel2.length == 0) {
-            this.showToast("请填写联系电话2")
-            return false;
-        }
 
         return true;
     },
-    isAdmissionValueRight() {
-        if (this.data.doudaoIndex == 0) {
-            this.showToast("请选择与假体相通的窦道")
+
+    makeBasicData() {
+        let that = this;
+        var jsonData = {
+            center_id: that.data.centerId,
+            patient_name: that.data.name,
+            case_no: that.data.caseNO,
+            create_time: new Date(that.data.createDate).getTime() / 1000,
+            sex: that.data.sex,
+            age: parseInt(that.data.age),
+            height: parseFloat(that.data.height),
+            weight: parseFloat(that.data.weight),
+            bmi: parseFloat(that.data.bmi),
+            pro_doctor: that.data.chiefDoc,
+            telphone1: that.data.tel1,
+            telphone2: that.data.tel2,
+
+            other_concomitant_diseases: that.data.qtbsjb,
+            medical_history: that.data.jybs,
+        }
+        console.log("基本信息：" + JSON.stringify(jsonData))
+        return JSON.stringify(jsonData)
+    },
+
+    submitLeft() {
+        if (!this.isLeftValueRight()) {
+            return
+        }
+
+        let that = this;
+        that.showLoading();
+
+        wx.request({
+            url: constant.basePath,
+            data: {
+                service: 'Case.CreateEditLeftRight',
+                case_id: that.data.caseId,
+                openid: app.globalData.openid,
+                json_data: that.makeLeftData(),
+                side: "1"
+            },
+            header: {
+                'content-type': 'application/json'
+            },
+            success(res) {
+                console.log("Case.CreateEditLeftRight:" + JSON.stringify(res))
+                that.hideLoading();
+                if (res.data.data.code == 0) {
+                    that.showToast("提交成功")
+                    var args = {
+                        currentTarget: {
+                            dataset: {
+                                id: 2
+                            }
+                        }
+                    }
+                    that.tabSelect(args)
+                } else {
+                    that.showModal("ErrModal", res.data.data.msg);
+                }
+            },
+            fail(res) {
+                that.hideLoading();
+            }
+        });
+    },
+
+    isLeftValueRight() {
+        if (!this.data.symptomDisabled && this.data.symptomDateValue == '请选择') {
+            this.showToast("请选择症状出现时长")
             return false;
         }
-        if (this.data.sqesr.length <= 0) {
-            this.showToast("请填写术前ESR")
+        // if (!this.data.sszlDisabled && this.data.sszlIndex == 0) {
+        //     this.showToast("请选择首诊治疗情况")
+        //     return false;
+        // }
+        if (!this.data.leixingDisabled && this.data.leixingIndex == 0) {
+            this.showToast("请选择类型")
             return false;
         }
-        if (this.data.sqcrp.length <= 0) {
-            this.showToast("请填写术前CRP")
+        if (!this.data.liyouDisabled && this.data.liyou.length == 0) {
+            this.showToast("请填写理由")
             return false;
         }
-        if (!this.data.il6Disabled && this.data.il6.length == 0) {
-            this.showToast("请填写IL-6")
+        if (this.data.arcoIndex == 0) {
+            this.showToast("请选择ARCO分期")
             return false;
         }
-        if (!this.data.xwdbyDisabled && this.data.xwdby.length == 0) {
-            this.showToast("请填写纤维蛋白原")
+        if (this.data.arcoIndex == 0) {
+            this.showToast("请选择ARCO分期")
             return false;
         }
-        if (!this.data.ddimerDisabled && this.data.ddimer.length == 0) {
-            this.showToast("请填写D-dimer")
+        if (this.data.harris.length == 0) {
+            this.showToast("请输入Harris评分")
             return false;
         }
-        if (!this.data.ssDateDisabled && this.data.shoushuDate == "请选择日期") {
-            this.showToast("请选择手术日期")
+        if (this.data.vasIndex == 0) {
+            this.showToast("请选择VAS疼痛评分")
             return false;
         }
-        if (!this.data.szjnDisabled && this.data.szjnIndex == 0) {
-            this.showToast("请选择术中见脓")
+        if (this.data.xleftIndex == 0) {
+            this.showToast("请选择典型X光(左)")
             return false;
         }
-        if (!this.data.blDisabled && this.data.blIndex == 0) {
-            this.showToast("请选择病理")
+        if (this.data.ctLeftIndex == 0) {
+            this.showToast("请选择典型CT(左)")
             return false;
         }
-        if (!this.data.szLEDisabled && this.data.szLEIndex == 0) {
-            this.showToast("请选择术中LE试纸(原液)")
+        if (this.data.mriLeftIndex == 0) {
+            this.showToast("请选择典型MRI(左)")
             return false;
         }
-        if (!this.data.szLEAfterDisabled && this.data.szLEAfterIndex == 0) {
-            this.showToast("请选择术中LE试纸(离心后)")
+        if (!this.data.bczlDisabled && this.data.bczlIndex == 0) {
+            this.showToast("请选择本次治疗方案")
             return false;
         }
-        if (!this.data.szgjybxbDisabled && this.data.szgjybxb.length == 0) {
-            this.showToast("请填写术中关节液白细胞计数")
+        if (!this.data.jtzlDisabled && this.data.jtzl.length == 0) {
+            this.showToast("请填写具体治疗措施")
             return false;
         }
-        if (!this.data.szgjyzxlDisabled && this.data.szgjyzxl.length == 0) {
-            this.showToast("请填写术中关节液中性粒细胞百分比")
+        if (this.data.beizhu.length == 0) {
+            this.showToast("请填写特殊事项备注")
             return false;
         }
-        if (!this.data.szzz1Disabled && this.data.szzz1.length == 0) {
-            this.showToast("请填写术中组织培养结果1")
+
+        return true
+    },
+
+    makeLeftData() {
+        let that = this
+        var jsonData = {
+            case_id: that.data.caseId,
+            type: "1",
+            // 症状出现时长
+            duration_symptoms: parseInt(that.data.symptomDateMultiIndex[2]),
+            // 症状出现时长单位。1天，2月(必填项)
+            duration_symptoms_unit: parseInt(that.data.symptomDateMultiIndex[1]),
+            // 首诊前治疗情况
+            sszl: parseInt(that.data.sszlIndex) + 1,
+            // 类型
+            leixing: that.data.leixingIndex,
+            // 理由
+            liyou: that.data.liyou,
+            // ARCO
+            arco: that.data.arcoIndex,
+            // Harris
+            harris: that.data.harris,
+            harris_pics: that.makePicJson(that.data.harrisImgArr),
+            // VAS
+            vas: that.data.vasIndex,
+            vas_pics: that.makePicJson(that.data.vasImgArr),
+            // x-ray
+            x_ispai: that.data.xleftIndex,
+            x_pic: that.makePicJson(that.data.xleftImgArr),
+            // CT
+            ct_ispai: that.data.ctLeftIndex,
+            ct_pic: that.makePicJson(that.data.ctLeftImgArr),
+            // MRI
+            mri_ispai: that.datt.mriLeftIndex,
+            mri_pic: that.makePicJson(that.data.mriLeftImgArr),
+            // 本次治疗方案
+            bczl: that.data.bczlIndex,
+            // 具体治疗措施
+            jtzl: that.data.jtzl
+            // le_testpaper_stoste: parseInt(this.getDefaultValue(that.data.leIndex)),
+            // le_testpaper_pic: JSON.stringify(lePic),
+            // le_testpaper_centrifugal: parseInt(this.getDefaultValue(that.data.leAfterIndex)),
+            // le_testpaper_centr_pic: JSON.stringify(leCentrPic),
+            // joint_fluid_leukocyte: parseInt(this.getDefaultValue(that.data.gjybxb)),
+            // neutrophils_percent: parseFloat(this.getDefaultValue(that.data.gjyzx)),
+
+        }
+        console.log("左侧" + JSON.stringify(jsonData))
+        return JSON.stringify(jsonData)
+    },
+
+    makePicJson(picArr) {
+        let picArrStr;
+        if (picArr && picArr.length > 0) {
+            picArr.forEach(function(item) {
+                picArrStr += item.pic + ","
+            })
+        }
+
+        return picArrStr;
+    },
+
+    getDefaultValue(value) {
+        return value.length == 0 ? 0 : value
+    },
+
+    // 右侧
+    submitRight() {
+        if (!this.isRightValueRight()) {
+            return;
+        }
+        let that = this;
+        that.showLoading();
+        wx.request({
+            url: constant.basePath,
+            data: {
+                service: 'Case.CreateEditLeftRight',
+                case_id: that.data.caseId,
+                openid: app.globalData.openid,
+                json_data: that.makeRightData(),
+                side: "2"
+            },
+            header: {
+                'content-type': 'application/json'
+            },
+            success(res) {
+                console.log("Case.CreateEditLeftRight:" + JSON.stringify(res))
+                that.hideLoading();
+                if (res.data.data.code == 0) {
+                    that.showToast("提交成功")
+                    that.reloadPrePage()
+                    wx.navigateBack({
+                        delta: 1
+                    })
+                } else {
+                    that.showModal("ErrModal", res.data.data.msg);
+                }
+            },
+            fail(res) {
+                that.hideLoading();
+            }
+        });
+    },
+    makeRightData() {
+        let that = this
+        var jsonData = {
+            case_id: that.data.caseId,
+            type: "2",
+            // 症状出现时长
+            duration_symptoms: parseInt(that.data.symptomDateMultiIndex_R[2]),
+            // 症状出现时长单位。1天，2月(必填项)
+            duration_symptoms_unit: parseInt(that.data.symptomDateMultiIndex_R[1]),
+            // 首诊前治疗情况
+            sszl: parseInt(that.data.sszlIndex_R) + 1,
+            // 类型
+            leixing: that.data.leixingIndex_R,
+            // 理由
+            liyou: that.data.liyou_R,
+            // ARCO
+            arco: that.data.arcoIndex_R,
+            // Harris
+            harris: that.data.harris_R,
+            harris_pics: that.makePicJson(that.data.harrisImgArr_R),
+            // VAS
+            vas: that.data.vasIndex_R,
+            vas_pics: that.makePicJson(that.data.vasImgArr_R),
+            // x-ray
+            x_ispai: that.data.xleftIndex_R,
+            x_pic: that.makePicJson(that.data.xleftImgArr_R),
+            // CT
+            ct_ispai: that.data.ctLeftIndex_R,
+            ct_pic: that.makePicJson(that.data.ctLeftImgArr_R),
+            // MRI
+            mri_ispai: that.datt.mriLeftIndex_R,
+            mri_pic: that.makePicJson(that.data.mriLeftImgArr_R),
+            // 本次治疗方案
+            bczl: that.data.bczlIndex_R,
+            // 具体治疗措施
+            jtzl: that.data.jtzl_R
+        }
+        console.log("右侧" + JSON.stringify(jsonData))
+        return JSON.stringify(jsonData)
+    },
+
+    isRightValueRight() {
+        if (!this.data.symptomDisabled_R && this.data.symptomDateValue_R == '请选择') {
+            this.showToast("请选择症状出现时长")
             return false;
         }
-        if (!this.data.szzz2Disabled && this.data.szzz2.length == 0) {
-            this.showToast("请填写术中组织培养结果2")
+        // if (!this.data.sszlDisabled_R && this.data.sszlIndex_R == 0) {
+        //     this.showToast("请选择首诊治疗情况")
+        //     return false;
+        // }
+        if (!this.data.leixingDisabled_R && this.data.leixingIndex_R == 0) {
+            this.showToast("请选择类型")
             return false;
         }
-        if (!this.data.szzz3Disabled && this.data.szzz3.length == 0) {
-            this.showToast("请填写术中组织培养结果3")
+        if (!this.data.liyouDisabled_R && this.data.liyou_R.length == 0) {
+            this.showToast("请填写理由")
             return false;
         }
-        if (!this.data.szzz4Disabled && this.data.szzz4.length == 0) {
-            this.showToast("请填写术中组织培养结果4")
+        if (this.data.arcoIndex_R == 0) {
+            this.showToast("请选择ARCO分期")
             return false;
         }
-        if (!this.data.szzz5Disabled && this.data.szzz5.length == 0) {
-            this.showToast("请填写术中组织培养结果5")
+        if (this.data.arcoIndex_R == 0) {
+            this.showToast("请选择ARCO分期")
             return false;
         }
-        if (!this.data.szxyDisabled && this.data.szxy.length == 0) {
-            this.showToast("请填写术中关节液需氧+真菌培养结果")
+        if (this.data.harris_R.length == 0) {
+            this.showToast("请输入Harris评分")
             return false;
         }
-        if (!this.data.szyyDisabled && this.data.szyy.length == 0) {
-            this.showToast("请填写术中关节液厌氧培养结果")
+        if (this.data.vasIndex_R == 0) {
+            this.showToast("请选择VAS疼痛评分")
             return false;
         }
-        if (!this.data.szgjymNGSDisabled && this.data.szgjymNGS.length == 0) {
-            this.showToast("请填写术中关节液mNGS培养结果")
+        if (this.data.xleftIndex_R == 0) {
+            this.showToast("请选择典型X光(左)")
             return false;
         }
-        if (!this.data.szzzmNGSDisabled && this.data.szzzmNGS.length == 0) {
-            this.showToast("请填写术中组织mNGS培养结果")
+        if (this.data.ctLeftIndex_R == 0) {
+            this.showToast("请选择典型CT(左)")
             return false;
         }
-        if (!this.data.csljymNGSDisabled && this.data.csljymNGS.length == 0) {
-            this.showToast("请填写超声裂解液mNGS培养结果")
+        if (this.data.mriLeftIndex_R == 0) {
+            this.showToast("请选择典型MRI(左)")
             return false;
         }
-        if (!this.data.zznMGSResultDisabled && this.data.zznMGSResult.length == 0) {
-            this.showToast("请填写组织mNGS结果")
+        if (!this.data.bczlDisabled_R && this.data.bczlIndex_R == 0) {
+            this.showToast("请选择本次治疗方案")
             return false;
         }
-        if (!this.data.csljyDisabled && this.data.csljy.length == 0) {
-            this.showToast("请填写超声裂解液mNGS结果")
+        if (!this.data.jtzlDisabled_R && this.data.jtzl_R.length == 0) {
+            this.showToast("请填写具体治疗措施")
             return false;
         }
-        if (this.data.msisIndex <= 0) {
-            this.showToast("请选择MSIS最终判定")
-            return false;
-        }
-        if (this.data.zzclIndex <= 0) {
-            this.showToast("请选择最终处理")
+        if (this.data.beizhu_R.length == 0) {
+            this.showToast("请填写特殊事项备注")
             return false;
         }
 
@@ -1992,9 +1996,9 @@ Page({
         if (this.data.ShowBasic) { // 基本信息
             this.verifyBasic()
         } else if (this.data.ShowDiagnose) { // 左侧
-            this.verifyDiagnose()
+            this.verifyLeft()
         } else if (this.data.ShowAdmission) { // 右侧
-            this.verifyAdmission()
+            this.verifyRight()
         }
     },
 
@@ -2030,7 +2034,7 @@ Page({
             }
         });
     },
-    verifyDiagnose() {
+    verifyLeft() {
         let that = this;
         that.showLoading();
         wx.request({
@@ -2061,7 +2065,7 @@ Page({
             }
         });
     },
-    verifyAdmission() {
+    verifyRight() {
         let that = this;
         that.showLoading();
         wx.request({

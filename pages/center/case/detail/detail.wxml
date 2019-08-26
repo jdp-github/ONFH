@@ -47,6 +47,7 @@
 </view>
 <scroll-view scroll-y class="indexes" scroll-into-view="indexes-{{listCurID}}" style='padding-top: 100rpx;height:100%' scroll-with-animation="true" enable-back-to-top="true">
     <view class="VerticalBox" style="height: 100%;">
+        <!-- 左侧菜单 -->
         <scroll-view class="VerticalNav nav" scroll-y scroll-with-animation scroll-top="{{VerticalNavTop}}" style="height:100%">
             <view class="cu-item {{index==TabCur?'text-green cur':''}}" style="font-size: 22rpx" wx:for="{{TabTitle}}" wx:key bindtap='tabSelect' data-id="{{index}}">
                 {{item}}
@@ -260,16 +261,21 @@
                             <input placeholder="请输入文字" class='radius ' bindinput="onJtzlInput" value='{{jtzl}}' disabled='{{jtzlDisabled}}'></input>
                             <switch class='green sm ' bindchange="onJtzlSwitchChange" checked='{{!jtzlDisabled}}'></switch>
                         </view>
+                        <!-- 特殊事项备注 -->
+                        <view class="cu-form-group">
+                            <view class='title'>特殊事项备注</view>
+                            <input placeholder="请输入文字" class='radius ' bindinput="onBeizhuInput" value='{{beizhu}}'></input>
+                        </view>
                     </view>
                 </view>
             </view>
             <!-- 底部按钮 -->
-            <view class="btn-block bg-white shadow" hidden='{{isLook}} '>
+            <view class="btn-block bg-white shadow" hidden='{{isLook}}'>
                 <view class="flex margin-special">
-                    <button class='cu-btn line-green shadow ' style="margin-right: 15rpx;" form-type="submit" bindtap='submit ' disabled='{{caseInfo.puncture.puncture_submit_button==0 }} '>
+                    <button class='cu-btn line-green shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.puncture.puncture_submit_button==0 }}'>
                         提交录入
                     </button>
-                    <button class='cu-btn bg-green shadow ' style="margin-left: 15rpx;" form-type="submit" bindtap='verify ' disabled='{{isCreateCase || caseInfo.approve_button==2 }} '>
+                    <button class='cu-btn bg-green shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button==2 }}'>
                         {{caseInfo.puncture.puncture_state != 2 ?"确认审核":"解除锁定"}}
                     </button>
                 </view>
@@ -282,250 +288,133 @@
                     <view class='action '>
                         <text class='icon-title text-green '></text>右侧</view>
                 </view>
+                <!-- item -->
                 <view class="cu-list menu menu-avatar">
                     <view class="cu-item-special">
-                        <!-- 与假体相通的窦道 -->
+                        <!-- 症状出现时长 -->
+                        <view class="cu-form-group {{symptomDisabled_R?'disabled':''}}" bindtap="defaultSymptomDate_R">
+                            <view class='title'>症状出现时长</view>
+                            <picker mode="multiSelector" disabled='{{symptomDisabled_R}}' bindchange="symptomDateChange_R" bindcolumnchange="symptomDateColumnChange_R" value="{{symptomDateMultiIndex_R}}" range="{{symptomDateMultiArray_R}}">
+                                <view class="picker">
+                                    {{symptomDateValue_R?symptomDateValue_R:'请选择'}}
+                                </view>
+                            </picker>
+                            <switch class='green sm ' bindchange="onSymptomSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!symptomDisabled_R}}'></switch>
+                        </view>
+                        <!-- 首诊治疗情况 -->
+                        <view class="cu-form-group {{sszlDisabled_R?'disabled':''}}">
+                            <view class='title'>首诊治疗情况</view>
+                            <picker bindchange="onSzzlChange_R" value="{{sszlIndex_R}}" range="{{sszlPicker_R}}" disabled='{{sszlDisabled_R}}'>
+                                <view class="picker">
+                                    {{sszlPicker_R[sszlIndex_R]}}
+                                </view>
+                            </picker>
+                            <switch class=' green sm' bindchange="onSzzlSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sszlDisabled_R}}'></switch>
+                        </view>
+                        <!-- 类型 -->
+                        <view class="cu-form-group {{leixingDisabled_R?'disabled ':' '}}">
+                            <view class='title '>类型</view>
+                            <picker bindchange="onLeixingChange_R" value="{{leixingIndex_R}}" range="{{leixingPicker_R}}" disabled='{{leixingDisabled_R}}'>
+                                <view class="picker">
+                                    {{leixingPicker_R[leixingIndex_R]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm' bindchange="onLeixingSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!leixingDisabled_R}}'></switch>
+                        </view>
+                        <!-- 理由 -->
+                        <view class="cu-form-group {{liyouDisabled_R?'disabled':''}}">
+                            <view style='display:flex;flex-direction: column; '>
+                                <view class='title' style='text-align:left'>理由</view>
+                                <input placeholder="请输入文字" class='radius' style='width: 350rpx;text-align:left;' bindinput="onLiyouInput_R" value='{{liyou_R}}' disabled='{{liyouDisabled_R}}'></input>
+                            </view>
+                            <switch class=' green sm ' bindchange="onLiyouSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!liyouDisabled_R}}'></switch>
+                        </view>
+                        <!-- ARCO分期 -->
                         <view class="cu-form-group">
-                            <view class='title '>与假体相通的窦道</view>
-                            <picker bindchange="onDoudaoChange" value="{{doudaoIndex}}" range="{{doudaoPicker}}">
+                            <view class='title '>ARCO分期</view>
+                            <picker bindchange="onArcoChange_R" value="{{arcoIndex_R}}" range="{{arcoPicker_R}}">
                                 <view class="picker">
-                                    {{doudaoPicker[doudaoIndex]}}
+                                    {{arcoPicker_R[arcoIndex_R]}}
                                 </view>
                             </picker>
                         </view>
-                        <!-- 术前ESR (mm/h) -->
+                        <!-- Harris评分 -->
                         <view class="cu-form-group">
-                            <view class='title '>术前ESR(mm/h)</view>
-                            <input placeholder="请输入数字" class='radius ' name='input ' type="number" value="{{sqesr}}" bindinput="onSqesrChange"></input>
+                            <view class='title '>Harris评分</view>
+                            <input placeholder="请输入数字" class='radius ' bindinput="onHarrisInput_R" value="{{harris_R}}"></input>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx;' bindtap="showModal" data-target="threeImgModal" data-imgtype="Harris_R">上传图片</button>
                         </view>
-                        <!-- 术前CRP (mg/dl)-->
+                        <!-- VAS疼痛评分 -->
                         <view class="cu-form-group">
-                            <view class='title '>术前CRP(mg/dl)</view>
-                            <input placeholder="请输入数字，注意单位换算" class='radius ' name='input ' type="digit" value="{{sqcrp}}" bindinput="onSqcrpChange"></input>
-                        </view>
-                        <!-- 标准化的CRP (mg/L) -->
-                        <view class="cu-form-group disabled">
-                            <view class='title '>标准化的CRP(mg/L)</view>
-                            <input class='radius ' placeholder='默认生成，术前CRP乘10 ' name='input ' type="number" value="{{bzhcrp}}" disabled='true '></input>
-                        </view>
-                        <!-- IL-6 (pg/ml) -->
-                        <view class="cu-form-group {{il6Disabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>IL-6(pg/ml)</view>
-                                <input placeholder="请输入数字，未测请点右侧" class='radius ' disabled='{{il6Disabled}} ' type="digit" style='width: 350rpx;text-align:left; ' bindinput="onIl6Change" value='{{il6}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onIl6SwitchChange" style='margin-left: 15rpx; ' checked='{{!il6Disabled}} '></switch>
-                        </view>
-                        <!-- 纤维蛋白原 (μg/ml) -->
-                        <view class="cu-form-group {{xwdbyDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>纤维蛋白原(μg/ml)</view>
-                                <input placeholder="请输入数字，未测请点右侧" class='radius ' disabled='{{xwdbyDisabled}} ' type="digit" style='width: 350rpx;text-align:left; ' bindinput="onXwdbyChange" value='{{xwdby}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onXwdbySwitchChange" style='margin-left: 15rpx; ' checked='{{!xwdbyDisabled}} '></switch>
-                        </view>
-                        <!-- D-dimer (μg/ml) -->
-                        <view class="cu-form-group {{ddimerDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>D-dimer(μg/ml)</view>
-                                <input placeholder="请输入数字，未测请点右侧" class='radius ' disabled='{{ddimerDisabled}} ' type="digit" style='width: 350rpx;text-align:left; ' bindinput="onDdimerChange" value='{{ddimer}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onDdimerSwitchChange" style='margin-left: 15rpx; ' checked='{{!ddimerDisabled}} '></switch>
-                        </view>
-                        <!-- 手术日期 -->
-                        <view class="cu-form-group  {{ssDateDisabled?'disabled ':' '}}">
-                            <view class='title '>手术日期</view>
-                            <picker mode="date" value="{{shoushuDate}}" start="2015-01-01" end="2025-01-01" bindchange="onShoushuDateChange" disabled='{{ssDateDisabled}} '>
+                            <view class='title '>VAS疼痛评分</view>
+                            <picker bindchange="onVASChange_R" value="{{vasIndex_R}}" range="{{vasPicker_R}}">
                                 <view class="picker">
-                                    {{shoushuDate}}
+                                    {{vasPicker_R[vasIndex_R]}}
                                 </view>
                             </picker>
-                            <switch class='green sm ' bindchange="onShoushuSwitchChange" style='margin-left: 15rpx; ' checked='{{!ssDateDisabled}} '></switch>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx; ' bindtap="showModal" data-target="threeImgModal" data-imgtype="VAS_R">上传图片</button>
                         </view>
-                        <!-- 术中见脓 -->
-                        <view class="cu-form-group {{szjnDisabled?'disabled ':' '}}">
-                            <view class='title '>术中见脓</view>
-                            <picker bindchange="onSzjnChange" value="{{szjnIndex}}" range="{{szjnPicker}}" disabled='{{szjnDisabled}} '>
-                                <view class="picker">
-                                    {{szjnPicker[szjnIndex]}}
-                                </view>
-                            </picker>
-                            <switch class='green sm ' bindchange="onSzjnSwitchChange" style='margin-left: 15rpx; ' checked='{{!szjnDisabled}} '></switch>
-                        </view>
-                        <!-- 病理 -->
-                        <view class="cu-form-group {{blDisabled?'disabled ':' '}}">
-                            <view class='title '>病理</view>
-                            <picker bindchange="onBlChange" value="{{blIndex}}" range="{{blPicker}}" disabled='{{blDisabled}} '>
-                                <view class="picker">
-                                    {{blPicker[blIndex]}}
-                                </view>
-                            </picker>
-                            <switch class='green sm ' bindchange="onBlSwitchChange" style='margin-left: 15rpx; ' checked='{{!blDisabled}} '></switch>
-                        </view>
-                        <!-- 术中LE试纸（原液） -->
-                        <view class="cu-form-group {{szLEDisabled?'disabled ':' '}}">
-                            <view class='title '>术中LE试纸(原液)</view>
-                            <picker bindchange="onSZLEChange" value="{{szLEIndex}}" range="{{szLEPicker}}" disabled='{{szLEDisabled}} '>
-                                <view class="picker">
-                                    {{szLEPicker[szLEIndex]}}
-                                </view>
-                            </picker>
-                            <button class='cu-btn round sm ' style='margin-left: 15rpx; ' disabled='{{szLEDisabled}} ' bindtap="showModal" data-target="LESecondDrawerModalR">上传图片</button>
-                            <switch class='green sm ' bindchange="onSZLESwitchChange" style='margin-left: 15rpx; ' checked='{{!szLEDisabled}} '></switch>
-                        </view>
-                        <!--术中LE试纸（离心后） -->
-                        <view class="cu-form-group {{szLEAfterDisabled?'disabled ':' '}}">
-                            <view class='title '>术中LE试纸(离心后)</view>
-                            <picker bindchange="onSZLEAfterChange" value="{{szLEAfterIndex}}" range="{{szLEAfterPicker}}" disabled='{{szLEAfterDisabled}} '>
-                                <view class="picker">
-                                    {{szLEAfterPicker[szLEAfterIndex]}}
-                                </view>
-                            </picker>
-                            <button class='cu-btn round sm ' style='margin-left: 15rpx; ' disabled='{{szLEAfterDisabled}} ' bindtap="showModal" data-target="LESecondAfterDrawerModalR">上传图片</button>
-                            <switch class='green sm ' bindchange="onSZLEAfterSwitchChange" style='margin-left: 15rpx; ' checked='{{!szLEAfterDisabled}} '></switch>
-                        </view>
-                        <!-- 术中关节液白细胞计数（cells/μL） -->
-                        <view class="cu-form-group {{szgjybxbDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中关节液白细胞计数(cells/μL)</view>
-                                <input placeholder="请输入数字，请注意单位换算" class='radius ' style='width: 350rpx;text-align:left; ' type='number ' bindinput="onSzgjybxbInput" disabled='{{szgjybxbDisabled}} ' value='{{szgjybxb}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzgjybxbSwitchChange" style='margin-left: 15rpx; ' checked='{{!szgjybxbDisabled}} '></switch>
-                        </view>
-                        <!-- 术中关节液中性粒细胞百分比（0.01） -->
-                        <view class="cu-form-group {{szgjyzxlDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中关节液中性粒细胞百分比(0.01)</view>
-                                <input placeholder="请输入数字，请注意格式，保留小数点2位" class='radius ' style='width: 350rpx;text-align:left; ' type='digit ' bindinput="onSzgjyzxlInput" disabled='{{szgjyzxlDisabled}} ' value='{{szgjyzxl}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzgjyzxlSwitchChange" style='margin-left: 15rpx; ' checked='{{!szgjyzxlDisabled}} '></switch>
-                        </view>
-                        <!-- 术中组织培养结果1 -->
-                        <view class="cu-form-group {{szzz1Disabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中组织培养结果1</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onSzzz1Input" disabled='{{szzz1Disabled}} ' value='{{szzz1}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzzz1SwitchChange" style='margin-left: 15rpx; ' checked='{{!szzz1Disabled}} '></switch>
-                        </view>
-                        <!-- 术中组织培养结果2 -->
-                        <view class="cu-form-group {{szzz2Disabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中组织培养结果2</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onSzzz2Input" disabled='{{szzz2Disabled}} ' value='{{szzz2}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzzz2SwitchChange" style='margin-left: 15rpx; ' checked='{{!szzz2Disabled}} '></switch>
-                        </view>
-                        <!-- 术中组织培养结果3 -->
-                        <view class="cu-form-group {{szzz3Disabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中组织培养结果3</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onSzzz3Input" disabled='{{szzz3Disabled}} ' value='{{szzz3}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzzz3SwitchChange" style='margin-left: 15rpx; ' checked='{{!szzz3Disabled}} '></switch>
-                        </view>
-                        <!-- 术中组织培养结果4 -->
-                        <view class="cu-form-group {{szzz4Disabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中组织培养结果4</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onSzzz4Input" disabled='{{szzz4Disabled}} ' value='{{szzz4}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzzz4SwitchChange" style='margin-left: 15rpx; ' checked='{{!szzz4Disabled}} '></switch>
-                        </view>
-                        <!-- 术中组织培养结果5 -->
-                        <view class="cu-form-group {{szzz5Disabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中组织培养结果5</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onSzzz5Input" disabled='{{szzz5Disabled}} ' value='{{szzz5}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzzz5SwitchChange" style='margin-left: 15rpx; ' checked='{{!szzz5Disabled}} '></switch>
-                        </view>
-                        <!-- 术中关节液需氧+真菌培养结果 -->
-                        <view class="cu-form-group {{szxyDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中关节液需氧+真菌培养结果</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onSzxyInput" disabled='{{szxyDisabled}} ' value='{{szxy}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzxySwitchChange" style='margin-left: 15rpx; ' checked='{{!szxyDisabled}} '></switch>
-                        </view>
-                        <!-- 术中关节液厌氧培养结果 -->
-                        <view class="cu-form-group {{szyyDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中关节液厌氧培养结果</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onSzyyInput" disabled='{{szyyDisabled}} ' value='{{szyy}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzyySwitchChange" style='margin-left: 15rpx; ' checked='{{!szyyDisabled}} '></switch>
-                        </view>
-                        <!-- 术中关节液mNGS培养结果 -->
-                        <view class="cu-form-group {{szgjymNGSDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中关节液mNGS培养结果</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onSzgjymNGSInput" disabled='{{szgjymNGSDisabled}} ' value='{{szgjymNGS}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzgjymNGSSwitchChange" style='margin-left: 15rpx; ' checked='{{!szgjymNGSDisabled}} '></switch>
-                        </view>
-                        <!-- 术中组织mNGS培养结果 -->
-                        <view class="cu-form-group {{szzzmNGSDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>术中组织mNGS培养结果</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onSzzzmNGSInput" disabled='{{szzzmNGSDisabled}} ' value='{{szzzmNGS}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onSzzzmNGSSwitchChange" style='margin-left: 15rpx; ' checked='{{!szzzmNGSDisabled}} '></switch>
-                        </view>
-                        <!-- 超声裂解液mNGS培养结果 -->
-                        <view class="cu-form-group {{csljymNGSDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>超声裂解液mNGS培养结果</view>
-                                <input placeholder="请输入培养结果，不适用请点击右侧" class='radius ' style='width: 350rpx;text-align:left; ' bindinput="onCsljymNGSInput" disabled='{{csljymNGSDisabled}} ' value='{{csljymNGS}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onCsljymNGSSwitchChange" style='margin-left: 15rpx; ' checked='{{!csljymNGSDisabled}} '></switch>
-                        </view>
-                        <!-- 组织mNGS结果 -->
-                        <view class="cu-form-group {{zznMGSResultDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>组织mNGS结果</view>
-                                <input placeholder="请输入数字，请注意单位换算" class='radius ' style='width: 350rpx;text-align:left; ' type='number ' bindinput="onZznMGSResultInput" disabled='{{zznMGSResultDisabled}} ' value='{{zznMGSResult}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onZznMGSResultSwitchChange" style='margin-left: 15rpx; ' checked='{{!zznMGSResultDisabled}} '></switch>
-                        </view>
-                        <!-- 超声裂解液mNGS结果 -->
-                        <view class="cu-form-group {{csljyDisabled?'disabled ':' '}}">
-                            <view style='display:flex;flex-direction: column; '>
-                                <view class='title ' style='text-align:left '>超声裂解液mNGS结果</view>
-                                <input placeholder="请输入数字，请注意单位换算" class='radius ' style='width: 350rpx;text-align:left; ' type='number ' bindinput="onCsljyInput" disabled='{{csljyDisabled}} ' value='{{csljy}} '></input>
-                            </view>
-                            <switch class='green sm ' bindchange="onCsljySwitchChange" style='margin-left: 15rpx; ' checked='{{!csljyDisabled}} '></switch>
-                        </view>
-                        <!-- MSIS最终判定 -->
+                        <!-- 典型X光（右） -->
                         <view class="cu-form-group">
-                            <view class='title '>MSIS最终判定</view>
-                            <picker bindchange="onMsisChange" value="{{msisIndex}}" range="{{msisPicker}}">
+                            <view class='title '>典型X光（右）</view>
+                            <picker bindchange="onXLeftChange_R" value="{{xleftIndex_R}}" range="{{xleftPicker_R}}">
                                 <view class="picker">
-                                    {{msisPicker[msisIndex]}}
+                                    {{xleftPicker_R[xleftIndex_R]}}
                                 </view>
                             </picker>
-                            <!-- <switch class='green sm ' bindchange="onMsisSwitchChange" style='margin-left: 15rpx; ' checked='{{!msisDisabled}} '></switch> -->
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx; ' bindtap="showModal" data-target="sixImgModal" data-imgtype="X-LEFT_R">上传图片</button>
                         </view>
-                        <!-- 最终处理 -->
+                        <!-- 典型CT（右） -->
                         <view class="cu-form-group">
-                            <view class='title '>最终处理</view>
-                            <picker bindchange="onZzclChange" value="{{zzclIndex}}" range="{{zzclPicker}}">
+                            <view class='title '>典型CT（右）</view>
+                            <picker bindchange="onCTLeftChange_R" value="{{ctLeftIndex_R}}" range="{{ctLeftPicker_R}}">
                                 <view class="picker">
-                                    {{zzclPicker[zzclIndex]}}
+                                    {{ctLeftPicker_R[ctLeftIndex_R]}}
                                 </view>
                             </picker>
-                            <!-- <switch class='green sm ' bindchange="onZzclSwitchChange" style='margin-left: 15rpx; ' checked='{{!zzclDisabled}} '></switch> -->
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx; ' bindtap="showModal" data-target="sixImgModal" data-imgtype="CT-LEFT_R">上传图片</button>
+                        </view>
+                        <!-- 典型MRI（右） -->
+                        <view class="cu-form-group">
+                            <view class='title '>典型MRI（右）</view>
+                            <picker bindchange="onMRILeftChange_R" value="{{mriLeftIndex_R}}" range="{{mriLeftPicker_R}}">
+                                <view class="picker">
+                                    {{mriLeftPicker_R[mriLeftIndex_R]}}
+                                </view>
+                            </picker>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx; ' bindtap="showModal" data-target="sixImgModal" data-imgtype="MRI-LEFT_R">上传图片</button>
+                        </view>
+                        <!-- 本次治疗方案 -->
+                        <view class="cu-form-group {{bczlDisabled_R?'disabled ':' '}}">
+                            <view class='title '>本次治疗方案</view>
+                            <picker bindchange="onBczlChange_R" value="{{bczlIndex_R}}" range="{{bczlPicker_R}}" disabled='{{bczlDisabled_R}}'>
+                                <view class="picker">
+                                    {{bczlPicker_R[bczlIndex_R]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm ' bindchange="onBczlSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!bczlDisabled_R}}'></switch>
+                        </view>
+                        <!-- 具体治疗措施 -->
+                        <view class="cu-form-group {{jtzlDisabled_R?'disabled ':' '}}">
+                            <view class='title '>具体治疗措施</view>
+                            <input placeholder="请输入文字" class='radius ' bindinput="onJtzlInput_R" value='{{jtzl_R}}' disabled='{{jtzlDisabled_R}}'></input>
+                            <switch class='green sm ' bindchange="onJtzlSwitchChange_R" checked='{{!jtzlDisabled_R}}'></switch>
+                        </view>
+                        <!-- 特殊事项备注 -->
+                        <view class="cu-form-group">
+                            <view class='title '>特殊事项备注</view>
+                            <input placeholder="请输入文字" class='radius ' bindinput="onBeizhuInput_R" value='{{beizhu_R}}'></input>
                         </view>
                     </view>
                 </view>
             </view>
             <!-- 底部按钮 -->
-            <view class="btn-block bg-white shadow" hidden='{{isLook}} '>
+            <view class="btn-block bg-white shadow" hidden='{{isLook}}'>
                 <view class="flex margin-special">
-                    <button class='cu-btn line-green shadow ' style="margin-right: 15rpx;" form-type="submit" bindtap='submit ' disabled='{{caseInfo.bein.bein_submit_button==0}} '>
+                    <button class='cu-btn line-green shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.bein.bein_submit_button==0}}'>
                         提交录入
                     </button>
-                    <button class='cu-btn bg-green shadow ' style="margin-left: 15rpx;" form-type="submit" bindtap='verify ' disabled='{{isCreateCase || caseInfo.approve_button==2 }} '>
+                    <button class='cu-btn bg-green shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button==2 }}'>
                         {{caseInfo.bein.bein_state != 2 ?"确认审核":"解除锁定"}}
                     </button>
                 </view>
@@ -538,13 +427,13 @@
     <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;">
         <view class="cu-bar bg-white solid-bottom">
             <view class='action ' style="font-size: 24rpx;">
-                <text class='icon-title text-green '></text>{{imageModalName}}
+                <text class='icon-title text-green'></text>{{imageModalName}}
             </view>
         </view>
         <view class="cu-form-group margin-top centerPlace">
             <view class="grid col-3 grid-square flex-sub centerPlace">
                 <view class="imageShow solids padding-xs" wx:if="{{pic1 !== ''}}">
-                    <image src="{{pic1}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic1}}" />
+                    <image src="{{pic1}}" mode='aspectFit' bindtap="showImageModal" data-img="{{pic1}}" />
                     <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="11">
                         删除
                     </button>
@@ -562,13 +451,13 @@
                     <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="12"></text>
                 </view>
                 <view class="imageShow solids padding-xs" wx:if="{{pic3 !== ''}}">
-                    <image src="{{pic3}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic3}}" />
-                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="13">
+                    <image src="{{pic3}}" mode='aspectFit' bindtap="showImageModal" data-img="{{pic3}}" />
+                    <button class='cu-btn bg-red shadow sm' bindtap="onRemovePic" data-le="13">
                         删除
                     </button>
                 </view>
                 <view class="padding-xs solids imageAdd" wx:if="{{pic3 == ''}}">
-                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="13"></text>
+                    <text class='icon-cameraadd' bindtap="onChooseImage" data-le="13"></text>
                 </view>
             </view>
         </view>
@@ -579,14 +468,14 @@
     <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;">
         <view class="cu-bar bg-white solid-bottom">
             <view class='action ' style="font-size: 24rpx;">
-                <text class='icon-title text-green '></text>{{imageModalName}}
+                <text class='icon-title text-green'></text>{{imageModalName}}
             </view>
         </view>
         <view class="cu-form-group margin-top centerPlace">
             <view class="grid col-3 grid-square flex-sub centerPlace">
                 <view class="imageShow solids padding-xs" wx:if="{{pic4 !== ''}}">
-                    <image src="{{pic4}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic4}}" />
-                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="21">
+                    <image src="{{pic4}}" mode='aspectFit' bindtap="showImageModal" data-img="{{pic4}}" />
+                    <button class='cu-btn bg-red shadow sm' bindtap="onRemovePic" data-le="21">
                         删除
                     </button>
                 </view>
