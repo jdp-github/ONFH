@@ -272,11 +272,11 @@
             <!-- 底部按钮 -->
             <view class="btn-block bg-white shadow" hidden='{{isLook}}'>
                 <view class="flex margin-special">
-                    <button class='cu-btn line-green shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.puncture.puncture_submit_button==0 }}'>
+                    <button class='cu-btn line-green shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.left.submit_button==0 }}'>
                         提交录入
                     </button>
                     <button class='cu-btn bg-green shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button==2 }}'>
-                        {{caseInfo.puncture.puncture_state != 2 ?"确认审核":"解除锁定"}}
+                        {{caseInfo.left.state != 2 ?"确认审核":"解除锁定"}}
                     </button>
                 </view>
             </view>
@@ -411,11 +411,11 @@
             <!-- 底部按钮 -->
             <view class="btn-block bg-white shadow" hidden='{{isLook}}'>
                 <view class="flex margin-special">
-                    <button class='cu-btn line-green shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.bein.bein_submit_button==0}}'>
+                    <button class='cu-btn line-green shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.right.submit_button==0}}'>
                         提交录入
                     </button>
                     <button class='cu-btn bg-green shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button==2 }}'>
-                        {{caseInfo.bein.bein_state != 2 ?"确认审核":"解除锁定"}}
+                        {{caseInfo.right.state != 2 ?"确认审核":"解除锁定"}}
                     </button>
                 </view>
             </view>
@@ -553,20 +553,20 @@
     <view class='gray-text '>处理中...</view>
 </view>
 <view class="load-curtain" wx:if="{{loadProgress!=0}}"></view>
-<view class="cu-modal {{modalName=='ErrModal '?'show ':' '}}">
+<view class="cu-modal {{modalName=='ErrModal'?'show':''}}">
     <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
-            <view class='content '>无法操作</view>
-            <view class='action ' bindtap='hideModal '>
-                <text class='icon-close text-red '></text>
+            <view class='content'>无法操作</view>
+            <view class='action' bindtap='hideModal'>
+                <text class='icon-close text-red'></text>
             </view>
         </view>
-        <view class='padding-xl '>
-            <view class='flex-sub text-center '>
-                <view class='solid-bottom text-sl padding '>
-                    <text class='icon-warnfill text-red '></text>
+        <view class='padding-xl'>
+            <view class='flex-sub text-center'>
+                <view class='solid-bottom text-sl padding'>
+                    <text class='icon-warnfill text-red'></text>
                 </view>
-                <view class='padding '>{{errMsg}}</view>
+                <view class='padding'>{{errMsg}}</view>
             </view>
         </view>
     </view>

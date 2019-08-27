@@ -222,9 +222,9 @@ Page({
                 });
                 if (!this.data.isCreateCase) {
                     this.setData({
-                        addAvatar: this.data.caseInfo.puncture.puncture_creator_avatar,
-                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.puncture.puncture_editor_list),
-                        approveAvatar: this.data.caseInfo.puncture.puncture_auditor_avatar,
+                        addAvatar: this.data.caseInfo.left.puncture_creator_avatar,
+                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.left.puncture_editor_list),
+                        approveAvatar: this.data.caseInfo.left.puncture_auditor_avatar,
                     })
                 }
                 break;
@@ -238,9 +238,9 @@ Page({
                 });
                 if (!this.data.isCreateCase) {
                     this.setData({
-                        addAvatar: this.data.caseInfo.bein.bein_creator_avatar,
-                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.bein.bein_editor_list),
-                        approveAvatar: this.data.caseInfo.bein.bein_auditor_avatar,
+                        addAvatar: this.data.caseInfo.right.bein_creator_avatar,
+                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.right.bein_editor_list),
+                        approveAvatar: this.data.caseInfo.right.bein_auditor_avatar,
                     })
                 }
                 break;
@@ -1488,7 +1488,6 @@ Page({
             caseInfo: info
         });
         // 基本信息
-        let tempSymptomsUnit = [0, parseInt(info.base.duration_symptoms_unit), parseInt(info.base.duration_symptoms)];
         this.setData({
             name: info.base.patient_name,
             caseNO: info.base.case_no,
@@ -1510,18 +1509,60 @@ Page({
             isBaseLock: info.base.is_lock
         })
         // 左侧
+        let tempSymptomsUnit = [0, parseInt(info.left.duration_symptoms_unit), parseInt(info.left.duration_symptoms)];
         this.setData({
             symptomDateMultiIndex: tempSymptomsUnit,
             symptomDateValue: tempSymptomsUnit[2] ? '' + tempSymptomsUnit[2] + this.data.symptomDateMultiArray[1][tempSymptomsUnit[1]] : '请选择',
-            // zzclIndex = data.zzcl,
-            // zzclDisabled = this.getNumDisable(data.zzcl),
-            // harris = this.getDefaultNum(data.harris),
-            // liyou = data.liyou,
-            // liyouDisabled = this.getValueDisable(data.liyou)
+            szzlIndex : info.left.sszl,
+            sszlDisabled : this.getNumDisable(info.left.sszl),
+            leixing : info.left.leixing,
+            leixingDisabled : this.getNumDisable(info.left.leixing),
+            liyou : info.left.liyou,
+            liyouDisabled : this.getValueDisable(info.left.liyou),
+            arcoIndex : info.left.arco,
+            harris : this.getDefaultNum(info.left.harris),
+            harrisImgArr : eval("(" + info.left.harris_pics + ")"),
+            vasIndex : info.left.vas,
+            vasImgArr : eval("(" + info.left.vas_pics + ")"),
+            xleftIndex : info.left.x_ispai,
+            xleftImgArr : eval("(" + info.left.x_pic + ")"),
+            ctLeftIndex : info.left.ct_ispai,
+            ctLeftImgArr : eval("(" + info.left.ct_pic + ")"),
+            mriLeftIndex : infer.left.mri_ispai,
+            mriLeftImgArr : eval("(" + info.left.mri_pic + ")"),
+            bczlIndex : info.left.bczl,
+            bczlDisabled : this.getNumDisable(info.left.bczl),
+            jtzl : info.left.jtzl,
+            jtzlDisabled : this.getValueDisable(info.left.jtzl),
+            beizhu : info.left.beizhu
         })
         // 右侧
+        let tempSymptomsUnit_R = [0, parseInt(info.right.duration_symptoms_unit), parseInt(info.right.duration_symptoms)];
         this.setData({
-
+            symptomDateMultiIndex_R: tempSymptomsUnit_R,
+            symptomDateValue_R: tempSymptomsUnit_R[2] ? '' + tempSymptomsUnit_R[2] + this.data.symptomDateMultiArray_R[1][tempSymptomsUnit_R[1]] : '请选择',
+            szzlIndex_R : info.right.sszl,
+            sszlDisabled_R : this.getNumDisable(info.right.sszl),
+            leixing_R : info.right.leixing,
+            leixingDisabled_R : this.getNumDisable(info.right.leixing),
+            liyou_R : info.right.liyou,
+            liyouDisabled_R : this.getValueDisable(info.right.liyou),
+            arcoIndex_R : info.right.arco,
+            harris_R : this.getDefaultNum(info.right.harris),
+            harrisImgArr_R : eval("(" + info.right.harris_pics + ")"),
+            vasIndex_R : info.right.vas,
+            vasImgArr_R : eval("(" + info.right.vas_pics + ")"),
+            xleftIndex_R : info.right.x_ispai,
+            xleftImgArr_R : eval("(" + info.right.x_pic + ")"),
+            ctLeftIndex_R : info.right.ct_ispai,
+            ctLeftImgArr_R : eval("(" + info.right.ct_pic + ")"),
+            mriLeftIndex_R : infer.right.mri_ispai,
+            mriLeftImgArr_R : eval("(" + info.right.mri_pic + ")"),
+            bczlIndex_R : info.right.bczl,
+            bczlDisabled_R : this.getNumDisable(info.right.bczl),
+            jtzl_R : info.right.jtzl,
+            jtzlDisabled_R : this.getValueDisable(info.right.jtzl),
+            beizhu_R : info.right.beizhu
         })
     },
 
@@ -1580,7 +1621,7 @@ Page({
         wx.request({
             url: constant.basePath,
             data: {
-                service: 'Case.CreateEditCaseBase',
+                service: 'Case.CreateEditBase',
                 case_id: that.data.caseId,
                 openid: app.globalData.openid,
                 json_data: that.makeBasicData()
@@ -1820,7 +1861,7 @@ Page({
             ct_ispai: that.data.ctLeftIndex,
             ct_pic: that.makePicJson(that.data.ctLeftImgArr),
             // MRI
-            mri_ispai: that.datt.mriLeftIndex,
+            mri_ispai: that.data.mriLeftIndex,
             mri_pic: that.makePicJson(that.data.mriLeftImgArr),
             // 本次治疗方案
             bczl: that.data.bczlIndex,
@@ -1920,7 +1961,7 @@ Page({
             ct_ispai: that.data.ctLeftIndex_R,
             ct_pic: that.makePicJson(that.data.ctLeftImgArr_R),
             // MRI
-            mri_ispai: that.datt.mriLeftIndex_R,
+            mri_ispai: that.data.mriLeftIndex_R,
             mri_pic: that.makePicJson(that.data.mriLeftImgArr_R),
             // 本次治疗方案
             bczl: that.data.bczlIndex_R,
@@ -2044,7 +2085,7 @@ Page({
                 case_id: that.data.caseId,
                 openid: app.globalData.openid,
                 type: 2,
-                state: that.data.caseInfo.puncture.puncture_state == 2 ? 2 : 1
+                state: that.data.caseInfo.left.puncture_state == 2 ? 2 : 1
             },
             header: {
                 'content-type': 'application/json'
@@ -2075,7 +2116,7 @@ Page({
                 case_id: that.data.caseId,
                 openid: app.globalData.openid,
                 type: 3,
-                state: that.data.caseInfo.bein.bein_state == 2 ? 2 : 1
+                state: that.data.caseInfo.right.bein_state == 2 ? 2 : 1
             },
             header: {
                 'content-type': 'application/json'

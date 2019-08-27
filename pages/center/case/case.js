@@ -4,10 +4,6 @@ let constant = require('../../../utils/constant.js');
 let util = require('../../../utils/util.js');
 
 const app = getApp();
-const SORT_BY_CHUANCI_DATA_ASC = 1;
-const SORT_BY_CHUANCI_DATA_DESC = -1;
-const SORT_BY_SHOUSHU_DATA_ASC = 2;
-const SORT_BY_SHOUSHU_DATA_DESC = -2;
 
 Page({
     data: {
@@ -20,6 +16,9 @@ Page({
         isAdmin: false,
 
         // --------- filter begin --------- //
+        suifangArr: ["未发病", "ARCO I", "ARCO II", "ARCO III", "ARCO IV", "关节置换", "死亡", "失访"],
+        fenqiItemArr: ["全部", "ARCO I", "ARCO II", "ARCO III", "ARCO IV", "未发病"],
+        leixingItemArr: ["全部", "激素", "酒精", "创伤", "其他", "未发病"],
         fenqiIndex: 0,
         fenqiArr: ['首诊分期:全部', '首诊分期:ARCO I', '首诊分期:ARCO II', '首诊分期:ARCO III', '首诊分期:ARCO IV', '首诊分期:未发病', ],
         leixingIndex: 0,
@@ -37,7 +36,6 @@ Page({
         searchValue: '',
         caseList: [],
         selectedCase: {},
-        sortType: SORT_BY_CHUANCI_DATA_ASC,
         errMsg: ''
     },
 
@@ -102,7 +100,7 @@ Page({
     },
     onSearch: function() {
         this.loadProgress();
-        this.requestCaseList(this.data.searchValue, this.data.sortType);
+        this.requestCaseList(this.data.searchValue);
     },
 
     ListTouchStart: function(e) {
@@ -179,10 +177,10 @@ Page({
 
     initData() {
         this.loadProgress();
-        this.requestCaseList(this.data.searchValue, this.data.sortType);
+        this.requestCaseList(this.data.searchValue);
     },
 
-    requestCaseList: function(searchValue, sortType) {
+    requestCaseList: function(searchValue) {
         let that = this;
         wx.request({
             url: constant.basePath,
@@ -191,7 +189,11 @@ Page({
                 openid: app.globalData.openid,
                 center_id: that.data.centerId,
                 keyword: searchValue,
-                sort: sortType
+                szfq: that.data.fenqiIndex,
+                szlx: that.data.leixingIndex,
+                szzl: that.data.ziliaoIndex,
+                sfzj: that.data.zhongjieIndex,
+                timeout: that.data.chaoshiIndex
             },
             header: {
                 'content-type': 'application/json'
@@ -202,22 +204,21 @@ Page({
                     for (let i = 0, len = res.data.data.list.length; i < len; i++) {
                         let caseInfo = res.data.data.list[i];
                         // 日期
-                        if (caseInfo.puncture_date == 0) {
-                            caseInfo.puncture_date = "暂无"
+                        if (caseInfo.create_time == 0) {
+                            caseInfo.create_time = "暂无"
                         } else {
-                            caseInfo.puncture_date = util.formatTime(caseInfo.puncture_date, 'Y-M-D');
+                            caseInfo.create_time = util.formatTime(caseInfo.create_time, 'Y-M-D');
                         }
-                        if (caseInfo.operation_date == 0) {
-                            caseInfo.operation_date = "暂无"
-                        } else {
-                            caseInfo.operation_date = util.formatTime(caseInfo.operation_date, 'Y-M-D')
-                        }
-                        caseInfo.patient_name_prefix_letter = caseInfo.patient_name.substr(0, 1);
 
-                        // 进度
-                        caseInfo.baseStatValue = that.getStateValue(caseInfo.base_state)
-                        caseInfo.punctureStatValue = that.getStateValue(caseInfo.puncture_state)
-                        caseInfo.beinStatValue = that.getStateValue(caseInfo.bein_state)
+                        caseInfo.arco_left = that.data.fenqiItemArr[caseInfo.leftright[0].arco]
+                        caseInfo.leixing_left = that.data.leixingItemArr[caseInfo.leftright[0].leixing]
+                        caseInfo.suifang_left = that.data.suifangArr[caseInfo.leftright[0].leixing]
+                        caseInfo.sfqk_left = caseInfo.leftright[0].sfqk
+
+                        caseInfo.arco_right = that.data.fenqiItemArr[caseInfo.leftright[1].arco]
+                        caseInfo.leixing_right = that.data.leixingItemArr[caseInfo.leftright[1].leixing]
+                        caseInfo.suifang_right = that.data.suifangArr[caseInfo.leftright[1].leixing]
+                        caseInfo.sfqk_right = caseInfo.leftright[1].sfqk
                     }
 
                     that.setData({
@@ -353,7 +354,7 @@ Page({
                 that.completeProgress();
                 if (res.data.data.code == constant.response_success) {
                     that.loadProgress();
-                    that.requestCaseList(that.data.searchValue, that.data.sortType);
+                    that.requestCaseList(that.data.searchValue);
                     that.setData({
                         modalName: ''
                     });
