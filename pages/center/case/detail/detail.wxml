@@ -162,16 +162,6 @@
                             </picker>
                             <switch class='green sm ' bindchange="onSymptomSwitchChange" style='margin-left: 15rpx; ' checked='{{!symptomDisabled}}'></switch>
                         </view>
-                        <!-- 首诊治疗情况 -->
-                        <view class="cu-form-group {{sszlDisabled?'disabled':''}}">
-                            <view class='title'>首诊治疗情况</view>
-                            <picker bindchange="onSzzlChange" value="{{sszlIndex}}" range="{{sszlPicker}}" disabled='{{sszlDisabled}}'>
-                                <view class="picker">
-                                    {{sszlPicker[sszlIndex]}}
-                                </view>
-                            </picker>
-                            <switch class=' green sm' bindchange="onSzzlSwitchChange" style='margin-left: 15rpx; ' checked='{{!sszlDisabled}}'></switch>
-                        </view>
                         <!-- 类型 -->
                         <view class="cu-form-group {{leixingDisabled?'disabled ':' '}}">
                             <view class='title '>类型</view>
@@ -245,9 +235,9 @@
                             </picker>
                             <button class='cu-btn round sm ' style='margin-left: 15rpx; ' bindtap="showModal" data-target="sixImgModal" data-imgtype="MRI-LEFT">上传图片</button>
                         </view>
-                        <!-- 本次治疗方案 -->
+                        <!-- 首诊治疗方案 -->
                         <view class="cu-form-group {{bczlDisabled?'disabled ':' '}}">
-                            <view class='title '>本次治疗方案</view>
+                            <view class='title '>首诊治疗方案</view>
                             <picker bindchange="onBczlChange" value="{{bczlIndex}}" range="{{bczlPicker}}" disabled='{{bczlDisabled}}'>
                                 <view class="picker">
                                     {{bczlPicker[bczlIndex]}}
@@ -300,16 +290,6 @@
                                 </view>
                             </picker>
                             <switch class='green sm ' bindchange="onSymptomSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!symptomDisabled_R}}'></switch>
-                        </view>
-                        <!-- 首诊治疗情况 -->
-                        <view class="cu-form-group {{sszlDisabled_R?'disabled':''}}">
-                            <view class='title'>首诊治疗情况</view>
-                            <picker bindchange="onSzzlChange_R" value="{{sszlIndex_R}}" range="{{sszlPicker_R}}" disabled='{{sszlDisabled_R}}'>
-                                <view class="picker">
-                                    {{sszlPicker_R[sszlIndex_R]}}
-                                </view>
-                            </picker>
-                            <switch class=' green sm' bindchange="onSzzlSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sszlDisabled_R}}'></switch>
                         </view>
                         <!-- 类型 -->
                         <view class="cu-form-group {{leixingDisabled_R?'disabled ':' '}}">
@@ -384,9 +364,9 @@
                             </picker>
                             <button class='cu-btn round sm ' style='margin-left: 15rpx; ' bindtap="showModal" data-target="sixImgModal" data-imgtype="MRI-LEFT_R">上传图片</button>
                         </view>
-                        <!-- 本次治疗方案 -->
+                        <!-- 首诊治疗方案 -->
                         <view class="cu-form-group {{bczlDisabled_R?'disabled ':' '}}">
-                            <view class='title '>本次治疗方案</view>
+                            <view class='title '>首诊治疗方案</view>
                             <picker bindchange="onBczlChange_R" value="{{bczlIndex_R}}" range="{{bczlPicker_R}}" disabled='{{bczlDisabled_R}}'>
                                 <view class="picker">
                                     {{bczlPicker_R[bczlIndex_R]}}

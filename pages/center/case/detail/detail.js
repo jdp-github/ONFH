@@ -77,10 +77,6 @@ Page({
         symptomDateMultiIndex: [0, 0, 0],
         symptomDateValue: '请选择',
         symptomDisabled: false,
-        // 首诊治疗
-        sszlIndex: 0,
-        sszlPicker: ["未治疗", "药物治疗", "钻孔减压", "腓骨移植", "其他"],
-        sszlDisabled: false,
         // 类型
         leixingIndex: 0,
         leixingPicker: ["请选择", "激素型", "酒精性", "创伤性", "特发性", "其他"],
@@ -136,10 +132,6 @@ Page({
         symptomDateMultiIndex_R: [0, 0, 0],
         symptomDateValue_R: '请选择',
         symptomDisabled_R: false,
-        // 首诊治疗
-        sszlIndex_R: 0,
-        sszlPicker_R: ["未治疗", "药物治疗", "钻孔减压", "腓骨移植", "其他"],
-        sszlDisabled_R: false,
         // 类型
         leixingIndex_R: 0,
         leixingPicker_R: ["请选择", "激素型", "酒精性", "创伤性", "特发性", "其他"],
@@ -512,21 +504,6 @@ Page({
             })
         }
     },
-    onSzzlChange: function(e) {
-        this.setData({
-            sszlIndex: e.detail.value,
-        });
-    },
-    onSzzlSwitchChange: function(e) {
-        this.setData({
-            sszlDisabled: !e.detail.value
-        });
-        if (this.data.sszlDisabled) {
-            this.setData({
-                sszlIndex: 0
-            });
-        }
-    },
     onLeixingChange: function(e) {
         this.setData({
             leixingIndex: e.detail.value,
@@ -791,21 +768,6 @@ Page({
             this.setData({
                 symptomDateValue_R: ""
             })
-        }
-    },
-    onSzzlChange_R: function(e) {
-        this.setData({
-            sszlIndex_R: e.detail.value,
-        });
-    },
-    onSzzlSwitchChange_R: function(e) {
-        this.setData({
-            sszlDisabled_R: !e.detail.value
-        });
-        if (this.data.sszlDisabled_R) {
-            this.setData({
-                sszlIndex_R: 0
-            });
         }
     },
     onLeixingChange_R: function(e) {
@@ -1514,8 +1476,6 @@ Page({
             symptomDateMultiIndex: tempSymptomsUnit,
             symptomDateValue: tempSymptomsUnit[2] ? '' + tempSymptomsUnit[2] + this.data.symptomDateMultiArray[1][tempSymptomsUnit[1]] : '请选择',
             symptomDisabled: this.getNumDisable(tempSymptomsUnit[1]),
-            sszlIndex: info.left.sszl - 1,
-            sszlDisabled: this.getNumDisable(info.left.sszl),
             leixingIndex: info.left.leixing,
             leixingDisabled: this.getNumDisable(info.left.leixing),
             liyou: info.left.liyou,
@@ -1543,8 +1503,6 @@ Page({
             symptomDateMultiIndex_R: tempSymptomsUnit_R,
             symptomDateValue_R: tempSymptomsUnit_R[2] ? '' + tempSymptomsUnit_R[2] + this.data.symptomDateMultiArray_R[1][tempSymptomsUnit_R[1]] : '请选择',
             symptomDisabled_R: this.getNumDisable(tempSymptomsUnit_R[1]),
-            sszlIndex_R: info.right.sszl - 1,
-            sszlDisabled_R: this.getNumDisable(info.right.sszl),
             leixingIndex_R: info.right.leixing,
             leixingDisabled_R: this.getNumDisable(info.right.leixing),
             liyou_R: info.right.liyou,
@@ -1574,7 +1532,7 @@ Page({
             jsonImgArr.forEach(function(item) {
                 let imgObj = {}
                 imgObj.pic = item;
-                imgObj.picUpload = item.replace(constant.basePath + "img/", "");
+                imgObj.picUpload = item.replace("https://onfh.think-show.com/img/", "");
                 myImgArr.push(imgObj)
             })
         }
@@ -1606,13 +1564,7 @@ Page({
         var avatarList = [];
         var avatarLen = avatarObjList.length;
         for (var i = 0; i < avatarLen; i++) {
-            if (avatarObjList[i].base_editor_avatar) {
-                avatarList[i] = avatarObjList[i].base_editor_avatar
-            } else if (avatarObjList[i].puncture_editor_avatar) {
-                avatarList[i] = avatarObjList[i].puncture_editor_avatar
-            } else if (avatarObjList[i].bein_editor_avatar) {
-                avatarList[i] = avatarObjList[i].bein_editor_avatar
-            }
+            avatarList[i] = avatarObjList[i].editor_avatar
         }
         return avatarList
     },
@@ -1787,14 +1739,10 @@ Page({
     },
 
     isLeftValueRight() {
-        if (!this.data.symptomDisabled && this.data.symptomDateValue == '请选择' || this.data.symptomDateValue.length == 0) {
+        if (!this.data.symptomDisabled && (this.data.symptomDateValue == '请选择' || this.data.symptomDateValue.length == 0)) {
             this.showToast("请选择症状出现时长")
             return false;
         }
-        // if (!this.data.sszlDisabled && this.data.sszlIndex == 0) {
-        //     this.showToast("请选择首诊治疗情况")
-        //     return false;
-        // }
         if (!this.data.leixingDisabled && this.data.leixingIndex == 0) {
             this.showToast("请选择类型")
             return false;
@@ -1851,13 +1799,12 @@ Page({
         let that = this
         var jsonData = {
             case_id: that.data.caseId,
+            side: "1",
             type: "1",
             // 症状出现时长
             duration_symptoms: parseInt(that.data.symptomDateMultiIndex[2]),
             // 症状出现时长单位。1天，2月(必填项)
             duration_symptoms_unit: parseInt(that.data.symptomDateMultiIndex[1]),
-            // 首诊前治疗情况
-            sszl: parseInt(that.data.sszlIndex) + 1,
             // 类型
             leixing: that.data.leixingIndex,
             // 理由
@@ -1945,13 +1892,12 @@ Page({
         let that = this
         var jsonData = {
             case_id: that.data.caseId,
-            type: "2",
+            side: "2",
+            type: "1",
             // 症状出现时长
             duration_symptoms: parseInt(that.data.symptomDateMultiIndex_R[2]),
             // 症状出现时长单位。1天，2月(必填项)
             duration_symptoms_unit: parseInt(that.data.symptomDateMultiIndex_R[1]),
-            // 首诊前治疗情况
-            sszl: parseInt(that.data.sszlIndex_R) + 1,
             // 类型
             leixing: that.data.leixingIndex_R,
             // 理由
@@ -1989,10 +1935,6 @@ Page({
             this.showToast("请选择症状出现时长")
             return false;
         }
-        // if (!this.data.sszlDisabled_R && this.data.sszlIndex_R == 0) {
-        //     this.showToast("请选择首诊治疗情况")
-        //     return false;
-        // }
         if (!this.data.leixingDisabled_R && this.data.leixingIndex_R == 0) {
             this.showToast("请选择类型")
             return false;
@@ -2018,15 +1960,15 @@ Page({
             return false;
         }
         if (this.data.xleftIndex_R == 0) {
-            this.showToast("请选择典型X光(左)")
+            this.showToast("请选择典型X光(右)")
             return false;
         }
         if (this.data.ctLeftIndex_R == 0) {
-            this.showToast("请选择典型CT(左)")
+            this.showToast("请选择典型CT(右)")
             return false;
         }
         if (this.data.mriLeftIndex_R == 0) {
-            this.showToast("请选择典型MRI(左)")
+            this.showToast("请选择典型MRI(右)")
             return false;
         }
         if (!this.data.bczlDisabled_R && this.data.bczlIndex_R == 0) {
