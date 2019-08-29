@@ -109,5 +109,5 @@ page, .page {
     margin-right: 0rpx!important;
 }
 .VerticalMain {
-    backgroun-color: #fff!important;
+    backgroud-color: #fff!important;
 }

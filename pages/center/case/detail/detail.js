@@ -24,7 +24,7 @@ Page({
         // -------- tab切换 begin -------- //
         TabCur: 0,
         VerticalNavTop: 0,
-        TabTitle: ['基本信息', '左侧', '右侧'],
+        TabTitle: ['基本信息', '左髋', '右髋'],
         ShowBasic: true,
         ShowDiagnose: false,
         ShowAdmission: false,
@@ -222,9 +222,9 @@ Page({
                 });
                 if (!this.data.isCreateCase) {
                     this.setData({
-                        addAvatar: this.data.caseInfo.left.puncture_creator_avatar,
-                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.left.puncture_editor_list),
-                        approveAvatar: this.data.caseInfo.left.puncture_auditor_avatar,
+                        addAvatar: this.data.caseInfo.left.creator_avatar,
+                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.left.editor_list),
+                        approveAvatar: this.data.caseInfo.left.auditor_avatar,
                     })
                 }
                 break;
@@ -238,9 +238,9 @@ Page({
                 });
                 if (!this.data.isCreateCase) {
                     this.setData({
-                        addAvatar: this.data.caseInfo.right.bein_creator_avatar,
-                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.right.bein_editor_list),
-                        approveAvatar: this.data.caseInfo.right.bein_auditor_avatar,
+                        addAvatar: this.data.caseInfo.right.creator_avatar,
+                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.right.editor_list),
+                        approveAvatar: this.data.caseInfo.right.auditor_avatar,
                     })
                 }
                 break;
@@ -514,7 +514,7 @@ Page({
     },
     onSzzlChange: function(e) {
         this.setData({
-            szzlIndex: e.detail.value,
+            sszlIndex: e.detail.value,
         });
     },
     onSzzlSwitchChange: function(e) {
@@ -1094,7 +1094,7 @@ Page({
                     switch (le) {
                         case "11":
                             that.setData({
-                                pic1: data.data.info.url
+                                pic1: data.data.info.url,
                             })
                             let img11 = {};
                             img11.pic = data.data.info.url;
@@ -1513,57 +1513,73 @@ Page({
         this.setData({
             symptomDateMultiIndex: tempSymptomsUnit,
             symptomDateValue: tempSymptomsUnit[2] ? '' + tempSymptomsUnit[2] + this.data.symptomDateMultiArray[1][tempSymptomsUnit[1]] : '请选择',
-            szzlIndex : info.left.sszl,
-            sszlDisabled : this.getNumDisable(info.left.sszl),
-            leixing : info.left.leixing,
-            leixingDisabled : this.getNumDisable(info.left.leixing),
-            liyou : info.left.liyou,
-            liyouDisabled : this.getValueDisable(info.left.liyou),
-            arcoIndex : info.left.arco,
-            harris : this.getDefaultNum(info.left.harris),
-            harrisImgArr : eval("(" + info.left.harris_pics + ")"),
-            vasIndex : info.left.vas,
-            vasImgArr : eval("(" + info.left.vas_pics + ")"),
-            xleftIndex : info.left.x_ispai,
-            xleftImgArr : eval("(" + info.left.x_pic + ")"),
-            ctLeftIndex : info.left.ct_ispai,
-            ctLeftImgArr : eval("(" + info.left.ct_pic + ")"),
-            mriLeftIndex : infer.left.mri_ispai,
-            mriLeftImgArr : eval("(" + info.left.mri_pic + ")"),
-            bczlIndex : info.left.bczl,
-            bczlDisabled : this.getNumDisable(info.left.bczl),
-            jtzl : info.left.jtzl,
-            jtzlDisabled : this.getValueDisable(info.left.jtzl),
-            beizhu : info.left.beizhu
+            symptomDisabled: this.getNumDisable(tempSymptomsUnit[1]),
+            sszlIndex: info.left.sszl - 1,
+            sszlDisabled: this.getNumDisable(info.left.sszl),
+            leixingIndex: info.left.leixing,
+            leixingDisabled: this.getNumDisable(info.left.leixing),
+            liyou: info.left.liyou,
+            liyouDisabled: this.getValueDisable(info.left.liyou),
+            arcoIndex: info.left.arco,
+            harris: this.getDefaultNum(info.left.harris),
+            harrisImgArr: this.makeImgArr(info.left.harris_pics),
+            vasIndex: info.left.vas,
+            vasImgArr: this.makeImgArr(info.left.vas_pics),
+            xleftIndex: info.left.x_ispai,
+            xleftImgArr: this.makeImgArr(info.left.x_pic),
+            ctLeftIndex: info.left.ct_ispai,
+            ctLeftImgArr: this.makeImgArr(info.left.ct_pic),
+            mriLeftIndex: info.left.mri_ispai,
+            mriLeftImgArr: this.makeImgArr(info.left.mri_pic),
+            bczlIndex: info.left.bczl,
+            bczlDisabled: this.getNumDisable(info.left.bczl),
+            jtzl: info.left.jtzl,
+            jtzlDisabled: this.getValueDisable(info.left.jtzl),
+            beizhu: info.left.beizhu
         })
         // 右侧
         let tempSymptomsUnit_R = [0, parseInt(info.right.duration_symptoms_unit), parseInt(info.right.duration_symptoms)];
         this.setData({
             symptomDateMultiIndex_R: tempSymptomsUnit_R,
             symptomDateValue_R: tempSymptomsUnit_R[2] ? '' + tempSymptomsUnit_R[2] + this.data.symptomDateMultiArray_R[1][tempSymptomsUnit_R[1]] : '请选择',
-            szzlIndex_R : info.right.sszl,
-            sszlDisabled_R : this.getNumDisable(info.right.sszl),
-            leixing_R : info.right.leixing,
-            leixingDisabled_R : this.getNumDisable(info.right.leixing),
-            liyou_R : info.right.liyou,
-            liyouDisabled_R : this.getValueDisable(info.right.liyou),
-            arcoIndex_R : info.right.arco,
-            harris_R : this.getDefaultNum(info.right.harris),
-            harrisImgArr_R : eval("(" + info.right.harris_pics + ")"),
-            vasIndex_R : info.right.vas,
-            vasImgArr_R : eval("(" + info.right.vas_pics + ")"),
-            xleftIndex_R : info.right.x_ispai,
-            xleftImgArr_R : eval("(" + info.right.x_pic + ")"),
-            ctLeftIndex_R : info.right.ct_ispai,
-            ctLeftImgArr_R : eval("(" + info.right.ct_pic + ")"),
-            mriLeftIndex_R : infer.right.mri_ispai,
-            mriLeftImgArr_R : eval("(" + info.right.mri_pic + ")"),
-            bczlIndex_R : info.right.bczl,
-            bczlDisabled_R : this.getNumDisable(info.right.bczl),
-            jtzl_R : info.right.jtzl,
-            jtzlDisabled_R : this.getValueDisable(info.right.jtzl),
-            beizhu_R : info.right.beizhu
+            symptomDisabled_R: this.getNumDisable(tempSymptomsUnit_R[1]),
+            sszlIndex_R: info.right.sszl - 1,
+            sszlDisabled_R: this.getNumDisable(info.right.sszl),
+            leixingIndex_R: info.right.leixing,
+            leixingDisabled_R: this.getNumDisable(info.right.leixing),
+            liyou_R: info.right.liyou,
+            liyouDisabled_R: this.getValueDisable(info.right.liyou),
+            arcoIndex_R: info.right.arco,
+            harris_R: this.getDefaultNum(info.right.harris),
+            harrisImgArr_R: this.makeImgArr(info.right.harris_pics),
+            vasIndex_R: info.right.vas,
+            vasImgArr_R: this.makeImgArr(info.right.vas_pics),
+            xleftIndex_R: info.right.x_ispai,
+            xleftImgArr_R: this.makeImgArr(info.right.x_pic),
+            ctLeftIndex_R: info.right.ct_ispai,
+            ctLeftImgArr_R: this.makeImgArr(info.right.ct_pic),
+            mriLeftIndex_R: info.right.mri_ispai,
+            mriLeftImgArr_R: this.makeImgArr(info.right.mri_pic),
+            bczlIndex_R: info.right.bczl,
+            bczlDisabled_R: this.getNumDisable(info.right.bczl),
+            jtzl_R: info.right.jtzl,
+            jtzlDisabled_R: this.getValueDisable(info.right.jtzl),
+            beizhu_R: info.right.beizhu
         })
+    },
+
+    makeImgArr(jsonImgArr) {
+        let myImgArr = []
+        if (jsonImgArr && jsonImgArr.length > 0) {
+            jsonImgArr.forEach(function(item) {
+                let imgObj = {}
+                imgObj.pic = item;
+                imgObj.picUpload = item.replace(constant.basePath + "img/", "");
+                myImgArr.push(imgObj)
+            })
+        }
+
+        return myImgArr;
     },
 
     getDefaultNum(num) {
@@ -1771,7 +1787,7 @@ Page({
     },
 
     isLeftValueRight() {
-        if (!this.data.symptomDisabled && this.data.symptomDateValue == '请选择') {
+        if (!this.data.symptomDisabled && this.data.symptomDateValue == '请选择' || this.data.symptomDateValue.length == 0) {
             this.showToast("请选择症状出现时长")
             return false;
         }
@@ -1866,28 +1882,22 @@ Page({
             // 本次治疗方案
             bczl: that.data.bczlIndex,
             // 具体治疗措施
-            jtzl: that.data.jtzl
-            // le_testpaper_stoste: parseInt(this.getDefaultValue(that.data.leIndex)),
-            // le_testpaper_pic: JSON.stringify(lePic),
-            // le_testpaper_centrifugal: parseInt(this.getDefaultValue(that.data.leAfterIndex)),
-            // le_testpaper_centr_pic: JSON.stringify(leCentrPic),
-            // joint_fluid_leukocyte: parseInt(this.getDefaultValue(that.data.gjybxb)),
-            // neutrophils_percent: parseFloat(this.getDefaultValue(that.data.gjyzx)),
-
+            jtzl: that.data.jtzl,
+            // 特殊事项备注
+            beizhu: that.data.beizhu
         }
         console.log("左侧" + JSON.stringify(jsonData))
         return JSON.stringify(jsonData)
     },
 
     makePicJson(picArr) {
-        let picArrStr;
+        let picArrStr = '';
         if (picArr && picArr.length > 0) {
             picArr.forEach(function(item) {
-                picArrStr += item.pic + ","
+                picArrStr += item.picUpload + ","
             })
         }
-
-        return picArrStr;
+        return picArrStr.substr(0, picArrStr.length - 1);
     },
 
     getDefaultValue(value) {
@@ -1966,14 +1976,16 @@ Page({
             // 本次治疗方案
             bczl: that.data.bczlIndex_R,
             // 具体治疗措施
-            jtzl: that.data.jtzl_R
+            jtzl: that.data.jtzl_R,
+            // 特殊事项备注
+            beizhu: that.data.beizhu_R
         }
         console.log("右侧" + JSON.stringify(jsonData))
         return JSON.stringify(jsonData)
     },
 
     isRightValueRight() {
-        if (!this.data.symptomDisabled_R && this.data.symptomDateValue_R == '请选择') {
+        if (!this.data.symptomDisabled_R && (this.data.symptomDateValue_R == '请选择' || this.data.symptomDateValue_R.length == 0)) {
             this.showToast("请选择症状出现时长")
             return false;
         }
@@ -2085,7 +2097,7 @@ Page({
                 case_id: that.data.caseId,
                 openid: app.globalData.openid,
                 type: 2,
-                state: that.data.caseInfo.left.puncture_state == 2 ? 2 : 1
+                state: that.data.caseInfo.left.state == 2 ? 2 : 1
             },
             header: {
                 'content-type': 'application/json'
@@ -2116,7 +2128,7 @@ Page({
                 case_id: that.data.caseId,
                 openid: app.globalData.openid,
                 type: 3,
-                state: that.data.caseInfo.right.bein_state == 2 ? 2 : 1
+                state: that.data.caseInfo.right.state == 2 ? 2 : 1
             },
             header: {
                 'content-type': 'application/json'
