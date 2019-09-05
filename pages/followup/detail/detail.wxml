@@ -1,0 +1,531 @@
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+    <view class="cu-bar fixed bg-gradual-green" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+        <navigator class='action border-custom' open-type="navigateBack" delta="1" hover-class="none" style='width:{{Custom.width}}px;height:{{Custom.height}}px;margin-left:calc(750rpx - {{Custom.right}}px)'>
+            <text class='icon-back'></text>
+            <text class='icon-homefill'></text>
+        </navigator>
+        <view class='content' style='top:{{StatusBar}}px;'>第一次随访</view>
+    </view>
+</view>
+<!-- <view class="cu-bar bg-white fixed" style="top:{{CustomBar}}px;">
+    <view class="flex">
+        <view class='avatar-group'>
+            <view class="cu-avatar-group">
+                <view class='cu-tag radius' style="margin-right: 40rpx;">填</view>
+                <view class="cu-avatar round" style="background-image:url({{addAvatar}});"></view>
+            </view>
+        </view>
+    </view>
+    <view class="flex">
+        <view class='avatar-group'>
+            <view class="cu-avatar-group">
+                <view wx:if="{{updateAvatarArr.length > 0}}">
+                    <view class='cu-tag radius' style="margin-right: 40rpx;">修</view>
+                    <view class="cu-avatar round" wx:for="{{updateAvatarArr}}" wx:key style="background-image:url({{item}});"></view>
+                </view>
+                <view wx:else>
+                    <view class='cu-tag radius' style="margin-right: 10rpx;">修</view>
+                    <view class='cu-tag radius'>暂无</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="flex">
+        <view class='avatar-group'>
+            <view class="cu-avatar-group">
+                <view wx:if="{{approveAvatar.length > 0}}">
+                    <view class='cu-tag radius' style="margin-right: 40rpx;">审</view>
+                    <view class="cu-avatar round" style="background-image:url({{approveAvatar}});"></view>
+                </view>
+                <view wx:else>
+                    <view class='cu-tag radius' style="margin-right: 10rpx;">审</view>
+                    <view class='cu-tag radius'>暂无</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view> -->
+<scroll-view scroll-y class="indexes" scroll-into-view="indexes-{{listCurID}}" style='height:100%' scroll-with-animation="true" enable-back-to-top="true">
+    <view class="VerticalBox" style="height: 100%;">
+        <!-- 左侧菜单 -->
+        <scroll-view class="VerticalNav nav" scroll-y scroll-with-animation scroll-top="{{VerticalNavTop}}" style="height:100%">
+            <view class="cu-item {{index==TabCur?'text-green cur':''}}" style="font-size: 22rpx" wx:for="{{TabTitle}}" wx:key bindtap='tabSelect' data-id="{{index}}">
+                {{item}}
+            </view>
+        </scroll-view>
+        <!-- 左侧 -->
+        <scroll-view class="VerticalMain" scroll-y style="height:100%" wx:if="{{ShowDiagnose}}">
+            <view class="padding-left-special">
+                <view class='cu-bar solid-bottom bg-white'>
+                    <view class='action'>
+                        <text class='icon-title text-green'></text>左髋</view>
+                </view>
+                <!-- item -->
+                <view class="cu-list menu menu-avatar">
+                    <view class="cu-item-special">
+                        <!-- 随访次数 -->
+                        <view class="cu-form-group">
+                            <view class='title'>随访次数</view>
+                            <input class='radius' name='input' value="{{times}}" placeholder="请输入随访次数" bindinput="onTimesInput"></input>
+                        </view>
+                        <!-- 随访日期 -->
+                        <view class="cu-form-group {{sfDateDisabled?'disabled':''}}">
+                            <view class='title'>随访日期</view>
+                            <picker mode="date" value="{{sfDate}}" start="2015-01-01" end="2025-01-01" bindchange="onSfDateChange" disabled='{{sfDateDisabled}}'>
+                                <view class="picker">
+                                    {{sfDate}}
+                                </view>
+                            </picker>
+                            <switch class='green sm' bindchange="onSfDateSwitchChange" style='margin-left: 15rpx; ' checked='{{!sfDateDisabled}}'></switch>
+                        </view>
+                        <!-- 距离首诊时长 -->
+                        <view class="cu-form-group disabled">
+                            <view class='title'>距离首诊时长</view>
+                            <input class='radius' name='input' value="{{szscValue}}" placeholder="自动生成" disabled></input>
+                        </view>
+                        <!-- 随访情况 -->
+                        <view class="cu-form-group {{sfqkDisabled?'disabled':''}}">
+                            <view class='title '>随访情况</view>
+                            <picker bindchange="onSfqkChange" value="{{sfqkIndex}}" range="{{sfqkPicker}}" disabled='{{sfqkDisabled}}'>
+                                <view class="picker">
+                                    {{sfqkPicker[sfqkIndex]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm' bindchange="onSfqkSwitchChange" style='margin-left: 15rpx; ' checked='{{!sfqkDisabled}}'></switch>
+                        </view>
+                        <!-- 终结本侧日后随访 -->
+                        <view class="cu-form-group {{zjbcDisabled?'disabled':''}}">
+                            <view class='title '>终结本侧日后随访</view>
+                            <picker bindchange="onZjbcChange" value="{{zjbcIndex}}" range="{{zjbcPicker}}" disabled='{{zjbcDisabled}}'>
+                                <view class="picker">
+                                    {{zjbcPicker[zjbcIndex]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm' bindchange="onZjbcSwitchChange" style='margin-left: 15rpx; ' checked='{{!zjbcDisabled}}'></switch>
+                        </view>
+                        <!-- 是否遵从前次治疗方案 -->
+                        <view class="cu-form-group {{sfzcDisabled?'disabled':''}}">
+                            <view class='title '>是否遵从前次治疗方案</view>
+                            <picker bindchange="onSfzcChange" value="{{sfzcIndex}}" range="{{sfzcPicker}}" disabled='{{sfzcDisabled}}'>
+                                <view class="picker">
+                                    {{sfzcPicker[sfzcIndex]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm' bindchange="onSfzcSwitchChange" style='margin-left: 15rpx; ' checked='{{!sfzcDisabled}}'></switch>
+                        </view>
+                        <!-- 更改方案说明 -->
+                        <view class="cu-form-group {{ggfaDisabled?'disabled':''}}">
+                            <view class='title '>更改方案说明</view>
+                            <input placeholder="如更改方案请说明" class='radius ' bindinput="onGgfaInput" value='{{ggfaValue}}' disabled='{{ggfaDisabled}}'></input>
+                            <switch class='green sm ' bindchange="onGgfaSwitchChange" checked='{{!ggfaDisabled}}'></switch>
+                        </view>
+                        <!-- ARCO分期 -->
+                        <view class="cu-form-group {{arcoDisabled?'disabled':''}}">
+                            <view class='title '>ARCO分期</view>
+                            <picker style="margin-right:10px" bindchange="onArcoChange" value="{{arcoIndex}}" range="{{arcoPicker}}" disabled='{{arcoDisabled}}'>
+                                <view class="picker">
+                                    {{arcoPicker[arcoIndex]}}
+                                </view>
+                            </picker>
+                            <switch class=' green sm ' bindchange="onArcoSwitchChange" checked='{{!arcoDisabled}}'></switch>
+                        </view>
+                        <!-- Harris评分 -->
+                        <view class="cu-form-group {{harrisDisabled?'disabled':''}}">
+                            <view class='title'>Harris评分</view>
+                            <input placeholder="请输入数字" class='radius ' bindinput="onHarrisInput" value="{{harris}}" disabled='{{harrisDisabled}}'></input>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px' bindtap="showModal" data-target="threeImgModal" data-imgtype="Harris" disabled='{{harrisDisabled}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onHarrisSwitchChange" checked='{{!harrisDisabled}}'></switch>
+                        </view>
+                        <!-- VAS疼痛评分 -->
+                        <view class="cu-form-group {{vasDisabled?'disabled':''}}">
+                            <view class='title '>VAS疼痛评分</view>
+                            <picker bindchange="onVASChange" value="{{vasIndex}}" range="{{vasPicker}}" disabled='{{vasDisabled}}'>
+                                <view class="picker">
+                                    {{vasPicker[vasIndex]}}
+                                </view>
+                            </picker>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="threeImgModal" data-imgtype="VAS" disabled='{{vasDisabled}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onVasSwitchChange" checked='{{!vasDisabled}}'></switch>
+                        </view>
+                        <!-- 典型X光（左） -->
+                        <view class="cu-form-group {{xleftDisabled?'disabled':''}}">
+                            <view class='title '>典型X光（左）</view>
+                            <picker bindchange="onXLeftChange" value="{{xleftIndex}}" range="{{xleftPicker}}" disabled='{{xleftDisabled}}'>
+                                <view class="picker">
+                                    {{xleftPicker[xleftIndex]}}
+                                </view>
+                            </picker>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="sixImgModal" data-imgtype="X-LEFT" disabled='{{xleftDisabled}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onXLeftSwitchChange" checked='{{!xleftDisabled}}'></switch>
+                        </view>
+                        <!-- 典型CT（左） -->
+                        <view class="cu-form-group {{ctLeftDisabled?'disabled':''}}">
+                            <view class='title '>典型CT（左）</view>
+                            <picker bindchange="onCTLeftChange" value="{{ctLeftIndex}}" range="{{ctLeftPicker}}" disabled='{{ctLeftDisabled}}'>
+                                <view class="picker">
+                                    {{ctLeftPicker[ctLeftIndex]}}
+                                </view>
+                            </picker>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx; margin-right:10px' bindtap="showModal" data-target="sixImgModal" data-imgtype="CT-LEFT" disabled='{{ctLeftDisabled}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onCTLeftSwitchChange" checked='{{!ctLeftDisabled}}'></switch>
+                        </view>
+                        <!-- 典型MRI（左） -->
+                        <view class="cu-form-group {{mriLeftDisabled?'disabled':''}}">
+                            <view class='title '>典型MRI（左）</view>
+                            <picker bindchange="onMRILeftChange" value="{{mriLeftIndex}}" range="{{mriLeftPicker}}" disabled='{{mriLeftDisabled}}'>
+                                <view class="picker">
+                                    {{mriLeftPicker[mriLeftIndex]}}
+                                </view>
+                            </picker>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="sixImgModal" data-imgtype="MRI-LEFT" disabled='{{mriLeftDisabled}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onMriLeftSwitchChange" checked='{{!mriLeftDisabled}}'></switch>
+                        </view>
+                        <!-- 本次治疗方案 -->
+                        <view class="cu-form-group {{bczlDisabled?'disabled':''}}">
+                            <view class='title '>本次治疗方案</view>
+                            <picker bindchange="onBczlChange" value="{{bczlIndex}}" range="{{bczlPicker}}" disabled='{{bczlDisabled}}'>
+                                <view class="picker">
+                                    {{bczlPicker[bczlIndex]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm ' bindchange="onBczlSwitchChange" style='margin-left: 15rpx; ' checked='{{!bczlDisabled}}'></switch>
+                        </view>
+                        <!-- 具体治疗措施 -->
+                        <view class="cu-form-group {{jtzlDisabled?'disabled':''}}">
+                            <view class='title '>具体治疗措施</view>
+                            <input placeholder="请输入文字" class='radius ' bindinput="onJtzlInput" value='{{jtzl}}' disabled='{{jtzlDisabled}}'></input>
+                            <switch class='green sm ' bindchange="onJtzlSwitchChange" checked='{{!jtzlDisabled}}'></switch>
+                        </view>
+                        <!-- 备注 -->
+                        <view class="cu-form-group {{beizhuDisabled?'disabled':''}}">
+                            <view class='title '>备注</view>
+                            <input placeholder="请输入文字" class='radius' bindinput="onBeizhuInput" value='{{beizhu}}' disabled='{{beizhuDisabled}}'></input>
+                            <switch class='green sm ' bindchange="onBeizhuSwitchChange" checked='{{!beizhuDisabled}}'></switch>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <!-- 底部按钮 -->
+            <view class="btn-block bg-white shadow" hidden='{{isLook}}'>
+                <view class="flex margin-special">
+                    <button class='cu-btn line-green shadow ' style="margin-right: 15rpx;" form-type="submit" bindtap='submit'>
+                        提交录入
+                    </button>
+                    <!-- disabled='{{caseInfo.left.submit_button==0 }}
+                    <button class='cu-btn bg-green shadow ' style="margin-left: 15rpx;" form-type="submit" bindtap='verify ' disabled='{{isCreateCase || caseInfo.approve_button==2 }} '>
+                        {{caseInfo.left.state != 2 ?"确认审核":"解除锁定"}}
+                    </button> -->
+                </view>
+            </view>
+        </scroll-view>
+        <!-- 右侧 -->
+        <scroll-view class="VerticalMain" scroll-y style="height:100%" wx:if="{{ShowAdmission}}">
+            <view class="padding-left-special">
+                <view class='cu-bar solid-bottom bg-white '>
+                    <view class='action '>
+                        <text class='icon-title text-green '></text>右髋</view>
+                </view>
+                <!-- item -->
+                <view class="cu-list menu menu-avatar">
+                    <view class="cu-item-special">
+                        <!-- 随访日期 -->
+                        <view class="cu-form-group {{sfDateDisabled_R?'disabled ':' '}}">
+                            <view class='title'>随访日期</view>
+                            <picker mode="date" value="{{sfDate_R}}" start="2015-01-01" end="2025-01-01" bindchange="onSfDateChange_R" disabled='{{sfDateDisabled_R}}'>
+                                <view class="picker">
+                                    {{sfDate_R}}
+                                </view>
+                            </picker>
+                            <switch class='green sm' bindchange="onSfDateSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sfDateDisabled_R}}'></switch>
+                        </view>
+                        <!-- 距离首诊时长 -->
+                        <view class="cu-form-group disabled">
+                            <view class='title'>距离首诊时长</view>
+                            <input class='radius' name='input' value="{{szscValue_R}}" placeholder="自动生成" disabled></input>
+                        </view>
+                        <!-- 随访情况 -->
+                        <view class="cu-form-group {{sfqkDisabled_R?'disabled ':' '}}">
+                            <view class='title '>随访情况</view>
+                            <picker bindchange="onSfqkChange_R" value="{{sfqkIndex_R}}" range="{{sfqkPicker_R}}" disabled='{{sfqkDisabled_R}}'>
+                                <view class="picker">
+                                    {{sfqkPicker_R[sfqkIndex_R]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm' bindchange="onSfqkSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sfqkDisabled_R}}'></switch>
+                        </view>
+                        <!-- 终结本侧日后随访 -->
+                        <view class="cu-form-group {{zjbcDisabled_R?'disabled':''}}">
+                            <view class='title '>终结本侧日后随访</view>
+                            <picker bindchange="onZjbcChange_R" value="{{zjbcIndex_R}}" range="{{zjbcPicker_R}}" disabled='{{zjbcDisabled_R}}'>
+                                <view class="picker">
+                                    {{zjbcPicker_R[zjbcIndex_R]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm' bindchange="onZjbcSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!zjbcDisabled_R}}'></switch>
+                        </view>
+                        <!-- 是否遵从前次治疗方案 -->
+                        <view class="cu-form-group {{sfzcDisabled_R?'disabled ':''}}">
+                            <view class='title '>是否遵从前次治疗方案</view>
+                            <picker bindchange="onSfzcChange_R" value="{{sfzcIndex_R}}" range="{{sfzcPicker_R}}" disabled='{{sfzcDisabled_R}}'>
+                                <view class="picker">
+                                    {{sfzcPicker_R[sfzcIndex_R]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm' bindchange="onSfzcSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sfzcDisabled_R}}'></switch>
+                        </view>
+                        <!-- 更改方案说明 -->
+                        <view class="cu-form-group {{ggfaDisabled_R?'disabled ':' '}}">
+                            <view class='title '>更改方案说明</view>
+                            <input placeholder="如更改方案请说明" class='radius ' bindinput="onGgfaInput_R" value='{{ggfaValue_R}}' disabled='{{ggfaDisabled_R}}'></input>
+                            <switch class='green sm ' bindchange="onGgfaSwitchChange_R" checked='{{!ggfaDisabled_R}}'></switch>
+                        </view>
+                        <!-- ARCO分期 -->
+                        <view class="cu-form-group {{arcoDisabled_R?'disabled ':' '}}">
+                            <view class='title '>ARCO分期</view>
+                            <picker style="margin-right:10px" bindchange="onArcoChange_R" value="{{arcoIndex_R}}" range="{{arcoPicker_R}}" disabled='{{arcoDisabled_R}}'>
+                                <view class="picker">
+                                    {{arcoPicker_R[arcoIndex_R]}}
+                                </view>
+                            </picker>
+                            <switch class=' green sm ' bindchange="onArcoSwitchChange_R" checked='{{!arcoDisabled_R}}'></switch>
+                        </view>
+                        <!-- Harris评分 -->
+                        <view class="cu-form-group {{harrisDisabled_R?'disabled':''}}">
+                            <view class='title'>Harris评分</view>
+                            <input placeholder="请输入数字" class='radius ' bindinput="onHarrisInput_R" value="{{harris_R}}" disabled='{{harrisDisabled_R}}'></input>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px' bindtap="showModal" data-target="threeImgModal" data-imgtype="Harris_R" disabled='{{harrisDisabled_R}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onHarrisSwitchChange_R" checked='{{!harrisDisabled_R}}'></switch>
+                        </view>
+                        <!-- VAS疼痛评分 -->
+                        <view class="cu-form-group {{vasDisabled_R?'disabled':''}}">
+                            <view class='title '>VAS疼痛评分</view>
+                            <picker bindchange="onVASChange_R" value="{{vasIndex_R}}" range="{{vasPicker_R}}" disabled='{{vasDisabled_R}}'>
+                                <view class="picker">
+                                    {{vasPicker_R[vasIndex_R]}}
+                                </view>
+                            </picker>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="threeImgModal" data-imgtype="VAS_R" disabled='{{vasDisabled_R}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onVasSwitchChange_R" checked='{{!vasDisabled_R}}'></switch>
+                        </view>
+                        <!-- 典型X光（右） -->
+                        <view class="cu-form-group {{xleftDisabled_R?'disabled':''}}">
+                            <view class='title '>典型X光（右）</view>
+                            <picker bindchange="onXLeftChange_R" value="{{xleftIndex_R}}" range="{{xleftPicker_R}}" disabled='{{xleftDisabled_R}}'>
+                                <view class="picker">
+                                    {{xleftPicker_R[xleftIndex_R]}}
+                                </view>
+                            </picker>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="sixImgModal" data-imgtype="X-LEFT_R" disabled='{{xleftDisabled_R}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onXLeftSwitchChange_R" checked='{{!xleftDisabled_R}}'></switch>
+                        </view>
+                        <!-- 典型CT（右） -->
+                        <view class="cu-form-group {{ctLeftDisabled_R?'disabled':''}}">
+                            <view class='title '>典型CT（右）</view>
+                            <picker bindchange="onCTLeftChange_R" value="{{ctLeftIndex_R}}" range="{{ctLeftPicker_R}}" disabled='{{ctLeftDisabled_R}}'>
+                                <view class="picker">
+                                    {{ctLeftPicker_R[ctLeftIndex_R]}}
+                                </view>
+                            </picker>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx; margin-right:10px' bindtap="showModal" data-target="sixImgModal" data-imgtype="CT-LEFT_R" disabled='{{ctLeftDisabled_R}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onCTLeftSwitchChange_R" checked='{{!ctLeftDisabled_R}}'></switch>
+                        </view>
+                        <!-- 典型MRI（右） -->
+                        <view class="cu-form-group {{mriLeftDisabled_R?'disabled':''}}">
+                            <view class='title '>典型MRI（右）</view>
+                            <picker bindchange="onMRILeftChange_R" value="{{mriLeftIndex_R}}" range="{{mriLeftPicker_R}}" disabled='{{mriLeftDisabled_R}}'>
+                                <view class="picker">
+                                    {{mriLeftPicker_R[mriLeftIndex_R]}}
+                                </view>
+                            </picker>
+                            <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="sixImgModal" data-imgtype="MRI-LEFT_R" disabled='{{mriLeftDisabled_R}}'>上传图片</button>
+                            <switch class=' green sm ' bindchange="onMriLeftSwitchChange_R" checked='{{!mriLeftDisabled_R}}'></switch>
+                        </view>
+                        <!-- 本次治疗方案 -->
+                        <view class="cu-form-group {{bczlDisabled_R?'disabled':''}}">
+                            <view class='title '>本次治疗方案</view>
+                            <picker bindchange="onBczlChange_R" value="{{bczlIndex_R}}" range="{{bczlPicker_R}}" disabled='{{bczlDisabled_R}}'>
+                                <view class="picker">
+                                    {{bczlPicker_R[bczlIndex_R]}}
+                                </view>
+                            </picker>
+                            <switch class='green sm ' bindchange="onBczlSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!bczlDisabled_R}}'></switch>
+                        </view>
+                        <!-- 具体治疗措施 -->
+                        <view class="cu-form-group {{jtzlDisabled_R?'disabled':''}}">
+                            <view class='title '>具体治疗措施</view>
+                            <input placeholder="请输入文字" class='radius ' bindinput="onJtzlInput_R" value='{{jtzl_R}}' disabled='{{jtzlDisabled_R}}'></input>
+                            <switch class='green sm ' bindchange="onJtzlSwitchChange_R" checked='{{!jtzlDisabled_R}}'></switch>
+                        </view>
+                        <!-- 备注 -->
+                        <view class="cu-form-group {{beizhuDisabled_R?'disabled':''}}">
+                            <view class='title '>备注</view>
+                            <input placeholder="请输入文字" class='radius' bindinput="onBeizhuInput_R" value='{{beizhu_R}}' disabled='{{beizhuDisabled_R}}'></input>
+                            <switch class='green sm ' bindchange="onBeizhuSwitchChange_R" checked='{{!beizhuDisabled_R}}'></switch>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <!-- 底部按钮 -->
+            <view class="btn-block bg-white shadow" hidden='{{isLook}}'>
+                <view class="flex margin-special">
+                    <button class='cu-btn line-green shadow ' style="margin-right: 15rpx;" form-type="submit" bindtap='submit'>
+                        提交录入
+                    </button>
+                    <!-- disabled='{{caseInfo.right.submit_button==0}}'
+                    <button class='cu-btn bg-green shadow ' style="margin-left: 15rpx;" form-type="submit" bindtap='verify ' disabled='{{isCreateCase || caseInfo.approve_button==2 }} '>
+                        {{caseInfo.right.state != 2 ?"确认审核":"解除锁定"}}
+                    </button> -->
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+</scroll-view>
+<!-- 上传图片 3张 -->
+<view class="cu-modal drawer-modal justify-end {{modalName=='threeImgModal'?'show':''}}" bindtap='hideModal'>
+    <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;">
+        <view class="cu-bar bg-white solid-bottom">
+            <view class='action' style="font-size: 24rpx;">
+                <text class='icon-title text-green '></text>{{imageModalName}}
+            </view>
+        </view>
+        <view class="cu-form-group margin-top centerPlace">
+            <view class="grid col-3 grid-square flex-sub centerPlace">
+                <view class="imageShow solids padding-xs" wx:if="{{pic1 !== ''}}">
+                    <image src="{{pic1}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic1}}" />
+                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="11">
+                        删除
+                    </button>
+                </view>
+                <view class="padding-xs solids imageAdd" wx:if="{{pic1 == ''}}">
+                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="11"></text>
+                </view>
+                <view class="imageShow solids padding-xs" wx:if="{{pic2 !== ''}}">
+                    <image src="{{pic2}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic2}}" />
+                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="12">
+                        删除
+                    </button>
+                </view>
+                <view class="padding-xs solids imageAdd" wx:if="{{pic2 == ''}}">
+                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="12"></text>
+                </view>
+                <view class="imageShow solids padding-xs" wx:if="{{pic3 !== ''}}">
+                    <image src="{{pic3}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic3}}" />
+                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="13">
+                        删除
+                    </button>
+                </view>
+                <view class="padding-xs solids imageAdd" wx:if="{{pic3 == ''}}">
+                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="13"></text>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 上传图片 6张 -->
+<view class="cu-modal bottom-modal {{modalName=='sixImgModal'?'show ':''}}" bindtap='hideModal'>
+    <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;">
+        <view class="cu-bar bg-white solid-bottom">
+            <view class='action ' style="font-size: 24rpx;">
+                <text class='icon-title text-green '></text>{{imageModalName}}
+            </view>
+        </view>
+        <view class="cu-form-group margin-top centerPlace">
+            <view class="grid col-3 grid-square flex-sub centerPlace">
+                <view class="imageShow solids padding-xs" wx:if="{{pic4 !== ''}}">
+                    <image src="{{pic4}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic4}}" />
+                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="21">
+                        删除
+                    </button>
+                </view>
+                <view class="padding-xs solids imageAdd" wx:if="{{pic4 == ''}}">
+                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="21"></text>
+                </view>
+                <view class="imageShow solids padding-xs" style="margin-left:20px" wx:if="{{pic5 !== ''}}">
+                    <image src="{{pic5}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic5}}" />
+                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="22">
+                        删除
+                    </button>
+                </view>
+                <view class="padding-xs solids imageAdd" style="margin-left:20px" wx:if="{{pic5 == ''}}">
+                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="22"></text>
+                </view>
+                <view class="imageShow solids padding-xs" wx:if="{{pic6 !== ''}}">
+                    <image src="{{pic6}}" mode='aspectFit' bindtap="showImageModal" data-img="{{pic6}}" />
+                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="23">
+                        删除
+                    </button>
+                </view>
+                <view class="padding-xs solids imageAdd" wx:if="{{pic6 == ''}}">
+                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="23"></text>
+                </view>
+                <view class="imageShow solids padding-xs" style="margin-left:20px" wx:if="{{pic7 !== ''}}">
+                    <image src="{{pic7}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic7}}" />
+                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="31">
+                        删除
+                    </button>
+                </view>
+                <view class="padding-xs solids imageAdd" style="margin-left:20px" wx:if="{{pic7 == ''}}">
+                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="31"></text>
+                </view>
+                <view class="imageShow solids padding-xs" wx:if="{{pic8 !== ''}}">
+                    <image src="{{pic8}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic8}}" />
+                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="32">
+                        删除
+                    </button>
+                </view>
+                <view class="padding-xs solids imageAdd" wx:if="{{pic8 == ''}}">
+                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="32"></text>
+                </view>
+                <view class="imageShow solids padding-xs" style="margin-left:20px" wx:if="{{pic9 !== ''}}">
+                    <image src="{{pic9}}" mode='aspectFit ' bindtap="showImageModal" data-img="{{pic9}}" />
+                    <button class='cu-btn bg-red shadow sm ' bindtap="onRemovePic" data-le="33">
+                        删除
+                    </button>
+                </view>
+                <view class="padding-xs solids imageAdd" style="margin-left:20px" wx:if="{{pic9 == ''}}">
+                    <text class='icon-cameraadd ' bindtap="onChooseImage" data-le="33"></text>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="cu-modal {{showImageModal?'show ':' '}}">
+    <view class="cu-dialog">
+        <view class="">
+            <view style="float:left;width:100%;">
+                <image src="{{modalImage}}" mode='aspectFit ' style="height: 800rpx;" />
+            </view>
+            <view style="float:left;width:100%;margin: 30rpx 0rpx;">
+                <button class='cu-btn bg-red shadow ' bindtap="hideImageModal">
+                    关闭
+                </button>
+            </view>
+        </view>
+    </view>
+</view>
+<view class='load-progress {{loadProgress!=0? "show": "hide"}} ' style="top:{{CustomBar}}px;">
+    <view class='load-progress-bar bg-green ' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
+    <view class='load-progress-spinner text-green '></view>
+</view>
+<view class='cu-load load-modal ' wx:if="{{loadModal}}">
+    <view class='gray-text '>处理中...</view>
+</view>
+<view class="load-curtain" wx:if="{{loadProgress!=0}}"></view>
+<view class="cu-modal {{modalName=='ErrModal '?'show ':' '}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class='content '>无法操作</view>
+            <view class='action ' bindtap='hideModal '>
+                <text class='icon-close text-red '></text>
+            </view>
+        </view>
+        <view class='padding-xl '>
+            <view class='flex-sub text-center '>
+                <view class='solid-bottom text-sl padding '>
+                    <text class='icon-warnfill text-red '></text>
+                </view>
+                <view class='padding '>{{errMsg}}</view>
+            </view>
+        </view>
+    </view>
+</view>

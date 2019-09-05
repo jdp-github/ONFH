@@ -1,7 +1,7 @@
 'use strict';
 
-let constant = require('../../../../utils/constant.js');
-let util = require('../../../../utils/util.js');
+let constant = require('../../../utils/constant.js');
+let util = require('../../../utils/util.js');
 
 const app = getApp();
 
@@ -24,121 +24,106 @@ Page({
         // -------- tab切换 begin -------- //
         TabCur: 0,
         VerticalNavTop: 0,
-        TabTitle: ['基本信息', '左髋', '右髋'],
-        ShowBasic: true,
-        ShowDiagnose: false,
+        TabTitle: ['左髋', '右髋'],
+        // ShowBasic: true,
+        ShowDiagnose: true,
         ShowAdmission: false,
         // -------- tab切换 end -------- //
 
         // -------- 公用信息 begin -------- //
-        centerId: '',
-        centerName: '',
         caseId: '',
         isCreateCase: '',
         isLook: false,
-        caseInfo: {},
-        addAvatar: '',
-        updateAvatarArr: [],
-        approveAvatar: '',
+        followupInfo: {},
+        szDate: 0,
+        times: '',
+        // addAvatar: '',
+        // updateAvatarArr: [],
+        // approveAvatar: '',
         // -------- 公用信息 end -------- //
 
-        // -------- 基本信息 begin -------- //
-        name: '',
-        caseNO: "",
-        createDate: util.getNowFormatDate(new Date()),
-        sex: 0,
-        sexPicker: ['请选择', '男', '女'],
-        age: '',
-        height: '',
-        weight: '',
-        bmi: '',
-        chiefDoc: '',
-        tel1: '',
-        tel2: '',
-        tel2Disabled: false,
-        qtbsjb: '',
-        jybs: '',
-        isBaseLock: 0,
-        // -------- 基本信息 end -------- //
-
         // -------- 左侧 begin -------- //
-        // 症状出现时长
-        symptomDateMultiArray: [
-            ['单位'],
-            ['天', '周', '月', '年'],
-            (() => {
-                let temp = ['请选择'];
-                for (let i = 1; i <= 250; i++) {
-                    temp.push(i + '')
-                }
-                return temp
-            })(),
-        ],
-        symptomDateMultiIndex: [0, 0, 0],
-        symptomDateValue: '请选择',
-        symptomDisabled: false,
-        // 类型
-        leixingIndex: 0,
-        leixingPicker: ["请选择", "激素型", "酒精性", "创伤性", "特发性", "其他"],
-        leixingDisabled: false,
-        // 理由
-        liyou: '',
-        liyouDisabled: false,
+        // 随访日期
+        sfDate: '请选择日期',
+        sfDateDisabled: false,
+        // 距离首诊时长
+        szscValue: '',
+        // 随访情况
+        sfqkIndex: 0,
+        sfqkPicker: ["请选择", "未发病", "ARCO I期", "ARCO II期", "ARCO III期", "ARCO IV期", "关节置换", "死亡", "失访"],
+        sfqkDisabled: false,
+        // 终结本侧日后随访
+        zjbcIndex: 0,
+        zjbcPicker: ["请选择", "否", "是"],
+        zjbcDisabled: false,
+        // 是否遵从前次治疗方案
+        sfzcIndex: 0,
+        sfzcPicker: ["请选择", "是", "部分遵从", "否"],
+        sfzcDisabled: false,
+        // 更改方案说明
+        ggfaValue: '',
+        ggfaDisabled: false,
         // ARCO
         arcoIndex: 0,
         arcoPicker: ["请选择", "ARCO I期", "ARCO II期", "ARCO III期", "ARCO IV期", "未发病"],
+        arcoDisabled: false,
         // harris
         harris: '',
         harrisImgArr: [],
+        harrisDisabled: false,
         // VAS
         vasIndex: 0,
         vasPicker: ["请选择", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
         vasImgArr: [],
+        vasDisabled: false,
         // x光左
         xleftIndex: 0,
         xleftPicker: ["请选择", "已拍", "未拍"],
         xleftImgArr: [],
+        xleftDisabled: false,
         // CT左
         ctLeftIndex: 0,
         ctLeftPicker: ["请选择", "已拍", "未拍"],
         ctLeftImgArr: [],
+        ctLeftDisabled: false,
         // MRI左
         mriLeftIndex: 0,
         mriLeftPicker: ["请选择", "已拍", "未拍"],
         mriLeftImgArr: [],
+        mriLeftDisabled: false,
         // 本次治疗方法
         bczlIndex: 0,
-        bczlPicker: ["请选择", "无治疗", "药物治疗", "钻孔减压", "手术", "其他"],
+        bczlPicker: ["请选择", "无治疗", "药物治疗", "钻孔减压", "保髋手术", "其他"],
         bczlDisabled: false,
         // 具体治疗措施
         jtzl: '',
         jtzlDisabled: false,
+        // 备注
         beizhu: '',
-
+        beizhuDisabled: '',
         // -------- 左侧 end -------- //
 
         // -------- 右侧 begin -------- //
-        symptomDateMultiArray_R: [
-            ['单位'],
-            ['天', '周', '月', '年'],
-            (() => {
-                let temp = ['请选择'];
-                for (let i = 1; i <= 250; i++) {
-                    temp.push(i + '')
-                }
-                return temp
-            })(),
-        ],
-        symptomDateMultiIndex_R: [0, 0, 0],
-        symptomDateValue_R: '请选择',
-        symptomDisabled_R: false,
-        // 类型
-        leixingIndex_R: 0,
-        leixingPicker_R: ["请选择", "激素型", "酒精性", "创伤性", "特发性", "其他"],
-        leixingDisabled_R: false,
-        // 理由
-        liyou_R: '',
-        liyouDisabled_R: false,
+        // 随访日期
+        sfDate_R: '请选择日期',
+        sfDateDisabled_R: false,
+        // 距离首诊时长
+        szscValue_R: '',
+        // 随访情况
+        sfqkIndex_R: 0,
+        sfqkPicker_R: ["请选择", "未发病", "ARCO I期", "ARCO II期", "ARCO III期", "ARCO IV期", "关节置换", "死亡", "失访"],
+        sfqkDisabled_R: false,
+        // 终结本侧日后随访
+        zjbcIndex_R: 0,
+        zjbcPicker_R: ["请选择", "否", "是"],
+        zjbcDisabled_R: false,
+        // 是否遵从前次治疗方案
+        sfzcIndex_R: 0,
+        sfzcPicker_R: ["请选择", "是", "部分遵从", "否"],
+        sfzcDisabled_R: false,
+        // 更改方案说明
+        ggfaValue_R: '',
+        ggfaDisabled_R: false,
         // ARCO
         arcoIndex_R: 0,
         arcoPicker_R: ["请选择", "ARCO I期", "ARCO II期", "ARCO III期", "ARCO IV期", "未发病"],
@@ -168,8 +153,9 @@ Page({
         // 具体治疗措施
         jtzl_R: '',
         jtzlDisabled_R: false,
+        // 备注
         beizhu_R: '',
-
+        beizhuDisabled_R: '',
         // -------- 右侧 end -------- //
 
         // ------- 图片上传 start --------- //
@@ -192,350 +178,117 @@ Page({
                 this.setData({
                     TabCur: tabId,
                     VerticalNavTop: (tabId - 1) * 50,
-                    ShowBasic: true,
-                    ShowDiagnose: false,
-                    ShowAdmission: false,
-                });
-                if (!this.data.isCreateCase) {
-                    this.setData({
-                        addAvatar: this.data.caseInfo.base.base_creator_avatar,
-                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.base.base_editor_list),
-                        approveAvatar: this.data.caseInfo.base.base_auditor_avatar,
-                    })
-                }
-                break;
-            case 1:
-                this.setData({
-                    TabCur: tabId,
-                    VerticalNavTop: (tabId - 1) * 50,
-                    ShowBasic: false,
                     ShowDiagnose: true,
                     ShowAdmission: false,
                 });
-                if (!this.data.isCreateCase) {
-                    this.setData({
-                        addAvatar: this.data.caseInfo.left.creator_avatar,
-                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.left.editor_list),
-                        approveAvatar: this.data.caseInfo.left.auditor_avatar,
-                    })
-                }
+                // if (!this.data.isCreateCase) {
+                //     this.setData({
+                //         addAvatar: this.data.followupInfo.left.creator_avatar,
+                //         updateAvatarArr: this.makeUpdateAvatar(this.data.followupInfo.left.editor_list),
+                //         approveAvatar: this.data.followupInfo.left.auditor_avatar,
+                //     })
+                // }
                 break;
-            case 2:
+            case 1:
                 this.setData({
                     TabCur: tabId,
                     VerticalNavTop: (tabId - 1) * 50,
-                    ShowBasic: false,
                     ShowDiagnose: false,
                     ShowAdmission: true,
                 });
-                if (!this.data.isCreateCase) {
-                    this.setData({
-                        addAvatar: this.data.caseInfo.right.creator_avatar,
-                        updateAvatarArr: this.makeUpdateAvatar(this.data.caseInfo.right.editor_list),
-                        approveAvatar: this.data.caseInfo.right.auditor_avatar,
-                    })
-                }
+                // if (!this.data.isCreateCase) {
+                //     this.setData({
+                //         addAvatar: this.data.followupInfo.right.creator_avatar,
+                //         updateAvatarArr: this.makeUpdateAvatar(this.data.followupInfo.right.editor_list),
+                //         approveAvatar: this.data.followupInfo.right.auditor_avatar,
+                //     })
+                // }
                 break;
         }
     },
-
-    // -------- 基本信息事件 begin -------- //
-    onNameInput: function(e) {
-        this.setData({
-            name: e.detail.value
-        });
-    },
-    onCaseNOInput: function(e) {
-        this.setData({
-            caseNO: e.detail.value
-        });
-    },
-    onCreateDateChange: function(e) {
-        this.setData({
-            createDate: e.detail.value
-        });
-    },
-    onSexChange: function(e) {
-        this.setData({
-            sex: parseInt(e.detail.value)
-        });
-    },
-    onAgeInput: function(e) {
-        this.setData({
-            age: e.detail.value,
-        });
-    },
-    onHeightInput: function(e) {
-        this.setData({
-            height: e.detail.value
-        });
-        if (this.data.weight != 0 && this.data.height != 0) {
-            var calcBMI = this.data.weight / (this.data.height * this.data.height)
-            this.setData({
-                bmi: calcBMI.toFixed(2)
-            })
-        }
-    },
-    onWeightInput: function(e) {
-        this.setData({
-            weight: e.detail.value
-        });
-        if (this.data.weight != 0 && this.data.height != 0) {
-            var calcBMI = this.data.weight / (this.data.height * this.data.height)
-            this.setData({
-                bmi: calcBMI.toFixed(2)
-            })
-        }
-    },
-    onChiefDocInput: function(e) {
-        this.setData({
-            chiefDoc: e.detail.value
-        });
-    },
-    onTel1Input: function(e) {
-        this.setData({
-            tel1: e.detail.value
-        });
-    },
-    onTel2Input: function(e) {
-        this.setData({
-            tel2: e.detail.value
-        });
-    },
-    onTel2SwitchChange: function(e) {
-        this.setData({
-            tel2Disabled: !e.detail.value
-        });
-        if (this.data.tel2Disabled) {
-            this.setData({
-                tel2: ''
-            });
-        }
-    },
-    onQtbsjbInput: function(e) {
-        this.setData({
-            qtbsjb: e.detail.value
-        });
-    },
-    onJybsInput: function(e) {
-        this.setData({
-            jybs: e.detail.value
-        });
-    },
-    onFollowUpClick: function(e) {
-        wx.navigateTo({
-            url: '../../../followup/followup?case_id=' + this.data.caseId + "&szDate=" + Date.parse(this.data.createDate)
-        });
-    },
-    // -------- 基本信息事件 end -------- //
 
     // -------- 左侧 begin -------- //
-    defaultSymptomDate: function() {
-        let data = {
-            symptomDateMultiArray: this.data.symptomDateMultiArray,
-            symptomDateMultiIndex: this.data.symptomDateMultiIndex
-        };
-        switch (data.symptomDateMultiIndex[1]) {
-            case 0:
-                data.symptomDateMultiArray[1] = ['天', '周', '月', '年'];
-                data.symptomDateMultiArray[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-            case 1:
-                data.symptomDateMultiArray[1] = ['天', '周', '月', '年'];
-                data.symptomDateMultiArray[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-            case 2:
-                data.symptomDateMultiArray[1] = ['天', '周', '月', '年'];
-                data.symptomDateMultiArray[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-            case 3:
-                data.symptomDateMultiArray[1] = ['天', '周', '月', '年'];
-                data.symptomDateMultiArray[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-        }
-        this.setData(data);
-        return data.symptomDateMultiArray;
-    },
-    symptomDateChange: function(e) {
+    onTimesInput: function(e) {
         this.setData({
-            symptomDateMultiIndex: e.detail.value,
-            symptomDateValue: '' + e.detail.value[2] + this.data.symptomDateMultiArray[1][e.detail.value[1]]
+            times: e.detail.value
         });
     },
-    symptomDateColumnChange: function(e) {
-        let data = {
-            symptomDateMultiArray: this.data.symptomDateMultiArray,
-            symptomDateMultiIndex: this.data.symptomDateMultiIndex
-        };
-        data.symptomDateMultiIndex[e.detail.column] = e.detail.value;
-        switch (e.detail.column) {
-            case 0:
-                switch (data.symptomDateMultiIndex[0]) {
-                    case 0:
-                        data.symptomDateMultiArray[1] = ['天', '周', '月', '年'];
-                        data.symptomDateMultiArray[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                    case 1:
-                        data.symptomDateMultiArray[1] = ['天', '周', '月', '年'];
-                        data.symptomDateMultiArray[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                    case 2:
-                        data.symptomDateMultiArray[1] = ['天', '周', '月', '年'];
-                        data.symptomDateMultiArray[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                    case 3:
-                        data.symptomDateMultiArray[1] = ['天', '周', '月', '年'];
-                        data.symptomDateMultiArray[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                }
-                data.symptomDateMultiIndex[1] = 0;
-                data.symptomDateMultiIndex[2] = 0;
-                break;
-            case 1:
-                switch (data.symptomDateMultiIndex[0]) {
-                    case 0:
-                        switch (data.symptomDateMultiIndex[1]) {
-                            case 0:
-                                data.symptomDateMultiArray[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                            case 1:
-                                data.symptomDateMultiArray[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                            case 2:
-                                data.symptomDateMultiArray[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                            case 3:
-                                data.symptomDateMultiArray[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                        }
-                        break;
-                }
-                data.symptomDateMultiIndex[2] = 0;
-                break;
-        }
-        if (data.symptomDateMultiIndex[1] == 0 && data.symptomDateMultiIndex[2] < 31 || data.symptomDateMultiIndex[1] == 1 && data.symptomDateMultiIndex[2] < 3) {
-            // <= 21天 或者 <= 3周是急性
-            this.setData({
-                xingzhiIndex: 1,
-                xingzhiValue: '急性'
-            })
-        } else {
-            this.setData({
-                xingzhiIndex: 2,
-                xingzhiValue: '慢性'
-            })
-        }
-        this.setData(data);
-    },
-    onSymptomSwitchChange: function(e) {
+    onSfDateChange: function(e) {
+        let dateDiff = Date.parse(e.detail.value) - this.data.szDate;
+        dateDiff = Math.floor(dateDiff / (24 * 3600 * 1000 * 30))
         this.setData({
-            symptomDisabled: !e.detail.value
-        });
-        if (this.data.symptomDisabled) {
-            this.setData({
-                symptomDateValue: ""
-            })
-        }
-    },
-    onLeixingChange: function(e) {
-        this.setData({
-            leixingIndex: e.detail.value,
+            sfDate: e.detail.value,
+            szscValue: dateDiff + "月"
         });
     },
-    onLeixingSwitchChange: function(e) {
+    onSfDateSwitchChange: function(e) {
         this.setData({
-            leixingDisabled: !e.detail.value
+            sfDateDisabled: !e.detail.value
         });
-        if (this.data.leixingDisabled) {
+        if (this.data.sfDateDisabled) {
             this.setData({
-                leixingIndex: 0
+                sfDate: '请选择日期',
+                szscValue: ''
             });
         }
     },
-    onLiyouInput: function(e) {
+    onSfqkChange: function(e) {
         this.setData({
-            liyou: e.detail.value
+            sfqkIndex: e.detail.value,
         });
     },
-    onLiyouSwitchChange: function(e) {
+    onSfqkSwitchChange: function(e) {
         this.setData({
-            liyouDisabled: !e.detail.value
+            sfqkDisabled: !e.detail.value
         });
-        if (this.data.liyouDisabled) {
+        if (this.data.sfqkDisabled) {
             this.setData({
-                liyou: ''
+                sfqkIndex: 0
+            });
+        }
+    },
+    onZjbcChange: function(e) {
+        this.setData({
+            zjbcIndex: e.detail.value,
+        });
+    },
+    onZjbcSwitchChange: function(e) {
+        this.setData({
+            zjbcDisabled: !e.detail.value
+        });
+        if (this.data.zjbcDisabled) {
+            this.setData({
+                zjbcIndex: 0
+            });
+        }
+    },
+    onSfzcChange: function(e) {
+        this.setData({
+            sfzcIndex: e.detail.value,
+        });
+    },
+    onSfzcSwitchChange: function(e) {
+        this.setData({
+            sfzcDisabled: !e.detail.value
+        });
+        if (this.data.sfzcDisabled) {
+            this.setData({
+                sfzcIndex: 0
+            });
+        }
+    },
+    onGgfaInput: function(e) {
+        this.setData({
+            ggfaValue: e.detail.value
+        });
+    },
+    onGgfaSwitchChange: function(e) {
+        this.setData({
+            ggfaDisabled: !e.detail.value
+        });
+        if (this.data.ggfaDisabled) {
+            this.setData({
+                ggfaValue: ''
             });
         }
     },
@@ -544,30 +297,95 @@ Page({
             arcoIndex: e.detail.value,
         });
     },
+    onArcoSwitchChange: function(e) {
+        this.setData({
+            arcoDisabled: !e.detail.value
+        });
+        if (this.data.arcoDisabled) {
+            this.setData({
+                arcoIndex: 0
+            });
+        }
+    },
     onHarrisInput: function(e) {
         this.setData({
             harris: e.detail.value
         });
+    },
+    onHarrisSwitchChange: function(e) {
+        this.setData({
+            harrisDisabled: !e.detail.value
+        });
+        if (this.data.harrisDisabled) {
+            this.setData({
+                harris: '',
+                harrisImgArr: []
+            });
+        }
     },
     onVASChange: function(e) {
         this.setData({
             vasIndex: e.detail.value,
         });
     },
+    onVasSwitchChange: function(e) {
+        this.setData({
+            vasDisabled: !e.detail.value
+        });
+        if (this.data.vasDisabled) {
+            this.setData({
+                vasIndex: 0,
+                vasImgArr: []
+            });
+        }
+    },
     onXLeftChange: function(e) {
         this.setData({
             xleftIndex: e.detail.value,
         });
+    },
+    onXLeftSwitchChange: function(e) {
+        this.setData({
+            xleftDisabled: !e.detail.value
+        });
+        if (this.data.xleftDisabled) {
+            this.setData({
+                xleftIndex: 0,
+                xleftImgArr: []
+            });
+        }
     },
     onCTLeftChange: function(e) {
         this.setData({
             ctLeftIndex: e.detail.value,
         });
     },
+    onCTLeftSwitchChange: function(e) {
+        this.setData({
+            ctLeftDisabled: !e.detail.value
+        });
+        if (this.data.ctLeftDisabled) {
+            this.setData({
+                ctLeftIndex: 0,
+                ctLeftImgArr: []
+            });
+        }
+    },
     onMRILeftChange: function(e) {
         this.setData({
             mriLeftIndex: e.detail.value,
         });
+    },
+    onMriLeftSwitchChange: function(e) {
+        this.setData({
+            mriLeftDisabled: !e.detail.value
+        });
+        if (this.data.mriLeftDisabled) {
+            this.setData({
+                mriLeftIndex: 0,
+                mriLeftImgArr: []
+            });
+        }
     },
     onBczlChange: function(e) {
         this.setData({
@@ -604,204 +422,96 @@ Page({
             beizhu: e.detail.value
         });
     },
-    // -------- 左侧 end -------- //
-
-    // -------- 右侧 begin -------- //
-    defaultSymptomDate_R: function() {
-        let data = {
-            symptomDateMultiArray_R: this.data.symptomDateMultiArray_R,
-            symptomDateMultiIndex_R: this.data.symptomDateMultiIndex_R
-        };
-        switch (data.symptomDateMultiIndex_R[1]) {
-            case 0:
-                data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
-                data.symptomDateMultiArray_R[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-            case 1:
-                data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
-                data.symptomDateMultiArray_R[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-            case 2:
-                data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
-                data.symptomDateMultiArray_R[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-            case 3:
-                data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
-                data.symptomDateMultiArray_R[2] = (() => {
-                    let temp = ['请选择'];
-                    for (let i = 1; i <= 250; i++) {
-                        temp.push(i + '')
-                    }
-                    return temp
-                })();
-                break;
-        }
-        this.setData(data);
-        return data.symptomDateMultiArray_R;
-    },
-    symptomDateChange_R: function(e) {
+    onBeizhuSwitchChange: function(e) {
         this.setData({
-            symptomDateMultiIndex_R: e.detail.value,
-            symptomDateValue_R: '' + e.detail.value[2] + this.data.symptomDateMultiArray_R[1][e.detail.value[1]]
+            beizhuDisabled: !e.detail.value
         });
-    },
-    symptomDateColumnChange_R: function(e) {
-        let data = {
-            symptomDateMultiArray_R: this.data.symptomDateMultiArray_R,
-            symptomDateMultiIndex_R: this.data.symptomDateMultiIndex_R
-        };
-        data.symptomDateMultiIndex_R[e.detail.column] = e.detail.value;
-        switch (e.detail.column) {
-            case 0:
-                switch (data.symptomDateMultiIndex_R[0]) {
-                    case 0:
-                        data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
-                        data.symptomDateMultiArray_R[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                    case 1:
-                        data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
-                        data.symptomDateMultiArray_R[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                    case 2:
-                        data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
-                        data.symptomDateMultiArray_R[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                    case 3:
-                        data.symptomDateMultiArray_R[1] = ['天', '周', '月', '年'];
-                        data.symptomDateMultiArray_R[2] = (() => {
-                            let temp = ['请选择'];
-                            for (let i = 1; i <= 250; i++) {
-                                temp.push(i + '')
-                            }
-                            return temp
-                        })();
-                        break;
-                }
-                data.symptomDateMultiIndex_R[1] = 0;
-                data.symptomDateMultiIndex_R[2] = 0;
-                break;
-            case 1:
-                switch (data.symptomDateMultiIndex_R[0]) {
-                    case 0:
-                        switch (data.symptomDateMultiIndex_R[1]) {
-                            case 0:
-                                data.symptomDateMultiArray_R[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                            case 1:
-                                data.symptomDateMultiArray_R[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                            case 2:
-                                data.symptomDateMultiArray_R[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                            case 3:
-                                data.symptomDateMultiArray_R[2] = (() => {
-                                    let temp = ['请选择'];
-                                    for (let i = 1; i <= 250; i++) {
-                                        temp.push(i + '')
-                                    }
-                                    return temp
-                                })();
-                                break;
-                        }
-                        break;
-                }
-                data.symptomDateMultiIndex_R[2] = 0;
-                break;
-        }
-
-        this.setData(data);
-    },
-    onSymptomSwitchChange_R: function(e) {
-        this.setData({
-            symptomDisabled_R: !e.detail.value
-        });
-        if (this.data.symptomDisabled_R) {
+        if (this.data.beizhuDisabled) {
             this.setData({
-                symptomDateValue_R: ""
-            })
-        }
-    },
-    onLeixingChange_R: function(e) {
-        this.setData({
-            leixingIndex_R: e.detail.value,
-        });
-    },
-    onLeixingSwitchChange_R: function(e) {
-        this.setData({
-            leixingDisabled_R: !e.detail.value
-        });
-        if (this.data.leixingDisabled_R) {
-            this.setData({
-                leixingIndex_R: 0
+                beizhu: ''
             });
         }
     },
-    onLiyouInput_R: function(e) {
+    // -------- 左侧 end -------- //
+
+    // -------- 右侧 begin -------- //
+    onSfDateChange_R: function(e) {
+        let dateDiff = Date.parse(e.detail.value) - this.data.szDate;
+        dateDiff = Math.floor(dateDiff / (24 * 3600 * 1000 * 30))
+
         this.setData({
-            liyou_R: e.detail.value
+            sfDate_R: e.detail.value,
+            szscValue_R: dateDiff + "月"
         });
     },
-    onLiyouSwitchChange_R: function(e) {
+    onSfDateSwitchChange_R: function(e) {
         this.setData({
-            liyouDisabled_R: !e.detail.value
+            sfDateDisabled_R: !e.detail.value
         });
-        if (this.data.liyouDisabled_R) {
+        if (this.data.sfDateDisabled_R) {
             this.setData({
-                liyou_R: ''
+                sfDate_R: '请选择日期',
+                szscValue_R: ''
+            });
+        }
+    },
+    onSfqkChange_R: function(e) {
+        this.setData({
+            sfqkIndex_R: e.detail.value,
+        });
+    },
+    onSfqkSwitchChange_R: function(e) {
+        this.setData({
+            sfqkDisabled_R: !e.detail.value
+        });
+        if (this.data.sfqkDisabled_R) {
+            this.setData({
+                sfqkIndex_R: 0
+            });
+        }
+    },
+    onZjbcChange_R: function(e) {
+        this.setData({
+            zjbcIndex_R: e.detail.value,
+        });
+    },
+    onZjbcSwitchChange_R: function(e) {
+        this.setData({
+            zjbcDisabled_R: !e.detail.value
+        });
+        if (this.data.zjbcDisabled_R) {
+            this.setData({
+                zjbcIndex_R: 0
+            });
+        }
+    },
+    onSfzcChange_R: function(e) {
+        this.setData({
+            sfzcIndex_R: e.detail.value,
+        });
+    },
+    onSfzcSwitchChange_R: function(e) {
+        this.setData({
+            sfzcDisabled_R: !e.detail.value
+        });
+        if (this.data.sfzcDisabled_R) {
+            this.setData({
+                sfzcIndex_R: 0
+            });
+        }
+    },
+    onGgfaInput_R: function(e) {
+        this.setData({
+            ggfaValue_R: e.detail.value
+        });
+    },
+    onGgfaSwitchChange_R: function(e) {
+        this.setData({
+            ggfaDisabled_R: !e.detail.value
+        });
+        if (this.data.ggfaDisabled_R) {
+            this.setData({
+                ggfaValue_R: ''
             });
         }
     },
@@ -810,30 +520,95 @@ Page({
             arcoIndex_R: e.detail.value,
         });
     },
+    onArcoSwitchChange_R: function(e) {
+        this.setData({
+            arcoDisabled_R: !e.detail.value
+        });
+        if (this.data.arcoDisabled_R) {
+            this.setData({
+                arcoIndex_R: 0
+            });
+        }
+    },
     onHarrisInput_R: function(e) {
         this.setData({
             harris_R: e.detail.value
         });
+    },
+    onHarrisSwitchChange_R: function(e) {
+        this.setData({
+            harrisDisabled_R: !e.detail.value
+        });
+        if (this.data.harrisDisabled_R) {
+            this.setData({
+                harris_R: '',
+                harrisImgArr_R: []
+            });
+        }
     },
     onVASChange_R: function(e) {
         this.setData({
             vasIndex_R: e.detail.value,
         });
     },
+    onVasSwitchChange_R: function(e) {
+        this.setData({
+            vasDisabled_R: !e.detail.value
+        });
+        if (this.data.vasDisabled_R) {
+            this.setData({
+                vasIndex_R: 0,
+                vasImgArr_R: []
+            });
+        }
+    },
     onXLeftChange_R: function(e) {
         this.setData({
             xleftIndex_R: e.detail.value,
         });
+    },
+    onXLeftSwitchChange_R: function(e) {
+        this.setData({
+            xleftDisabled_R: !e.detail.value
+        });
+        if (this.data.xleftDisabled_R) {
+            this.setData({
+                xleftIndex_R: 0,
+                xleftImgArr_R: []
+            });
+        }
     },
     onCTLeftChange_R: function(e) {
         this.setData({
             ctLeftIndex_R: e.detail.value,
         });
     },
+    onCTLeftSwitchChange_R: function(e) {
+        this.setData({
+            ctLeftDisabled_R: !e.detail.value
+        });
+        if (this.data.ctLeftDisabled_R) {
+            this.setData({
+                ctLeftIndex_R: 0,
+                ctLeftImgArr_R: []
+            });
+        }
+    },
     onMRILeftChange_R: function(e) {
         this.setData({
             mriLeftIndex_R: e.detail.value,
         });
+    },
+    onMriLeftSwitchChange_R: function(e) {
+        this.setData({
+            mriLeftDisabled_R: !e.detail.value
+        });
+        if (this.data.mriLeftDisabled_R) {
+            this.setData({
+                mriLeftIndex_R: 0,
+                mriLeftImgArr_R: []
+            });
+        }
     },
     onBczlChange_R: function(e) {
         this.setData({
@@ -869,6 +644,16 @@ Page({
         this.setData({
             beizhu_R: e.detail.value
         });
+    },
+    onBeizhuSwitchChange_R: function(e) {
+        this.setData({
+            beizhuDisabled_R: !e.detail.value
+        });
+        if (this.data.beizhuDisabled_R) {
+            this.setData({
+                beizhu_R: ''
+            });
+        }
     },
     // -------- 右侧 end -------- //
 
@@ -1405,22 +1190,20 @@ Page({
 
     onLoad: function(options) {
         this.loadProgress();
-        var caseId = options.case_id;
         this.setData({
-            centerId: options.centerId ? options.centerId : '',
-            centerName: options.centerName ? options.centerName : '',
-            isAdmin: app.globalData.is_admin == '1',
-            caseId: caseId,
-            isCreateCase: caseId.length <= 0,
-            isLook: options.isLook ? options.isLook : false
+            caseId: options.case_id,
+            isCreateCase: options.isCreateCase,
+            isLook: options.isLook ? options.isLook : false,
+            szDate: options.szDate
         });
         if (!this.data.isCreateCase) {
             this.requestCaseInfo(caseId)
-        } else {
-            this.setData({
-                addAvatar: app.globalData.avatarUrl
-            })
         }
+        // else {
+        //     this.setData({
+        //         addAvatar: app.globalData.avatarUrl
+        //     })
+        // }
         this.completeProgress();
     },
 
@@ -1452,39 +1235,10 @@ Page({
     },
     initViewByData(info) {
         this.setData({
-            caseInfo: info
+            followupInfo: info
         });
-        // 基本信息
-        this.setData({
-            name: info.base.patient_name,
-            caseNO: info.base.case_no,
-            createDate: util.formatTime(info.base.create_time, 'Y-M-D'),
-            sex: info.base.sex,
-            age: info.base.age,
-            height: info.base.height,
-            weight: info.base.weight,
-            bmi: info.base.bmi,
-            chiefDoc: info.base.pro_doctor,
-            tel1: info.base.telphone1,
-            tel2: info.base.telphone2,
-            tel2Disabled: this.getValueDisable(info.base.telphone2),
-            qtbsjb: info.base.other_concomitant_diseases,
-            jybs: info.base.medical_history,
-            addAvatar: info.base.base_creator_avatar,
-            updateAvatarArr: this.makeUpdateAvatar(info.base.base_editor_list),
-            approveAvatar: info.base.base_auditor_avatar,
-            isBaseLock: info.base.is_lock
-        })
         // 左侧
-        let tempSymptomsUnit = [0, parseInt(info.left.duration_symptoms_unit), parseInt(info.left.duration_symptoms)];
         this.setData({
-            symptomDateMultiIndex: tempSymptomsUnit,
-            symptomDateValue: tempSymptomsUnit[2] ? '' + tempSymptomsUnit[2] + this.data.symptomDateMultiArray[1][tempSymptomsUnit[1]] : '请选择',
-            symptomDisabled: this.getNumDisable(tempSymptomsUnit[1]),
-            leixingIndex: info.left.leixing,
-            leixingDisabled: this.getNumDisable(info.left.leixing),
-            liyou: info.left.liyou,
-            liyouDisabled: this.getValueDisable(info.left.liyou),
             arcoIndex: info.left.arco,
             harris: this.getDefaultNum(info.left.harris),
             harrisImgArr: this.makeImgArr(info.left.harris_pics),
@@ -1503,11 +1257,7 @@ Page({
             beizhu: info.left.beizhu
         })
         // 右侧
-        let tempSymptomsUnit_R = [0, parseInt(info.right.duration_symptoms_unit), parseInt(info.right.duration_symptoms)];
         this.setData({
-            symptomDateMultiIndex_R: tempSymptomsUnit_R,
-            symptomDateValue_R: tempSymptomsUnit_R[2] ? '' + tempSymptomsUnit_R[2] + this.data.symptomDateMultiArray_R[1][tempSymptomsUnit_R[1]] : '请选择',
-            symptomDisabled_R: this.getNumDisable(tempSymptomsUnit_R[1]),
             leixingIndex_R: info.right.leixing,
             leixingDisabled_R: this.getNumDisable(info.right.leixing),
             liyou_R: info.right.liyou,
@@ -1565,50 +1315,45 @@ Page({
         return value <= 0
     },
 
-    makeUpdateAvatar(avatarObjList) {
-        var avatarList = [];
-        var avatarLen = avatarObjList.length;
-        for (var i = 0; i < avatarLen; i++) {
-            avatarList[i] = avatarObjList[i].editor_avatar
-        }
-        return avatarList
-    },
+    // makeUpdateAvatar(avatarObjList) {
+    //     var avatarList = [];
+    //     var avatarLen = avatarObjList.length;
+    //     for (var i = 0; i < avatarLen; i++) {
+    //         avatarList[i] = avatarObjList[i].editor_avatar
+    //     }
+    //     return avatarList
+    // },
 
     submit: function(e) {
-        if (this.data.ShowBasic) { // 基本信息
-            this.submitBasic()
-        } else if (this.data.ShowDiagnose) { // 左侧
+        if (this.data.ShowDiagnose) { // 左侧
             this.submitLeft()
         } else if (this.data.ShowAdmission) { // 右侧
             this.submitRight()
         }
     },
 
-    submitBasic() {
-        if (!this.isBasicValueRight()) {
-            return;
+    submitLeft() {
+        if (!this.isLeftValueRight()) {
+            return
         }
 
         let that = this;
         that.showLoading();
+
         wx.request({
             url: constant.basePath,
             data: {
-                service: 'Case.CreateEditBase',
-                case_id: that.data.caseId,
+                service: 'Followup.AddLeftRight',
                 openid: app.globalData.openid,
-                json_data: that.makeBasicData()
+                json_data: that.makeLeftData(),
             },
             header: {
                 'content-type': 'application/json'
             },
             success(res) {
-                console.log("Case.CreateEditCaseBase:" + JSON.stringify(res))
+                console.log("Followup.AddLeft:" + JSON.stringify(res))
                 that.hideLoading();
                 if (res.data.data.code == 0) {
-                    that.setData({
-                        caseId: res.data.data.info.case_id
-                    })
                     that.showToast("提交成功")
                     var args = {
                         currentTarget: {
@@ -1628,159 +1373,52 @@ Page({
         });
     },
 
-    isBasicValueRight() {
-        if (this.data.name.length <= 0) {
-            this.showToast("请填写姓名")
-            return false;
-        }
-        if (this.data.caseNO.length <= 0) {
-            this.showToast("请填写病历号")
-            return false;
-        }
-        if (this.data.sex == 0) {
-            this.showToast("请选择性别")
-            return false;
-        }
-        if (this.data.age.length <= 0) {
-            this.showToast("请填写年龄")
-            return false;
-        }
-        if (this.data.height.length <= 0) {
-            this.showToast("请填写身高")
-            return false;
-        }
-        if (this.data.weight.length <= 0) {
-            this.showToast("请填写体重")
-            return false;
-        }
-        if (this.data.chiefDoc.length <= 0) {
-            this.showToast("请填写主诊医师")
-            return false;
-        }
-        if (this.data.tel1.length <= 0) {
-            this.showToast("请填写联系电话1")
-            return false;
-        }
-        if (!this.data.tel2Disabled && this.data.tel2.length == 0) {
-            this.showToast("请填写联系电话2")
-            return false;
-        }
-        if (this.data.qtbsjb.length <= 0) {
-            this.showToast("请填写其他伴随疾病")
-            return false;
-        }
-        if (this.data.jybs.length <= 0) {
-            this.showToast("请填写简要病史")
-            return false;
-        }
-
-        return true;
-    },
-
-    makeBasicData() {
-        let that = this;
-        var jsonData = {
-            center_id: that.data.centerId,
-            patient_name: that.data.name,
-            case_no: that.data.caseNO,
-            create_time: new Date(that.data.createDate).getTime() / 1000,
-            sex: that.data.sex,
-            age: parseInt(that.data.age),
-            height: parseFloat(that.data.height),
-            weight: parseFloat(that.data.weight),
-            bmi: parseFloat(that.data.bmi),
-            pro_doctor: that.data.chiefDoc,
-            telphone1: that.data.tel1,
-            telphone2: that.data.tel2,
-
-            other_concomitant_diseases: that.data.qtbsjb,
-            medical_history: that.data.jybs,
-        }
-        console.log("基本信息：" + JSON.stringify(jsonData))
-        return JSON.stringify(jsonData)
-    },
-
-    submitLeft() {
-        if (!this.isLeftValueRight()) {
-            return
-        }
-
-        let that = this;
-        that.showLoading();
-
-        wx.request({
-            url: constant.basePath,
-            data: {
-                service: 'Case.CreateEditLeftRight',
-                case_id: that.data.caseId,
-                openid: app.globalData.openid,
-                json_data: that.makeLeftData(),
-                side: "1"
-            },
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                console.log("Case.CreateEditLeftRight:" + JSON.stringify(res))
-                that.hideLoading();
-                if (res.data.data.code == 0) {
-                    that.showToast("提交成功")
-                    var args = {
-                        currentTarget: {
-                            dataset: {
-                                id: 2
-                            }
-                        }
-                    }
-                    that.tabSelect(args)
-                } else {
-                    that.showModal("ErrModal", res.data.data.msg);
-                }
-            },
-            fail(res) {
-                that.hideLoading();
-            }
-        });
-    },
-
     isLeftValueRight() {
-        if (!this.data.symptomDisabled && (this.data.symptomDateValue == '请选择' || this.data.symptomDateValue.length == 0)) {
-            this.showToast("请选择症状出现时长")
+        if (this.data.times.length == 0) {
+            this.showToast("请输入随访次数")
             return false;
         }
-        if (!this.data.leixingDisabled && this.data.leixingIndex == 0) {
-            this.showToast("请选择类型")
+        if (!this.data.sfDateDisabled && this.data.sfDate.length == 0) {
+            this.showToast("请选择随访日期")
             return false;
         }
-        if (!this.data.liyouDisabled && this.data.liyou.length == 0) {
-            this.showToast("请填写理由")
+        if (!this.data.sfqkDisabled && this.data.sfqkIndex == 0) {
+            this.showToast("请选择随访情况")
             return false;
         }
-        if (this.data.arcoIndex == 0) {
+        if (!this.data.zjbcDisabled && this.data.zjbcIndex == 0) {
+            this.showToast("请选择终结本侧日后随访")
+            return false;
+        }
+        if (!this.data.sfzcDisabled && this.data.sfzcIndex == 0) {
+            this.showToast("请选择是否遵从前次治疗方案")
+            return false;
+        }
+        if (!this.data.ggfaDisabled && this.data.ggfaValue.length == 0) {
+            this.showToast("请输入更改方案说明")
+            return false;
+        }
+        if (!this.data.arcoDisabled && this.data.arcoIndex == 0) {
             this.showToast("请选择ARCO分期")
             return false;
         }
-        if (this.data.arcoIndex == 0) {
-            this.showToast("请选择ARCO分期")
-            return false;
-        }
-        if (this.data.harris.length == 0) {
+        if (!this.data.harrisDisabled && this.data.harris.length == 0) {
             this.showToast("请输入Harris评分")
             return false;
         }
-        if (this.data.vasIndex == 0) {
+        if (!this.data.vasDisabled && this.data.vasIndex == 0) {
             this.showToast("请选择VAS疼痛评分")
             return false;
         }
-        if (this.data.xleftIndex == 0) {
+        if (!this.data.xleftDisabled && this.data.xleftIndex == 0) {
             this.showToast("请选择典型X光(左)")
             return false;
         }
-        if (this.data.ctLeftIndex == 0) {
+        if (!this.data.ctLeftDisabled && this.data.ctLeftIndex == 0) {
             this.showToast("请选择典型CT(左)")
             return false;
         }
-        if (this.data.mriLeftIndex == 0) {
+        if (!this.data.mriLeftDisabled && this.data.mriLeftIndex == 0) {
             this.showToast("请选择典型MRI(左)")
             return false;
         }
@@ -1792,7 +1430,7 @@ Page({
             this.showToast("请填写具体治疗措施")
             return false;
         }
-        if (this.data.beizhu.length == 0) {
+        if (!this.data.beizhuDisabled && this.data.beizhu.length == 0) {
             this.showToast("请填写特殊事项备注")
             return false;
         }
@@ -1805,16 +1443,20 @@ Page({
         var jsonData = {
             case_id: that.data.caseId,
             side: "1",
-            type: "1",
-            // 症状出现时长
-            duration_symptoms: parseInt(that.data.symptomDateMultiIndex[2]),
-            // 症状出现时长单位。1天，2月(必填项)
-            duration_symptoms_unit: parseInt(that.data.symptomDateMultiIndex[1]),
-            // 类型
-            leixing: that.data.leixingIndex,
-            // 理由
-            liyou: that.data.liyou,
-            // ARCO
+            times: that.data.times,
+            // 随访日期
+            sf_date: Date.parse(that.data.sfDate) / 1000,
+            // 距离首诊时长
+            sf_jlszsc: that.data.szscValue,
+            // 随访情况
+            sf_zt: that.data.sfqkIndex,
+            // 终结本侧日后随访
+            sf_zj: that.data.zjbcIndex,
+            // 是否遵从前次治疗方案
+            sf_scfa: that.data.sfzcIndex,
+            // 更改方案说明
+            sf_ggfa: that.data.ggfaValue,
+            // arco
             arco: that.data.arcoIndex,
             // Harris
             harris: that.data.harris,
@@ -1866,17 +1508,15 @@ Page({
         wx.request({
             url: constant.basePath,
             data: {
-                service: 'Case.CreateEditLeftRight',
-                case_id: that.data.caseId,
+                service: 'Followup.AddLeftRight',
                 openid: app.globalData.openid,
                 json_data: that.makeRightData(),
-                side: "2"
             },
             header: {
                 'content-type': 'application/json'
             },
             success(res) {
-                console.log("Case.CreateEditLeftRight:" + JSON.stringify(res))
+                console.log("Followup.AddRight:" + JSON.stringify(res))
                 that.hideLoading();
                 if (res.data.data.code == 0) {
                     that.showToast("提交成功")
@@ -1898,15 +1538,19 @@ Page({
         var jsonData = {
             case_id: that.data.caseId,
             side: "2",
-            type: "1",
-            // 症状出现时长
-            duration_symptoms: parseInt(that.data.symptomDateMultiIndex_R[2]),
-            // 症状出现时长单位。1天，2月(必填项)
-            duration_symptoms_unit: parseInt(that.data.symptomDateMultiIndex_R[1]),
-            // 类型
-            leixing: that.data.leixingIndex_R,
-            // 理由
-            liyou: that.data.liyou_R,
+            times: that.data.times,
+            // 随访日期
+            sf_date: Date.parse(that.data.sfDate_R) / 1000,
+            // 距离首诊时长
+            sf_jlszsc: that.data.szscValue_R,
+            // 随访情况
+            sf_zt: that.data.sfqkIndex_R,
+            // 终结本侧日后随访
+            sf_zj: that.data.zjbcIndex_R,
+            // 是否遵从前次治疗方案
+            sf_scfa: that.data.sfzcIndex_R,
+            // 更改方案说明
+            sf_ggfa: that.data.ggfaValue_R,
             // ARCO
             arco: that.data.arcoIndex_R,
             // Harris
@@ -1936,43 +1580,48 @@ Page({
     },
 
     isRightValueRight() {
-        if (!this.data.symptomDisabled_R && (this.data.symptomDateValue_R == '请选择' || this.data.symptomDateValue_R.length == 0)) {
-            this.showToast("请选择症状出现时长")
+        debugger
+        if (!this.data.sfDateDisabled_R && this.data.sfDate_R.length == 0) {
+            this.showToast("请选择随访日期")
             return false;
         }
-        if (!this.data.leixingDisabled_R && this.data.leixingIndex_R == 0) {
-            this.showToast("请选择类型")
+        if (!this.data.sfqkDisabled_R && this.data.sfqkIndex_R == 0) {
+            this.showToast("请选择随访情况")
             return false;
         }
-        if (!this.data.liyouDisabled_R && this.data.liyou_R.length == 0) {
-            this.showToast("请填写理由")
+        if (!this.data.zjbcDisabled_R && this.data.zjbcIndex_R == 0) {
+            this.showToast("请选择终结本侧日后随访")
             return false;
         }
-        if (this.data.arcoIndex_R == 0) {
+        if (!this.data.sfzcDisabled_R && this.data.sfzcIndex_R == 0) {
+            this.showToast("请选择是否遵从前次治疗方案")
+            return false;
+        }
+        if (!this.data.ggfaDisabled_R && this.data.ggfaValue_R.length == 0) {
+            this.showToast("请输入更改方案说明")
+            return false;
+        }
+        if (!this.data.arcoDisabled_R && this.data.arcoIndex_R == 0) {
             this.showToast("请选择ARCO分期")
             return false;
         }
-        if (this.data.arcoIndex_R == 0) {
-            this.showToast("请选择ARCO分期")
-            return false;
-        }
-        if (this.data.harris_R.length == 0) {
+        if (!this.data.harrisDisabled_R && this.data.harris_R.length == 0) {
             this.showToast("请输入Harris评分")
             return false;
         }
-        if (this.data.vasIndex_R == 0) {
+        if (!this.data.vasDisabled_R && this.data.vasIndex_R == 0) {
             this.showToast("请选择VAS疼痛评分")
             return false;
         }
-        if (this.data.xleftIndex_R == 0) {
+        if (!this.data.xleftDisabled_R && this.data.xleftIndex_R == 0) {
             this.showToast("请选择典型X光(右)")
             return false;
         }
-        if (this.data.ctLeftIndex_R == 0) {
+        if (!this.data.ctLeftDisabled_R && this.data.ctLeftIndex_R == 0) {
             this.showToast("请选择典型CT(右)")
             return false;
         }
-        if (this.data.mriLeftIndex_R == 0) {
+        if (!this.data.mriLeftDisabled_R && this.data.mriLeftIndex_R == 0) {
             this.showToast("请选择典型MRI(右)")
             return false;
         }
@@ -1984,7 +1633,7 @@ Page({
             this.showToast("请填写具体治疗措施")
             return false;
         }
-        if (this.data.beizhu_R.length == 0) {
+        if (!this.data.beizhuDisabled_R && this.data.beizhu_R.length == 0) {
             this.showToast("请填写特殊事项备注")
             return false;
         }
@@ -1992,110 +1641,111 @@ Page({
         return true;
     },
 
-    verify: function(e) {
-        if (this.data.ShowBasic) { // 基本信息
-            this.verifyBasic()
-        } else if (this.data.ShowDiagnose) { // 左侧
-            this.verifyLeft()
-        } else if (this.data.ShowAdmission) { // 右侧
-            this.verifyRight()
-        }
-    },
+    // verify: function(e) {
+    //     // if (this.data.ShowBasic) { // 基本信息
+    //     //     this.verifyBasic()
+    //     // } else 
+    //     if (this.data.ShowDiagnose) { // 左侧
+    //         this.verifyLeft()
+    //     } else if (this.data.ShowAdmission) { // 右侧
+    //         this.verifyRight()
+    //     }
+    // },
 
-    verifyBasic() {
-        let that = this;
-        that.showLoading();
-        wx.request({
-            url: constant.basePath,
-            data: {
-                service: 'Case.Approve',
-                case_id: that.data.caseId,
-                openid: app.globalData.openid,
-                type: 1,
-                state: that.data.caseInfo.base.base_state == 2 ? 2 : 1
-            },
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                console.log("Case.Approve:" + JSON.stringify(res))
-                that.hideLoading();
-                if (res.data.data.code == 0) {
-                    that.reloadPrePage()
-                    wx.navigateBack({
-                        delta: 1
-                    })
-                } else {
-                    that.showModal("ErrModal", res.data.data.msg);
-                }
-            },
-            fail(res) {
-                that.hideLoading();
-            }
-        });
-    },
-    verifyLeft() {
-        let that = this;
-        that.showLoading();
-        wx.request({
-            url: constant.basePath,
-            data: {
-                service: 'Case.Approve',
-                case_id: that.data.caseId,
-                openid: app.globalData.openid,
-                type: 2,
-                state: that.data.caseInfo.left.state == 2 ? 2 : 1
-            },
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                that.hideLoading();
-                if (res.data.data.code == 0) {
-                    that.reloadPrePage()
-                    wx.navigateBack({
-                        delta: 1
-                    })
-                } else {
-                    that.showModal("ErrModal", res.data.data.msg);
-                }
-            },
-            fail(res) {
-                that.hideLoading();
-            }
-        });
-    },
-    verifyRight() {
-        let that = this;
-        that.showLoading();
-        wx.request({
-            url: constant.basePath,
-            data: {
-                service: 'Case.Approve',
-                case_id: that.data.caseId,
-                openid: app.globalData.openid,
-                type: 3,
-                state: that.data.caseInfo.right.state == 2 ? 2 : 1
-            },
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                that.hideLoading();
-                if (res.data.data.code == 0) {
-                    that.reloadPrePage()
-                    wx.navigateBack({
-                        delta: 1
-                    })
-                } else {
-                    that.showModal("ErrModal", res.data.data.msg);
-                }
-            },
-            fail(res) {
-                that.hideLoading();
-            }
-        });
-    },
+    // verifyBasic() {
+    //     let that = this;
+    //     that.showLoading();
+    //     wx.request({
+    //         url: constant.basePath,
+    //         data: {
+    //             service: 'Case.Approve',
+    //             case_id: that.data.caseId,
+    //             openid: app.globalData.openid,
+    //             type: 1,
+    //             state: that.data.caseInfo.base.base_state == 2 ? 2 : 1
+    //         },
+    //         header: {
+    //             'content-type': 'application/json'
+    //         },
+    //         success(res) {
+    //             console.log("Case.Approve:" + JSON.stringify(res))
+    //             that.hideLoading();
+    //             if (res.data.data.code == 0) {
+    //                 that.reloadPrePage()
+    //                 wx.navigateBack({
+    //                     delta: 1
+    //                 })
+    //             } else {
+    //                 that.showModal("ErrModal", res.data.data.msg);
+    //             }
+    //         },
+    //         fail(res) {
+    //             that.hideLoading();
+    //         }
+    //     });
+    // },
+    // verifyLeft() {
+    //     let that = this;
+    //     that.showLoading();
+    //     wx.request({
+    //         url: constant.basePath,
+    //         data: {
+    //             service: 'Case.Approve',
+    //             case_id: that.data.caseId,
+    //             openid: app.globalData.openid,
+    //             type: 2,
+    //             state: that.data.caseInfo.left.state == 2 ? 2 : 1
+    //         },
+    //         header: {
+    //             'content-type': 'application/json'
+    //         },
+    //         success(res) {
+    //             that.hideLoading();
+    //             if (res.data.data.code == 0) {
+    //                 that.reloadPrePage()
+    //                 wx.navigateBack({
+    //                     delta: 1
+    //                 })
+    //             } else {
+    //                 that.showModal("ErrModal", res.data.data.msg);
+    //             }
+    //         },
+    //         fail(res) {
+    //             that.hideLoading();
+    //         }
+    //     });
+    // },
+    // verifyRight() {
+    //     let that = this;
+    //     that.showLoading();
+    //     wx.request({
+    //         url: constant.basePath,
+    //         data: {
+    //             service: 'Case.Approve',
+    //             case_id: that.data.caseId,
+    //             openid: app.globalData.openid,
+    //             type: 3,
+    //             state: that.data.caseInfo.right.state == 2 ? 2 : 1
+    //         },
+    //         header: {
+    //             'content-type': 'application/json'
+    //         },
+    //         success(res) {
+    //             that.hideLoading();
+    //             if (res.data.data.code == 0) {
+    //                 that.reloadPrePage()
+    //                 wx.navigateBack({
+    //                     delta: 1
+    //                 })
+    //             } else {
+    //                 that.showModal("ErrModal", res.data.data.msg);
+    //             }
+    //         },
+    //         fail(res) {
+    //             that.hideLoading();
+    //         }
+    //     });
+    // },
 
     reloadPrePage() {
         var pages = getCurrentPages();
@@ -2107,35 +1757,35 @@ Page({
         }
     },
 
-    onUnload() {
-        if (this.data.isLook) {
-            return
-        }
-        let that = this;
-        that.showLoading();
-        wx.request({
-            url: constant.basePath,
-            data: {
-                service: 'Case.ClearWritingStatus',
-                case_id: that.data.caseId,
-            },
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                that.hideLoading();
-                if (res.data.data.code == 0) {
-                    // that.reloadPrePage()
-                    // wx.navigateBack({
-                    //     delta: 1
-                    // })
-                } else {
-                    that.showModal("ErrModal", res.data.data.msg);
-                }
-            },
-            fail(res) {
-                that.hideLoading();
-            }
-        });
-    }
+    // onUnload() {
+    //     if (this.data.isLook) {
+    //         return
+    //     }
+    //     let that = this;
+    //     that.showLoading();
+    //     wx.request({
+    //         url: constant.basePath,
+    //         data: {
+    //             service: 'Case.ClearWritingStatus',
+    //             case_id: that.data.caseId,
+    //         },
+    //         header: {
+    //             'content-type': 'application/json'
+    //         },
+    //         success(res) {
+    //             that.hideLoading();
+    //             if (res.data.data.code == 0) {
+    //                 // that.reloadPrePage()
+    //                 // wx.navigateBack({
+    //                 //     delta: 1
+    //                 // })
+    //             } else {
+    //                 that.showModal("ErrModal", res.data.data.msg);
+    //             }
+    //         },
+    //         fail(res) {
+    //             that.hideLoading();
+    //         }
+    //     });
+    // }
 });
