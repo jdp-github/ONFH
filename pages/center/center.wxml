@@ -41,7 +41,7 @@
                     </view>
                 </button>
             </view>
-            <view class="center-btn-inner">
+            <!-- <view class="center-btn-inner">
                 <button class='cu-btn bg-gray shadow lg block'>
                     <view style="width: 100%; height: 100%;">
                         <view class="center-btn-icon">
@@ -52,7 +52,7 @@
                         </view>
                     </view>
                 </button>
-            </view>
+            </view> -->
             <!-- <view class="center-btn-inner">
                 <button class='cu-btn bg-gray shadow lg block'>
                     <view style="width: 100%; height: 100%;">

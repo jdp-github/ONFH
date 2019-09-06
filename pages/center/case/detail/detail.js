@@ -24,7 +24,7 @@ Page({
         // -------- tab切换 begin -------- //
         TabCur: 0,
         VerticalNavTop: 0,
-        TabTitle: ['基本信息', '左髋', '右髋'],
+        TabTitle: ['基本信息', '左髋首诊', '右髋首诊', '随访入口'],
         ShowBasic: true,
         ShowDiagnose: false,
         ShowAdmission: false,
@@ -236,6 +236,9 @@ Page({
                     })
                 }
                 break;
+            case 3:
+                this.onFollowUpClick()
+                break;
         }
     },
 
@@ -324,7 +327,7 @@ Page({
     },
     onFollowUpClick: function(e) {
         wx.navigateTo({
-            url: '../../../followup/followup?case_id=' + this.data.caseId + "&szDate=" + Date.parse(this.data.createDate)
+            url: '../../../followup/followup?case_id=' + this.data.caseId + "&szDate=" + Date.parse(this.data.createDate) + "&name=" + this.data.caseInfo.base.patient_name + "&caseNO=" + this.data.caseInfo.base.case_no + "&szDateFormat=" + this.data.createDate
         });
     },
     // -------- 基本信息事件 end -------- //

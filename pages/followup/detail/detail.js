@@ -33,6 +33,7 @@ Page({
         // -------- 公用信息 begin -------- //
         caseId: '',
         isCreateCase: '',
+        followupId: '',
         isLook: false,
         followupInfo: {},
         szDate: 0,
@@ -1192,12 +1193,13 @@ Page({
         this.loadProgress();
         this.setData({
             caseId: options.case_id,
+            followupId: options.followupId,
             isCreateCase: options.isCreateCase,
             isLook: options.isLook ? options.isLook : false,
             szDate: options.szDate
         });
         if (!this.data.isCreateCase) {
-            this.requestCaseInfo(caseId)
+            this.requestCaseInfo(this.data.followupId)
         }
         // else {
         //     this.setData({
@@ -1207,13 +1209,13 @@ Page({
         this.completeProgress();
     },
 
-    requestCaseInfo(caseId) {
+    requestCaseInfo(followupId) {
         let that = this;
         wx.request({
             url: constant.basePath,
             data: {
-                service: 'Case.GetCaseInfo',
-                case_id: caseId,
+                service: 'Followup.GetInfo',
+                followup_id: followupId,
                 openid: app.globalData.openid
             },
             header: {

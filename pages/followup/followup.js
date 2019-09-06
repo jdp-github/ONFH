@@ -14,7 +14,10 @@ Page({
         Custom: app.globalData.Custom,
 
         caseId: '',
+        name: '',
+        caseNO: '',
         szDate: 0,
+        szDateFormat: '',
         searchValue: '',
         startDate: '开始时间',
         endDate: '结束时间',
@@ -128,8 +131,12 @@ Page({
     onLoad: function(options) {
         this.setData({
             caseId: options.case_id,
-            szDate: options.szDate
+            name: options.name,
+            caseNO: options.caseNO,
+            szDate: options.szDate,
+            szDateFormat: options.szDateFormat
         });
+
         this.initData()
     },
 
@@ -190,44 +197,21 @@ Page({
             url: './detail/detail?case_id=' + this.data.caseId + "&isCreateCase=true&szDate=" + this.data.szDate
         });
     },
+    // 编辑
     onEditCase: function(e) {
-        let that = this;
-        that.showLoading();
-        let caseInfo = e.currentTarget.dataset.case;
-        wx.request({
-            url: constant.basePath,
-            data: {
-                service: 'Case.SetCaseWritingStaff',
-                openid: app.globalData.openid,
-                case_id: caseInfo.case_id,
-                type: 1
-            },
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                if (res.data.data.code == 0) {
-                    wx.navigateTo({
-                        url: '../../center/case/detail/detail?case_id=' + caseInfo.case_id + "&centerId=" + that.data.centerId + "&centerName=" + that.data.centerName
-                    });
-                } else {
-                    that.showModal("ErrModal", res.data.data.msg);
-                }
-                that.hideLoading();
-            },
-            fail(res) {
-                that.hideLoading();
-            }
-        });
-    },
-
-    onLookCase: function(e) {
-        let caseInfo = e.currentTarget.dataset.case;
+        let item = e.currentTarget.dataset.case;
         wx.navigateTo({
-            url: '../detail/detail?case_id=' + caseInfo.case_id + "&centerId=" + this.data.centerId + "&centerName=" + this.data.centerName + "&isLook=" + true
+            url: './detail/detail?case_id=' + item.case_id + "&followupId=" + item.id + "&szDate=" + this.data.szDate
         });
     },
-
+    // 查看
+    onLookCase: function(e) {
+        let item = e.currentTarget.dataset.case;
+        wx.navigateTo({
+            url: './detail/detail?case_id=' + item.case_id + "&szDate=" + this.data.szDate + "&isLook=" + true
+        });
+    },
+    // 删除
     onDeleCase: function(e) {
         let selectedItem = e.currentTarget.dataset.case;
         this.setData({
@@ -238,18 +222,20 @@ Page({
     deleCase: function() {
         let that = this;
         that.loadProgress();
+        let times = that.data.selectedItem.times
         wx.request({
             url: constant.basePath,
             data: {
                 service: 'Followup.Delete',
                 openid: app.globalData.openid,
-                case_id: that.data.caseId
+                case_id: that.data.caseId,
+                times: that.data.selectedItem.times
             },
             header: {
                 'content-type': 'application/json'
             },
             success(res) {
-                console.log("Case.DeleteCase:" + JSON.stringify(res));
+                console.log("Followup.Delete:" + JSON.stringify(res));
                 that.completeProgress();
                 if (res.data.data.code == constant.response_success) {
                     that.loadProgress();

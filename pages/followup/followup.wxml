@@ -9,7 +9,7 @@
 </view>
 
 <!-- 搜索 -->
-<view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
+<!-- <view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
     <view class='search-form round'>
         <text class="icon-search"></text>
         <input type="text" placeholder="搜索病厉、名称、关键字" confirm-type="search" value="{{searchValue}}" bindinput="onSearchChange"></input>
@@ -17,10 +17,16 @@
     <view class='action'>
         <button class='cu-btn bg-green shadow-blur round' bindtap="onSearch">搜索</button>
     </view>
+</view> -->
+
+<view class="cu-bar bg-white" style="display:flex;flex-direction:row;justify-content:center;font-weight:bold">
+    <view>患者姓名:{{name}}</view>
+    <view style="margin-left:15px;">病例号:{{caseNO}}</view>
+    <view style="margin-left:15px;">首诊日期:{{szDateFormat}}</view>
 </view>
 
 <!-- 列表 -->
-<scroll-view scroll-y class="indexes margin-bottom" scroll-into-view="indexes-{{listCurID}}" style='padding-top:120rpx;height:calc(100vh - {{CustomBar}}px)' scroll-with-animation="true" enable-back-to-top="true">
+<scroll-view scroll-y class="indexes margin-bottom" scroll-into-view="indexes-{{listCurID}}" style='padding-top:20rpx;height:calc(100vh - {{CustomBar}}px)' scroll-with-animation="true" enable-back-to-top="true">
     <view class="cu-list menu menu-avatar">
 
         <!-- 按钮行 -->
@@ -38,7 +44,7 @@
         </view>
 
         <!-- 筛选 -->
-        <view class="filter-root">
+        <!-- <view class="filter-root">
             <picker class="filter-container" mode="date" value="{{startDate}}" bindchange="bindStartDateChange">
                 <view class="picker">
                     {{startDate}}
@@ -50,7 +56,7 @@
                     {{endDate}}
                 </view>
             </picker>
-        </view>
+        </view> -->
 
         <!-- item -->
         <view view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{followupList}}" wx:key="" bindtouchstart='ListTouchStart' bindtouchmove='ListTouchMove' bindtouchend='ListTouchEnd' data-target="move-box-{{index}}" bindtap="onLookCase"
@@ -58,19 +64,19 @@
             <view class='content'>
                 <view class="flex">
                     <!-- 头像 -->
-                    <view class='flex-sub radius' style="padding-right: 30rpx;">
+                    <!-- <view class='flex-sub radius' style="padding-right: 30rpx;">
                         <view class="avatar-special bg-grey radius">
                             <view class="flex-sub avatar-text-small">{{item.patient_name}}</view>
                             <view class="flex-sub text-small">ID: {{item.case_no}}</view>
                             <view class="flex-sub text-small">{{item.create_time}}</view>
                         </view>
-                    </view>
+                    </view> -->
 
                     <view class='flex-treble radius text-gray'>
                         <!-- 第一行 -->
                         <view class="flex-sub text-small">
                             <div class="flex">
-                                <view class="flex-sub">第一次随访</view>
+                                <view class="flex-sub">第{{item.times}}次随访</view>
                                 <view class="flex-sub">首诊情况</view>
                                 <view class="flex-sub">发病时间</view>
                                 <view class="flex-sub">本次随访情况</view>
@@ -143,7 +149,7 @@
 <view class="cu-modal {{modalName=='DeleteCaseModal'?'show':''}}">
     <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
-            <view class='content'>删除病历</view>
+            <view class='content'>删除随访记录</view>
             <view class='action' bindtap='hideModal'>
                 <text class='icon-close text-red'></text>
             </view>
@@ -153,7 +159,7 @@
                 <view class='solid-bottom text-sl padding'>
                     <text class='icon-warnfill text-red'></text>
                 </view>
-                <view class='padding'>是否删除{{selectedCase.patient_name}}的病历</view>
+                <view class='padding'>是否删除第{{selectedItem.times}}次随访记录</view>
             </view>
         </view>
         <view class="cu-bar bg-white justify-end">
