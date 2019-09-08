@@ -195,7 +195,7 @@
                         <!-- Harris评分 -->
                         <view class="cu-form-group">
                             <view class='title '>Harris评分</view>
-                            <input placeholder="请输入数字" class='radius ' bindinput="onHarrisInput" value="{{harris}}"></input>
+                            <input placeholder="请输入数字" class='radius ' bindinput="onHarrisInput" value="{{harris}}" type="number"></input>
                             <button class='cu-btn round sm ' style='margin-left: 15rpx;' bindtap="showModal" data-target="threeImgModal" data-imgtype="Harris">上传图片</button>
                         </view>
                         <!-- VAS疼痛评分 -->
@@ -324,7 +324,7 @@
                         <!-- Harris评分 -->
                         <view class="cu-form-group">
                             <view class='title '>Harris评分</view>
-                            <input placeholder="请输入数字" class='radius ' bindinput="onHarrisInput_R" value="{{harris_R}}"></input>
+                            <input placeholder="请输入数字" class='radius ' bindinput="onHarrisInput_R" value="{{harris_R}}" type="number"></input>
                             <button class='cu-btn round sm ' style='margin-left: 15rpx;' bindtap="showModal" data-target="threeImgModal" data-imgtype="Harris_R">上传图片</button>
                         </view>
                         <!-- VAS疼痛评分 -->

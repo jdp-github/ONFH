@@ -89,20 +89,20 @@
                         <view class="flex-sub text-small">
                             <div class="flex">
                                 <view class="flex-sub">左髋</view>
-                                <view class="flex-sub">{{item.arco_left}}</view>
-                                <view class="flex-sub">{{item.leixing_left}}</view>
-                                <view class="flex-sub">{{item.suifang_left}}</view>
-                                <view class="flex-sub">{{item.sfqk_left}}（月）</view>
+                                <view class="flex-sub">{{item.items[0].sz_arco}}</view>
+                                <view class="flex-sub">{{item.items[0].fb_time_desc}}</view>
+                                <view class="flex-sub">{{item.items[0].sf_arco}}</view>
+                                <view class="flex-sub">{{item.items[0].sf_shichang}}（月）</view>
                             </div>
                         </view>
                         <!-- 第三行 -->
                         <view class="flex-sub text-small">
                             <div class="flex">
                                 <view class="flex-sub">右髋</view>
-                                <view class="flex-sub">{{item.arco_right}}</view>
-                                <view class="flex-sub">{{item.leixing_right}}</view>
-                                <view class="flex-sub">{{item.suifang_right}}</view>
-                                <view class="flex-sub">{{item.sfqk_right}}（月）</view>
+                                <view class="flex-sub">{{item.items[1].sz_arco}}</view>
+                                <view class="flex-sub">{{item.items[1].fb_time_desc}}</view>
+                                <view class="flex-sub">{{item.items[1].sf_arco}}</view>
+                                <view class="flex-sub">{{item.items[1].sf_shichang}}（月）</view>
                             </div>
                         </view>
                     </view>
