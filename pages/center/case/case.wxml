@@ -39,15 +39,20 @@
 
         <!-- 筛选 -->
         <view style="display:flex;flex-direction:row;margin-top:10px;margin-bottom:10px;padding-right:10px">
-            <view style="width:280px">
+            <view style="width:280px;">
                 <view class="canvas-container">
-                    <div class="c100 p20 small green">
-                        <span>20%</span>
+                    <view style="display:flex;flex-direction: row; align-items:baseline;font-size:40rpx;">
+                        共
+                        <view style="font-size:80rpx;color:#39b54a;margin-right:10rpx;margin-left:10rpx;">{{stateCount}}</view>例
+                    </view>
+                    <view style="margin-top:20rpx;">{{stateText}}</view>
+                    <!-- <div class="c100 p{{40}} small green">
+                        <span>{{caseCount}}/{{kuanCount}}</span>
                         <div class="slice">
                             <div class="bar"></div>
                             <div class="fill"></div>
                         </div>
-                    </div>
+                    </div> -->
                 </view>
             </view>
             <view>
@@ -99,12 +104,13 @@
         </view>
 
         <!-- item -->
-        <view view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{caseList}}" wx:key="" bindtouchstart='ListTouchStart' bindtouchmove='ListTouchMove' bindtouchend='ListTouchEnd' data-target="move-box-{{index}}" bindtap="onLookCase" data-case="{{item}}">
+        <view view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{caseList}}" wx:key="" bindtouchstart='ListTouchStart' bindtouchmove='ListTouchMove' bindtouchend='ListTouchEnd' data-target="move-box-{{index}}" bindtap="onLookCase"
+            data-case="{{item}}">
             <view class='content'>
                 <view class="flex">
                     <!-- 头像 -->
                     <view class='flex-sub radius' style="padding-right: 30rpx;">
-                        <view class="avatar-special bg-grey radius">
+                        <view class="avatar-special bg-grey radius" style="padding-top: 10rpx;">
                             <view class="flex-sub avatar-text-small">{{item.patient_name}}</view>
                             <view class="flex-sub text-small">ID: {{item.case_no}}</view>
                             <view class="flex-sub text-small">{{item.create_time}}</view>

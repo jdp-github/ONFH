@@ -34,6 +34,10 @@ Page({
         // --------- filter end --------- //
 
         searchValue: '',
+        stateText: '按髋统计',
+        stateCount: '',
+        caseCount: '',
+        kuanCount: '',
         caseList: [],
         selectedCase: {},
         errMsg: ''
@@ -157,8 +161,20 @@ Page({
                 })
                 break;
             case "6":
+                let statisIndex = e.detail.value
+                let stateText = ''
+                let stateCount = 0
+                if (statisIndex == 0) {
+                    stateText = '按髋统计'
+                    stateCount = this.data.kuanCount
+                } else {
+                    stateText = '按病例数统计'
+                    stateCount = this.data.caseCount
+                }
                 this.setData({
-                    statisIndex: e.detail.value
+                    statisIndex: statisIndex,
+                    stateText: stateText,
+                    stateCount: stateCount
                 })
                 break;
         }
@@ -222,7 +238,10 @@ Page({
                     }
 
                     that.setData({
-                        caseList: res.data.data.list
+                        caseList: res.data.data.list,
+                        caseCount: res.data.data.case_count,
+                        kuanCount: res.data.data.kuan_count,
+                        stateCount: res.data.data.kuan_count
                     });
                 } else {
                     that.showToast(res.data.msg);
