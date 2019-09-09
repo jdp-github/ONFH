@@ -40,45 +40,54 @@
         <!-- 筛选 -->
         <view style="display:flex;flex-direction:row;margin-top:10px;margin-bottom:10px;padding-right:10px">
             <view style="width:280px">
+                <view class="canvas-container">
+                    <div class="c100 p20 small green">
+                        <span>20%</span>
+                        <div class="slice">
+                            <div class="bar"></div>
+                            <div class="fill"></div>
+                        </div>
+                    </div>
+                </view>
             </view>
             <view>
                 <view class="grid col-{{2}} text-center" style="justify-content: space-between">
-                    <view class="filter-container" style="width:140px">
+                    <view class="filter-container">
                         <picker class="filter-picker" bindchange="PickerChange" data-type="1" value="{{fenqiIndex}}" range="{{fenqiArr}}">
                             <view class="picker">
                                 {{fenqiArr[fenqiIndex]}}
                             </view>
                         </picker>
                     </view>
-                    <view class="filter-container" style="width:110px;">
+                    <view class="filter-container">
                         <picker class="filter-picker" bindchange="PickerChange" data-type="2" value="{{leixingIndex}}" range="{{leixingArr}}">
                             <view class="picker">
                                 {{leixingArr[leixingIndex]}}
                             </view>
                         </picker>
                     </view>
-                    <view class="filter-container" style="width:140px">
+                    <view class="filter-container">
                         <picker class="filter-picker" bindchange="PickerChange" data-type="3" value="{{ziliaoIndex}}" range="{{ziliaoArr}}">
                             <view class="picker">
                                 {{ziliaoArr[ziliaoIndex]}}
                             </view>
                         </picker>
                     </view>
-                    <view class="filter-container" style="width:110px">
+                    <view class="filter-container">
                         <picker class="filter-picker" bindchange="PickerChange" data-type="4" value="{{zhongjieIndex}}" range="{{zhongjieArr}}">
                             <view class="picker">
                                 {{zhongjieArr[zhongjieIndex]}}
                             </view>
                         </picker>
                     </view>
-                    <view class="filter-container" style="width:150px">
+                    <view class="filter-container">
                         <picker class="filter-picker" bindchange="PickerChange" data-type="5" value="{{chaoshiIndex}}" range="{{chaoshiArr}}">
                             <view class="picker">
                                 {{chaoshiArr[chaoshiIndex]}}
                             </view>
                         </picker>
                     </view>
-                    <view class="filter-container" style="width:100px">
+                    <view class="filter-container">
                         <picker class="filter-picker" bindchange="PickerChange" data-type="6" value="{{statisIndex}}" range="{{statisArr}}">
                             <view class="picker">
                                 {{statisArr[statisIndex]}}
