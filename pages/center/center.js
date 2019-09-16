@@ -123,7 +123,7 @@ Page({
     },
     showModal: function(msg) {
         this.setData({
-            modalName: e.currentTarget.dataset.target
+            modalName: "AddCenterModal"
         });
     },
     hideModal: function(e) {
@@ -284,6 +284,44 @@ Page({
         wx.navigateTo({
             url: '../notice/notice?centerId=' + e.currentTarget.dataset.centerid
         })
+    },
+    centerNameInput: function (e) {
+        this.setData({
+            centerName: e.detail.value
+        });
+    },
+    addCenter: function () {
+        let that = this;
+        if (that.data.centerName.length == 0) {
+            that.showToast('请输入中心名');
+            return
+        }
+        that.showLoading();
+        wx.request({
+            url: constant.basePath,
+            data: {
+                service: 'Center.CreateCenter',
+                openid: app.globalData.openid,
+                center_name: that.data.centerName
+            },
+            header: {
+                'content-type': 'application/json'
+            },
+            success(res) {
+                that.hideLoading();
+                if (res.data.data.code == constant.response_success) {
+                    that.initData();
+                } else {
+                    that.showToast(res.data.msg);
+                }
+                that.setData({
+                    modalName: ''
+                });
+            },
+            fail(res) {
+                that.hideLoading();
+            }
+        });
     },
     backToAuth: function() {
         wx.navigateTo({

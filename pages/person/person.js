@@ -25,12 +25,12 @@ Page({
         TabCur: 0,
         tabItems: ['我的申请', '需我审批']
     },
-    onHide: function () {
+    onHide: function() {
         this.setData({
             modalName: ''
         });
     },
-    onShow: function () {
+    onShow: function() {
         if (typeof this.getTabBar === 'function' &&
             this.getTabBar()) {
             this.getTabBar().setData({
@@ -43,19 +43,19 @@ Page({
         }
         this.onLoad();
     },
-    onLoad: function () {
+    onLoad: function() {
         this.setData({
             avatarUrl: app.globalData.avatarUrl,
             nickName: app.globalData.nickName
         });
         this.init();
     },
-    init: async function () {
+    init: async function() {
         await this.requestUserInfo();
         await this.requestRegister();
         await this.requestApprove();
     },
-    loadProgress: function () {
+    loadProgress: function() {
         if (this.data.loadProgress < 96) {
             this.setData({
                 loadProgress: this.data.loadProgress + 3
@@ -71,53 +71,53 @@ Page({
             });
         }
     },
-    completeProgress: function () {
+    completeProgress: function() {
         this.setData({
             loadProgress: 100
         });
     },
-    showToast: function (msg) {
+    showToast: function(msg) {
         wx.showToast({
             icon: 'none',
             title: msg,
         });
     },
-    showLoading: function () {
+    showLoading: function() {
         this.setData({
             loadModal: true
         });
     },
-    hideLoading: function () {
+    hideLoading: function() {
         setTimeout(() => {
             this.setData({
                 loadModal: false
             });
         }, 1500);
     },
-    backToAuth: function () {
+    backToAuth: function() {
         wx.navigateTo({
             url: '../auth/auth'
         });
     },
-    showDrawer: function (e) {
+    showDrawer: function(e) {
         this.setData({
-            modalName: e.currentTarget.dataset.target
+            modalName: e.currentTarget.dataset.target,
+            TabCur: e.currentTarget.dataset.tabcur
         });
     },
-    hideModal: function (e) {
+    hideModal: function(e) {
         this.setData({
             modalName: null
         });
     },
-    tabSelect: function (e) {
+    tabSelect: function(e) {
         this.setData({
             TabCur: e.currentTarget.dataset.id,
             scrollLeft: (e.currentTarget.dataset.id - 1) * 60
         });
     },
-    ignoreTap: function (e) {
-    },
-    requestUserInfo: function () {
+    ignoreTap: function(e) {},
+    requestUserInfo: function() {
         let that = this;
         return new Promise((resolve, reject) => {
             wx.request({
@@ -146,7 +146,7 @@ Page({
             });
         });
     },
-    requestRegister: function () {
+    requestRegister: function() {
         let that = this;
         return new Promise((resolve, reject) => {
             wx.request({
@@ -179,7 +179,7 @@ Page({
             });
         });
     },
-    requestApprove: function () {
+    requestApprove: function() {
         let that = this;
         return new Promise((resolve, reject) => {
             wx.request({
@@ -214,7 +214,7 @@ Page({
             });
         });
     },
-    onApprove: function (e) {
+    onApprove: function(e) {
         let that = this;
         that.showLoading();
         wx.request({
@@ -243,7 +243,7 @@ Page({
             }
         });
     },
-    onRefuse: function (e) {
+    onRefuse: function(e) {
         let that = this;
         that.showLoading();
         wx.request({

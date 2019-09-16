@@ -9,20 +9,20 @@
     <image src='https://image.weilanwl.com/gif/wave.gif' mode='scaleToFill' class='gif-wave'></image>
 </view>
 <view class='padding flex text-center text-grey bg-white shadow-warp'>
-    <view class='flex flex-sub flex-direction solid-right'>
-        <view class="text-xxl text-{{centerCount>0?'green':'red'}}">{{centerCount}}</view>
+    <view class='flex flex-sub flex-direction' bindtap="showDrawer" data-target="DrawerModalRight" data-tabCur="0">
+        <view class="text-xxl text-{{registerCount>0?'red':'green'}} text-decoration">
+            {{registerCount}}
+        </view>
         <view class="margin-top-sm">
-            <text class='icon-homefill'></text>
-            中心
+            <text class='icon-formfill'></text> 我的申请
         </view>
     </view>
-    <view class='flex flex-sub flex-direction' bindtap="showDrawer" data-target="DrawerModalRight">
-        <view class="text-xxl text-{{(registerCount+approveCount)>0?'red':'green'}} text-decoration">
-            {{registerCount+approveCount}}
+    <view class='flex flex-sub flex-direction' bindtap="showDrawer" data-target="DrawerModalRight" data-tabCur="1">
+        <view class="text-xxl text-{{approveCount>0?'red':'green'}} text-decoration">
+            {{approveCount}}
         </view>
         <view class="margin-top-sm">
-            <text class='icon-formfill'></text>
-            申请/审批
+            <text class='icon-formfill'></text> 需我审批
         </view>
     </view>
 </view>
@@ -122,8 +122,12 @@
                         <view class="text-left">申请角色: {{item.role_name}}</view>
                         <view class="text-left">申请日期: {{item.apply_time}}</view>
                         <view class="grid margin-top float-right">
-                            <view class="grid col-6"><view class="cu-btn round sm bg-green" data-applyid="{{item.apply_id}}" bindtap="onApprove">同意</view></view>
-                            <view class="grid col-6"><view class="cu-btn round sm bg-red" data-applyid="{{item.apply_id}}" bindtap="onRefuse" style="margin-left: 10rpx;"> 拒绝</view></view>
+                            <view class="grid col-6">
+                                <view class="cu-btn round sm bg-green" data-applyid="{{item.apply_id}}" bindtap="onApprove">同意</view>
+                            </view>
+                            <view class="grid col-6">
+                                <view class="cu-btn round sm bg-red" data-applyid="{{item.apply_id}}" bindtap="onRefuse" style="margin-left: 10rpx;"> 拒绝</view>
+                            </view>
                         </view>
                     </view>
                 </block>
