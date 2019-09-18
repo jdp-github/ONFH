@@ -1147,6 +1147,10 @@
     color: #39b54a;
 }
 
+.text-blue{
+    color: #0081ff;
+}
+
 .bg-green {
     background-color: #39b54a;
     color: #ffffff;

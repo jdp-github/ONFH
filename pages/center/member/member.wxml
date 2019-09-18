@@ -1,5 +1,5 @@
 <view class="cu-custom" style="height:{{CustomBar}}px;">
-    <view class="cu-bar fixed bg-gradual-green" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <view class="cu-bar fixed bg-gradual-blue" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
         <navigator class='action border-custom' open-type="navigateBack" delta="1" hover-class="none" style='width:{{Custom.width}}px;height:{{Custom.height}}px;margin-left:calc(750rpx - {{Custom.right}}px)'>
             <text class='icon-back'></text>
             <text class='icon-homefill'></text>
@@ -13,7 +13,7 @@
         <input type="text" placeholder="搜索人员、名称、关键字" confirm-type="search" value="{{searchValue}}" bindinput="onSearchChange"></input>
     </view>
     <view class='action'>
-        <button class='cu-btn bg-green shadow-blur round' bindtap="onSearch">搜索</button>
+        <button class='cu-btn bg-blue shadow-blur round' bindtap="onSearch">搜索</button>
     </view>
 </view>
 <scroll-view scroll-y class="indexes margin-bottom" scroll-into-view="indexes-{{listCurID}}" style='height:calc(100vh - {{CustomBar}}px - 50px)' scroll-with-animation="true" enable-back-to-top="true">
@@ -35,8 +35,8 @@
                     </view>
                 </view>
                 <view class='move'>
+                    <view class='bg-olive' style="background:#0081ff" bindtap="showModal" data-target="EditMemberModal" data-staff="{{item}}">编辑</view>
                     <view class='bg-red' bindtap="showModal" data-target="DeleteMemberModal" data-staff="{{item}}">删除</view>
-                    <view class='bg-olive' bindtap="showModal" data-target="EditMemberModal" data-staff="{{item}}">编辑</view>
                 </view>
             </view>
         </view>
@@ -51,8 +51,8 @@
     {{listCur}}
 </view>
 <view class='load-progress {{loadProgress!=0?"show":"hide"}}' style="top:{{CustomBar}}px;">
-    <view class='load-progress-bar bg-green' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
-    <view class='load-progress-spinner text-green'></view>
+    <view class='load-progress-bar bg-blue' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
+    <view class='load-progress-spinner text-blue'></view>
 </view>
 <view class='cu-load load-modal' wx:if="{{loadModal}}">
     <view class='gray-text'>处理中...</view>
@@ -86,8 +86,8 @@
         </view>
         <view class="cu-bar bg-white justify-end">
             <view class='action'>
-                <button class='cu-btn line-green text-green' bindtap='hideModal'>取消</button>
-                <button class='cu-btn bg-green margin-left' bindtap='hideModal' wx:if="{{isAdmin}}" bindtap="editMember">确定</button>
+                <button class='cu-btn line-blue text-blue' bindtap='hideModal'>取消</button>
+                <button class='cu-btn bg-blue margin-left' bindtap='hideModal' wx:if="{{isAdmin}}" bindtap="editMember">确定</button>
             </view>
         </view>
     </view>
@@ -118,8 +118,8 @@
         </view>
         <view class="cu-bar bg-white justify-end">
             <view class='action'>
-                <button class='cu-btn line-green text-green' bindtap='hideModal'>取消</button>
-                <button class='cu-btn bg-green margin-left' bindtap='hideModal' wx:if="{{isAdmin}}" bindtap="deleteMember">确定</button>
+                <button class='cu-btn line-blue text-blue' bindtap='hideModal'>取消</button>
+                <button class='cu-btn bg-blue margin-left' bindtap='hideModal' wx:if="{{isAdmin}}" bindtap="deleteMember">确定</button>
             </view>
         </view>
     </view>

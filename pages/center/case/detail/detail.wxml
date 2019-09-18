@@ -1,5 +1,5 @@
 <view class="cu-custom" style="height:{{CustomBar}}px;">
-    <view class="cu-bar fixed bg-gradual-green" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <view class="cu-bar fixed bg-gradual-blue" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
         <navigator class='action border-custom' open-type="navigateBack" delta="1" hover-class="none" style='width:{{Custom.width}}px;height:{{Custom.height}}px;margin-left:calc(750rpx - {{Custom.right}}px)'>
             <text class='icon-back'></text>
             <text class='icon-homefill'></text>
@@ -49,7 +49,7 @@
     <view class="VerticalBox" style="height: 100%;">
         <!-- 左侧菜单 -->
         <scroll-view class="VerticalNav nav" scroll-y scroll-with-animation scroll-top="{{VerticalNavTop}}" style="height:100%">
-            <view class="cu-item {{index==TabCur?'text-green cur':''}}" style="font-size: 22rpx" wx:for="{{TabTitle}}" wx:key bindtap='tabSelect' data-id="{{index}}">
+            <view class="cu-item {{index==TabCur?'text-blue cur':''}}" style="font-size: 22rpx" wx:for="{{TabTitle}}" wx:key bindtap='tabSelect' data-id="{{index}}">
                 {{item}}
             </view>
         </scroll-view>
@@ -58,7 +58,7 @@
             <view class="padding-left-special">
                 <view class='cu-bar solid-bottom bg-white'>
                     <view class='action'>
-                        <text class='icon-title text-green'></text>基本信息</view>
+                        <text class='icon-title text-blue'></text>基本信息</view>
                 </view>
                 <view class="cu-list menu menu-avatar">
                     <view class="cu-item-special">
@@ -117,7 +117,7 @@
                         <view class="cu-form-group {{tel2Disabled?'disabled':''}}">
                             <view class='title'>联系电话2</view>
                             <input placeholder="请输入联系方式" class='radius' bindinput="onTel2Input" value='{{tel2}}' disabled='{{tel2Disabled}}'></input>
-                            <switch class='green sm' bindchange="onTel2SwitchChange" checked='{{!tel2Disabled}}'></switch>
+                            <switch class='blue sm' bindchange="onTel2SwitchChange" checked='{{!tel2Disabled}}'></switch>
                         </view>
                         <view class="cu-form-group">
                             <view class='title'>简要病史</view>
@@ -136,10 +136,10 @@
             <!-- 底部按钮 -->
             <view class="btn-block bg-white shadow" hidden='{{isLook}}'>
                 <view class="flex margin-special">
-                    <button class='cu-btn line-green shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.base_submit_button == 0}}'>
+                    <button class='cu-btn line-blue shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.base_submit_button == 0}}'>
                         提交录入
                     </button>
-                    <button class='cu-btn bg-green shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button == 2}}'>
+                    <button class='cu-btn bg-blue shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button == 2}}'>
                         {{caseInfo.base.base_state != 2 ?"确认审核":"解除锁定"}}
                     </button>
                 </view>
@@ -150,7 +150,7 @@
             <view class="padding-left-special">
                 <view class='cu-bar solid-bottom bg-white'>
                     <view class='action'>
-                        <text class='icon-title text-green'></text>左髋</view>
+                        <text class='icon-title text-blue'></text>左髋</view>
                 </view>
                 <!-- item -->
                 <view class="cu-list menu menu-avatar">
@@ -163,7 +163,7 @@
                                     {{symptomDateValue?symptomDateValue:'请选择'}}
                                 </view>
                             </picker>
-                            <switch class='green sm ' bindchange="onSymptomSwitchChange" style='margin-left: 15rpx; ' checked='{{!symptomDisabled}}'></switch>
+                            <switch class='blue sm ' bindchange="onSymptomSwitchChange" style='margin-left: 15rpx; ' checked='{{!symptomDisabled}}'></switch>
                         </view>
                         <!-- 类型 -->
                         <view class="cu-form-group {{leixingDisabled?'disabled ':' '}}">
@@ -173,7 +173,7 @@
                                     {{leixingPicker[leixingIndex]}}
                                 </view>
                             </picker>
-                            <switch class='green sm' bindchange="onLeixingSwitchChange" style='margin-left: 15rpx; ' checked='{{!leixingDisabled}}'></switch>
+                            <switch class='blue sm' bindchange="onLeixingSwitchChange" style='margin-left: 15rpx; ' checked='{{!leixingDisabled}}'></switch>
                         </view>
                         <!-- 理由 -->
                         <view class="cu-form-group {{liyouDisabled?'disabled':''}}">
@@ -181,7 +181,7 @@
                                 <view class='title' style='text-align:left'>理由</view>
                                 <input placeholder="请输入文字" class='radius' style='width: 350rpx;text-align:left;' bindinput="onLiyouInput" value='{{liyou}}' disabled='{{liyouDisabled}}'></input>
                             </view>
-                            <switch class=' green sm ' bindchange="onLiyouSwitchChange" style='margin-left: 15rpx; ' checked='{{!liyouDisabled}}'></switch>
+                            <switch class=' blue sm ' bindchange="onLiyouSwitchChange" style='margin-left: 15rpx; ' checked='{{!liyouDisabled}}'></switch>
                         </view>
                         <!-- ARCO分期 -->
                         <view class="cu-form-group">
@@ -246,13 +246,13 @@
                                     {{bczlPicker[bczlIndex]}}
                                 </view>
                             </picker>
-                            <switch class='green sm ' bindchange="onBczlSwitchChange" style='margin-left: 15rpx; ' checked='{{!bczlDisabled}}'></switch>
+                            <switch class='blue sm ' bindchange="onBczlSwitchChange" style='margin-left: 15rpx; ' checked='{{!bczlDisabled}}'></switch>
                         </view>
                         <!-- 具体治疗措施 -->
                         <view class="cu-form-group {{jtzlDisabled?'disabled ':' '}}">
                             <view class='title '>具体治疗措施</view>
                             <input placeholder="请输入文字" class='radius ' bindinput="onJtzlInput" value='{{jtzl}}' disabled='{{jtzlDisabled}}'></input>
-                            <switch class='green sm ' bindchange="onJtzlSwitchChange" checked='{{!jtzlDisabled}}'></switch>
+                            <switch class='blue sm ' bindchange="onJtzlSwitchChange" checked='{{!jtzlDisabled}}'></switch>
                         </view>
                         <!-- 特殊事项备注 -->
                         <view class="cu-form-group">
@@ -265,10 +265,10 @@
             <!-- 底部按钮 -->
             <view class="btn-block bg-white shadow" hidden='{{isLook}}'>
                 <view class="flex margin-special">
-                    <button class='cu-btn line-green shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.left.submit_button==0 }}'>
+                    <button class='cu-btn line-blue shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.left.submit_button==0 }}'>
                         提交录入
                     </button>
-                    <button class='cu-btn bg-green shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button==2 }}'>
+                    <button class='cu-btn bg-blue shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button==2 }}'>
                         {{caseInfo.left.state != 2 ?"确认审核":"解除锁定"}}
                     </button>
                 </view>
@@ -279,7 +279,7 @@
             <view class="padding-left-special">
                 <view class='cu-bar solid-bottom bg-white '>
                     <view class='action '>
-                        <text class='icon-title text-green '></text>右髋</view>
+                        <text class='icon-title text-blue '></text>右髋</view>
                 </view>
                 <!-- item -->
                 <view class="cu-list menu menu-avatar">
@@ -292,7 +292,7 @@
                                     {{symptomDateValue_R?symptomDateValue_R:'请选择'}}
                                 </view>
                             </picker>
-                            <switch class='green sm ' bindchange="onSymptomSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!symptomDisabled_R}}'></switch>
+                            <switch class='blue sm ' bindchange="onSymptomSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!symptomDisabled_R}}'></switch>
                         </view>
                         <!-- 类型 -->
                         <view class="cu-form-group {{leixingDisabled_R?'disabled ':' '}}">
@@ -302,7 +302,7 @@
                                     {{leixingPicker_R[leixingIndex_R]}}
                                 </view>
                             </picker>
-                            <switch class='green sm' bindchange="onLeixingSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!leixingDisabled_R}}'></switch>
+                            <switch class='blue sm' bindchange="onLeixingSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!leixingDisabled_R}}'></switch>
                         </view>
                         <!-- 理由 -->
                         <view class="cu-form-group {{liyouDisabled_R?'disabled':''}}">
@@ -310,7 +310,7 @@
                                 <view class='title' style='text-align:left'>理由</view>
                                 <input placeholder="请输入文字" class='radius' style='width: 350rpx;text-align:left;' bindinput="onLiyouInput_R" value='{{liyou_R}}' disabled='{{liyouDisabled_R}}'></input>
                             </view>
-                            <switch class=' green sm ' bindchange="onLiyouSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!liyouDisabled_R}}'></switch>
+                            <switch class=' blue sm ' bindchange="onLiyouSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!liyouDisabled_R}}'></switch>
                         </view>
                         <!-- ARCO分期 -->
                         <view class="cu-form-group">
@@ -375,13 +375,13 @@
                                     {{bczlPicker_R[bczlIndex_R]}}
                                 </view>
                             </picker>
-                            <switch class='green sm ' bindchange="onBczlSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!bczlDisabled_R}}'></switch>
+                            <switch class='blue sm ' bindchange="onBczlSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!bczlDisabled_R}}'></switch>
                         </view>
                         <!-- 具体治疗措施 -->
                         <view class="cu-form-group {{jtzlDisabled_R?'disabled ':' '}}">
                             <view class='title '>具体治疗措施</view>
                             <input placeholder="请输入文字" class='radius ' bindinput="onJtzlInput_R" value='{{jtzl_R}}' disabled='{{jtzlDisabled_R}}'></input>
-                            <switch class='green sm ' bindchange="onJtzlSwitchChange_R" checked='{{!jtzlDisabled_R}}'></switch>
+                            <switch class='blue sm ' bindchange="onJtzlSwitchChange_R" checked='{{!jtzlDisabled_R}}'></switch>
                         </view>
                         <!-- 特殊事项备注 -->
                         <view class="cu-form-group">
@@ -394,10 +394,10 @@
             <!-- 底部按钮 -->
             <view class="btn-block bg-white shadow" hidden='{{isLook}}'>
                 <view class="flex margin-special">
-                    <button class='cu-btn line-green shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.right.submit_button==0}}'>
+                    <button class='cu-btn line-blue shadow' style="margin-right: 15rpx;" form-type="submit" bindtap='submit' disabled='{{caseInfo.right.submit_button==0}}'>
                         提交录入
                     </button>
-                    <button class='cu-btn bg-green shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button==2 }}'>
+                    <button class='cu-btn bg-blue shadow' style="margin-left: 15rpx;" form-type="submit" bindtap='verify' disabled='{{isCreateCase || caseInfo.approve_button==2 }}'>
                         {{caseInfo.right.state != 2 ?"确认审核":"解除锁定"}}
                     </button>
                 </view>
@@ -410,7 +410,7 @@
     <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;">
         <view class="cu-bar bg-white solid-bottom">
             <view class='action ' style="font-size: 24rpx;">
-                <text class='icon-title text-green'></text>{{imageModalName}}
+                <text class='icon-title text-blue'></text>{{imageModalName}}
             </view>
         </view>
         <view class="cu-form-group margin-top centerPlace">
@@ -451,7 +451,7 @@
     <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;">
         <view class="cu-bar bg-white solid-bottom">
             <view class='action ' style="font-size: 24rpx;">
-                <text class='icon-title text-green'></text>{{imageModalName}}
+                <text class='icon-title text-blue'></text>{{imageModalName}}
             </view>
         </view>
         <view class="cu-form-group margin-top centerPlace">
@@ -529,8 +529,8 @@
     </view>
 </view>
 <view class='load-progress {{loadProgress!=0? "show": "hide"}} ' style="top:{{CustomBar}}px;">
-    <view class='load-progress-bar bg-green ' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
-    <view class='load-progress-spinner text-green'></view>
+    <view class='load-progress-bar bg-blue ' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
+    <view class='load-progress-spinner text-blue'></view>
 </view>
 <view class='cu-load load-modal ' wx:if="{{loadModal}}">
     <view class='gray-text '>处理中...</view>

@@ -1,5 +1,5 @@
 <view class="cu-custom" style="height:{{CustomBar}}px;">
-    <view class="cu-bar fixed bg-gradual-green" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <view class="cu-bar fixed bg-gradual-blue" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
         <navigator class='action border-custom' open-type="navigateBack" delta="1" hover-class="none" style='width:{{Custom.width}}px;height:{{Custom.height}}px;margin-left:calc(750rpx - {{Custom.right}}px)'>
             <text class='icon-back'></text>
             <text class='icon-homefill'></text>
@@ -15,7 +15,7 @@
         <input type="text" placeholder="搜索病厉、名称、关键字" confirm-type="search" value="{{searchValue}}" bindinput="onSearchChange"></input>
     </view>
     <view class='action'>
-        <button class='cu-btn bg-green shadow-blur round' bindtap="onSearch">搜索</button>
+        <button class='cu-btn bg-blue shadow-blur round' bindtap="onSearch">搜索</button>
     </view>
 </view> -->
 
@@ -32,12 +32,12 @@
         <!-- 按钮行 -->
         <view style='display:flex;flex-direction:row'>
             <view class="flex-sub">
-                <button class='cu-btn bg-green shadow margin-btn block' bindtap="onAddFollowup">
+                <button class='cu-btn bg-blue shadow margin-btn block' bindtap="onAddFollowup">
                     添加随访
                 </button>
             </view>
             <view class="flex-sub">
-                <button class='cu-btn bg-green shadow margin-btn block' bindtap="onRefresh">
+                <button class='cu-btn bg-blue shadow margin-btn block' bindtap="onRefresh">
                     刷新列表
                 </button>
             </view>
@@ -110,7 +110,7 @@
             </view>
 
             <view class='move'>
-                <view class='bg-olive' data-case="{{item}}" catchtap="onEditCase">编辑</view>
+                <view class='bg-olive' style="background:#0081ff" data-case="{{item}}" catchtap="onEditCase">编辑</view>
                 <!-- <view class='bg-cyan' data-case="{{item}}" bindtap="onLookCase">查看</view> -->
                 <view class='bg-red' data-case="{{item}}" catchtap='onDeleCase' hidden='true' disabled="{{item.delete_button == 0}}">删除</view>
             </view>
@@ -120,8 +120,8 @@
 
 
 <view class='load-progress {{loadProgress!=0?"show":"hide"}}' style="top:{{CustomBar}}px;">
-    <view class='load-progress-bar bg-green' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
-    <view class='load-progress-spinner text-green'></view>
+    <view class='load-progress-bar bg-blue' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
+    <view class='load-progress-spinner text-blue'></view>
 </view>
 <view class='cu-load load-modal' wx:if="{{loadModal}}">
     <view class='gray-text'>处理中...</view>
@@ -164,8 +164,8 @@
         </view>
         <view class="cu-bar bg-white justify-end">
             <view class='action'>
-                <button class='cu-btn line-green text-green' bindtap='hideModal'>取消</button>
-                <button class='cu-btn bg-green margin-left-15' bindtap='hideModal' bindtap="deleCase">确定</button>
+                <button class='cu-btn line-blue text-blue' bindtap='hideModal'>取消</button>
+                <button class='cu-btn bg-blue margin-left-15' bindtap='hideModal' bindtap="deleCase">确定</button>
             </view>
         </view>
     </view>

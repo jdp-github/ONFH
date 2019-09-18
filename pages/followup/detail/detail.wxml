@@ -1,5 +1,5 @@
 <view class="cu-custom" style="height:{{CustomBar}}px;">
-  <view class="cu-bar fixed bg-gradual-green" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+  <view class="cu-bar fixed bg-gradual-blue" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
     <navigator class='action border-custom' open-type="navigateBack" delta="1" hover-class="none" style='width:{{Custom.width}}px;height:{{Custom.height}}px;margin-left:calc(750rpx - {{Custom.right}}px)'>
       <text class='icon-back'></text>
       <text class='icon-homefill'></text>
@@ -49,7 +49,7 @@
   <view class="VerticalBox" style="height: 100%;">
     <!-- 左侧菜单 -->
     <scroll-view class="VerticalNav nav" scroll-y scroll-with-animation scroll-top="{{VerticalNavTop}}" style="height:100%">
-      <view class="cu-item {{index==TabCur?'text-green cur':''}}" style="font-size: 22rpx" wx:for="{{TabTitle}}" wx:key bindtap='tabSelect' data-id="{{index}}">
+      <view class="cu-item {{index==TabCur?'text-blue cur':''}}" style="font-size: 22rpx" wx:for="{{TabTitle}}" wx:key bindtap='tabSelect' data-id="{{index}}">
         {{item}}
       </view>
     </scroll-view>
@@ -58,7 +58,7 @@
       <view class="padding-left-special">
         <view class='cu-bar solid-bottom bg-white'>
           <view class='action'>
-            <text class='icon-title text-green'></text>左髋</view>
+            <text class='icon-title text-blue'></text>左髋</view>
         </view>
         <!-- item -->
         <view class="cu-list menu menu-avatar">
@@ -76,7 +76,7 @@
                   {{sfDate}}
                 </view>
               </picker>
-              <switch class='green sm' bindchange="onSfDateSwitchChange" style='margin-left: 15rpx; ' checked='{{!sfDateDisabled}}'></switch>
+              <switch class='blue sm' bindchange="onSfDateSwitchChange" style='margin-left: 15rpx; ' checked='{{!sfDateDisabled}}'></switch>
             </view>
             <!-- 距离首诊时长 -->
             <view class="cu-form-group disabled">
@@ -91,7 +91,7 @@
                   {{sfqkPicker[sfqkIndex]}}
                 </view>
               </picker>
-              <switch class='green sm' bindchange="onSfqkSwitchChange" style='margin-left: 15rpx; ' checked='{{!sfqkDisabled}}'></switch>
+              <switch class='blue sm' bindchange="onSfqkSwitchChange" style='margin-left: 15rpx; ' checked='{{!sfqkDisabled}}'></switch>
             </view>
             <!-- 终结本侧日后随访 -->
             <view class="cu-form-group {{zjbcDisabled?'disabled':''}}">
@@ -101,7 +101,7 @@
                   {{zjbcPicker[zjbcIndex]}}
                 </view>
               </picker>
-              <switch class='green sm' bindchange="onZjbcSwitchChange" style='margin-left: 15rpx; ' checked='{{!zjbcDisabled}}'></switch>
+              <switch class='blue sm' bindchange="onZjbcSwitchChange" style='margin-left: 15rpx; ' checked='{{!zjbcDisabled}}'></switch>
             </view>
             <!-- 是否遵从前次治疗方案 -->
             <view class="cu-form-group {{sfzcDisabled?'disabled':''}}">
@@ -111,13 +111,13 @@
                   {{sfzcPicker[sfzcIndex]}}
                 </view>
               </picker>
-              <switch class='green sm' bindchange="onSfzcSwitchChange" style='margin-left: 15rpx; ' checked='{{!sfzcDisabled}}'></switch>
+              <switch class='blue sm' bindchange="onSfzcSwitchChange" style='margin-left: 15rpx; ' checked='{{!sfzcDisabled}}'></switch>
             </view>
             <!-- 更改方案说明 -->
             <view class="cu-form-group {{ggfaDisabled?'disabled':''}}">
               <view class='title '>更改方案说明</view>
               <input placeholder="如更改方案请说明" class='radius ' bindinput="onGgfaInput" value='{{ggfaValue}}' disabled='{{ggfaDisabled}}'></input>
-              <switch class='green sm ' bindchange="onGgfaSwitchChange" checked='{{!ggfaDisabled}}'></switch>
+              <switch class='blue sm ' bindchange="onGgfaSwitchChange" checked='{{!ggfaDisabled}}'></switch>
             </view>
             <!-- ARCO分期 -->
             <view class="cu-form-group {{arcoDisabled?'disabled':''}}">
@@ -127,14 +127,14 @@
                   {{arcoPicker[arcoIndex]}}
                 </view>
               </picker>
-              <switch class=' green sm ' bindchange="onArcoSwitchChange" checked='{{!arcoDisabled}}'></switch>
+              <switch class=' blue sm ' bindchange="onArcoSwitchChange" checked='{{!arcoDisabled}}'></switch>
             </view>
             <!-- Harris评分 -->
             <view class="cu-form-group {{harrisDisabled?'disabled':''}}">
               <view class='title'>Harris评分</view>
               <input placeholder="请输入数字" class='radius ' bindinput="onHarrisInput" value="{{harris}}" disabled='{{harrisDisabled}}' type="number"></input>
               <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px' bindtap="showModal" data-target="threeImgModal" data-imgtype="Harris" disabled='{{harrisDisabled}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onHarrisSwitchChange" checked='{{!harrisDisabled}}'></switch>
+              <switch class=' blue sm ' bindchange="onHarrisSwitchChange" checked='{{!harrisDisabled}}'></switch>
             </view>
             <!-- VAS疼痛评分 -->
             <view class="cu-form-group {{vasDisabled?'disabled':''}}">
@@ -145,7 +145,7 @@
                 </view>
               </picker>
               <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="threeImgModal" data-imgtype="VAS" disabled='{{vasDisabled}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onVasSwitchChange" checked='{{!vasDisabled}}'></switch>
+              <switch class=' blue sm ' bindchange="onVasSwitchChange" checked='{{!vasDisabled}}'></switch>
             </view>
             <!-- 典型X光（左） -->
             <view class="cu-form-group {{xleftDisabled?'disabled':''}}">
@@ -156,7 +156,7 @@
                 </view>
               </picker>
               <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="sixImgModal" data-imgtype="X-LEFT" disabled='{{xleftDisabled}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onXLeftSwitchChange" checked='{{!xleftDisabled}}'></switch>
+              <switch class=' blue sm ' bindchange="onXLeftSwitchChange" checked='{{!xleftDisabled}}'></switch>
             </view>
             <!-- 典型CT（左） -->
             <view class="cu-form-group {{ctLeftDisabled?'disabled':''}}">
@@ -167,7 +167,7 @@
                 </view>
               </picker>
               <button class='cu-btn round sm ' style='margin-left: 15rpx; margin-right:10px' bindtap="showModal" data-target="sixImgModal" data-imgtype="CT-LEFT" disabled='{{ctLeftDisabled}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onCTLeftSwitchChange" checked='{{!ctLeftDisabled}}'></switch>
+              <switch class=' blue sm ' bindchange="onCTLeftSwitchChange" checked='{{!ctLeftDisabled}}'></switch>
             </view>
             <!-- 典型MRI（左） -->
             <view class="cu-form-group {{mriLeftDisabled?'disabled':''}}">
@@ -178,7 +178,7 @@
                 </view>
               </picker>
               <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="sixImgModal" data-imgtype="MRI-LEFT" disabled='{{mriLeftDisabled}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onMriLeftSwitchChange" checked='{{!mriLeftDisabled}}'></switch>
+              <switch class=' blue sm ' bindchange="onMriLeftSwitchChange" checked='{{!mriLeftDisabled}}'></switch>
             </view>
             <!-- 本次治疗方案 -->
             <view class="cu-form-group {{bczlDisabled?'disabled':''}}">
@@ -188,19 +188,19 @@
                   {{bczlPicker[bczlIndex]}}
                 </view>
               </picker>
-              <switch class='green sm ' bindchange="onBczlSwitchChange" style='margin-left: 15rpx; ' checked='{{!bczlDisabled}}'></switch>
+              <switch class='blue sm ' bindchange="onBczlSwitchChange" style='margin-left: 15rpx; ' checked='{{!bczlDisabled}}'></switch>
             </view>
             <!-- 具体治疗措施 -->
             <view class="cu-form-group {{jtzlDisabled?'disabled':''}}">
               <view class='title '>具体治疗措施</view>
               <input placeholder="请输入文字" class='radius ' bindinput="onJtzlInput" value='{{jtzl}}' disabled='{{jtzlDisabled}}'></input>
-              <switch class='green sm ' bindchange="onJtzlSwitchChange" checked='{{!jtzlDisabled}}'></switch>
+              <switch class='blue sm ' bindchange="onJtzlSwitchChange" checked='{{!jtzlDisabled}}'></switch>
             </view>
             <!-- 备注 -->
             <view class="cu-form-group {{beizhuDisabled?'disabled':''}}">
               <view class='title '>备注</view>
               <input placeholder="请输入文字" class='radius' bindinput="onBeizhuInput" value='{{beizhu}}' disabled='{{beizhuDisabled}}'></input>
-              <switch class='green sm ' bindchange="onBeizhuSwitchChange" checked='{{!beizhuDisabled}}'></switch>
+              <switch class='blue sm ' bindchange="onBeizhuSwitchChange" checked='{{!beizhuDisabled}}'></switch>
             </view>
           </view>
         </view>
@@ -208,11 +208,11 @@
       <!-- 底部按钮 -->
       <view class="btn-block bg-white shadow" hidden='{{isLook || isLeftClose}}'>
         <view class="flex margin-special">
-          <button class='cu-btn line-green shadow ' style="margin-right: 15rpx;" form-type="submit" bindtap='submit'>
+          <button class='cu-btn line-blue shadow ' style="margin-right: 15rpx;" form-type="submit" bindtap='submit'>
             提交录入
           </button>
           <!-- disabled='{{caseInfo.left.submit_button==0 }}
-                    <button class='cu-btn bg-green shadow ' style="margin-left: 15rpx;" form-type="submit" bindtap='verify ' disabled='{{isCreateCase || caseInfo.approve_button==2 }} '>
+                    <button class='cu-btn bg-blue shadow ' style="margin-left: 15rpx;" form-type="submit" bindtap='verify ' disabled='{{isCreateCase || caseInfo.approve_button==2 }} '>
                         {{caseInfo.left.state != 2 ?"确认审核":"解除锁定"}}
                     </button> -->
         </view>
@@ -223,7 +223,7 @@
       <view class="padding-left-special">
         <view class='cu-bar solid-bottom bg-white '>
           <view class='action '>
-            <text class='icon-title text-green '></text>右髋</view>
+            <text class='icon-title text-blue '></text>右髋</view>
         </view>
         <!-- item -->
         <view class="cu-list menu menu-avatar">
@@ -241,7 +241,7 @@
                   {{sfDate_R}}
                 </view>
               </picker>
-              <switch class='green sm' bindchange="onSfDateSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sfDateDisabled_R}}'></switch>
+              <switch class='blue sm' bindchange="onSfDateSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sfDateDisabled_R}}'></switch>
             </view>
             <!-- 距离首诊时长 -->
             <view class="cu-form-group disabled">
@@ -256,7 +256,7 @@
                   {{sfqkPicker_R[sfqkIndex_R]}}
                 </view>
               </picker>
-              <switch class='green sm' bindchange="onSfqkSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sfqkDisabled_R}}'></switch>
+              <switch class='blue sm' bindchange="onSfqkSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sfqkDisabled_R}}'></switch>
             </view>
             <!-- 终结本侧日后随访 -->
             <view class="cu-form-group {{zjbcDisabled_R?'disabled':''}}">
@@ -266,7 +266,7 @@
                   {{zjbcPicker_R[zjbcIndex_R]}}
                 </view>
               </picker>
-              <switch class='green sm' bindchange="onZjbcSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!zjbcDisabled_R}}'></switch>
+              <switch class='blue sm' bindchange="onZjbcSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!zjbcDisabled_R}}'></switch>
             </view>
             <!-- 是否遵从前次治疗方案 -->
             <view class="cu-form-group {{sfzcDisabled_R?'disabled ':''}}">
@@ -276,13 +276,13 @@
                   {{sfzcPicker_R[sfzcIndex_R]}}
                 </view>
               </picker>
-              <switch class='green sm' bindchange="onSfzcSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sfzcDisabled_R}}'></switch>
+              <switch class='blue sm' bindchange="onSfzcSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!sfzcDisabled_R}}'></switch>
             </view>
             <!-- 更改方案说明 -->
             <view class="cu-form-group {{ggfaDisabled_R?'disabled ':' '}}">
               <view class='title '>更改方案说明</view>
               <input placeholder="如更改方案请说明" class='radius ' bindinput="onGgfaInput_R" value='{{ggfaValue_R}}' disabled='{{ggfaDisabled_R}}'></input>
-              <switch class='green sm ' bindchange="onGgfaSwitchChange_R" checked='{{!ggfaDisabled_R}}'></switch>
+              <switch class='blue sm ' bindchange="onGgfaSwitchChange_R" checked='{{!ggfaDisabled_R}}'></switch>
             </view>
             <!-- ARCO分期 -->
             <view class="cu-form-group {{arcoDisabled_R?'disabled ':' '}}">
@@ -292,14 +292,14 @@
                   {{arcoPicker_R[arcoIndex_R]}}
                 </view>
               </picker>
-              <switch class=' green sm ' bindchange="onArcoSwitchChange_R" checked='{{!arcoDisabled_R}}'></switch>
+              <switch class=' blue sm ' bindchange="onArcoSwitchChange_R" checked='{{!arcoDisabled_R}}'></switch>
             </view>
             <!-- Harris评分 -->
             <view class="cu-form-group {{harrisDisabled_R?'disabled':''}}">
               <view class='title'>Harris评分</view>
               <input placeholder="请输入数字" class='radius ' bindinput="onHarrisInput_R" value="{{harris_R}}" disabled='{{harrisDisabled_R}}' type="number"></input>
               <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px' bindtap="showModal" data-target="threeImgModal" data-imgtype="Harris_R" disabled='{{harrisDisabled_R}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onHarrisSwitchChange_R" checked='{{!harrisDisabled_R}}'></switch>
+              <switch class=' blue sm ' bindchange="onHarrisSwitchChange_R" checked='{{!harrisDisabled_R}}'></switch>
             </view>
             <!-- VAS疼痛评分 -->
             <view class="cu-form-group {{vasDisabled_R?'disabled':''}}">
@@ -310,7 +310,7 @@
                 </view>
               </picker>
               <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="threeImgModal" data-imgtype="VAS_R" disabled='{{vasDisabled_R}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onVasSwitchChange_R" checked='{{!vasDisabled_R}}'></switch>
+              <switch class=' blue sm ' bindchange="onVasSwitchChange_R" checked='{{!vasDisabled_R}}'></switch>
             </view>
             <!-- 典型X光（右） -->
             <view class="cu-form-group {{xleftDisabled_R?'disabled':''}}">
@@ -321,7 +321,7 @@
                 </view>
               </picker>
               <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="sixImgModal" data-imgtype="X-LEFT_R" disabled='{{xleftDisabled_R}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onXLeftSwitchChange_R" checked='{{!xleftDisabled_R}}'></switch>
+              <switch class=' blue sm ' bindchange="onXLeftSwitchChange_R" checked='{{!xleftDisabled_R}}'></switch>
             </view>
             <!-- 典型CT（右） -->
             <view class="cu-form-group {{ctLeftDisabled_R?'disabled':''}}">
@@ -332,7 +332,7 @@
                 </view>
               </picker>
               <button class='cu-btn round sm ' style='margin-left: 15rpx; margin-right:10px' bindtap="showModal" data-target="sixImgModal" data-imgtype="CT-LEFT_R" disabled='{{ctLeftDisabled_R}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onCTLeftSwitchChange_R" checked='{{!ctLeftDisabled_R}}'></switch>
+              <switch class=' blue sm ' bindchange="onCTLeftSwitchChange_R" checked='{{!ctLeftDisabled_R}}'></switch>
             </view>
             <!-- 典型MRI（右） -->
             <view class="cu-form-group {{mriLeftDisabled_R?'disabled':''}}">
@@ -343,7 +343,7 @@
                 </view>
               </picker>
               <button class='cu-btn round sm ' style='margin-left: 15rpx;margin-right:10px ' bindtap="showModal" data-target="sixImgModal" data-imgtype="MRI-LEFT_R" disabled='{{mriLeftDisabled_R}}'>上传图片</button>
-              <switch class=' green sm ' bindchange="onMriLeftSwitchChange_R" checked='{{!mriLeftDisabled_R}}'></switch>
+              <switch class=' blue sm ' bindchange="onMriLeftSwitchChange_R" checked='{{!mriLeftDisabled_R}}'></switch>
             </view>
             <!-- 本次治疗方案 -->
             <view class="cu-form-group {{bczlDisabled_R?'disabled':''}}">
@@ -353,19 +353,19 @@
                   {{bczlPicker_R[bczlIndex_R]}}
                 </view>
               </picker>
-              <switch class='green sm ' bindchange="onBczlSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!bczlDisabled_R}}'></switch>
+              <switch class='blue sm ' bindchange="onBczlSwitchChange_R" style='margin-left: 15rpx; ' checked='{{!bczlDisabled_R}}'></switch>
             </view>
             <!-- 具体治疗措施 -->
             <view class="cu-form-group {{jtzlDisabled_R?'disabled':''}}">
               <view class='title '>具体治疗措施</view>
               <input placeholder="请输入文字" class='radius ' bindinput="onJtzlInput_R" value='{{jtzl_R}}' disabled='{{jtzlDisabled_R}}'></input>
-              <switch class='green sm ' bindchange="onJtzlSwitchChange_R" checked='{{!jtzlDisabled_R}}'></switch>
+              <switch class='blue sm ' bindchange="onJtzlSwitchChange_R" checked='{{!jtzlDisabled_R}}'></switch>
             </view>
             <!-- 备注 -->
             <view class="cu-form-group {{beizhuDisabled_R?'disabled':''}}">
               <view class='title '>备注</view>
               <input placeholder="请输入文字" class='radius' bindinput="onBeizhuInput_R" value='{{beizhu_R}}' disabled='{{beizhuDisabled_R}}'></input>
-              <switch class='green sm ' bindchange="onBeizhuSwitchChange_R" checked='{{!beizhuDisabled_R}}'></switch>
+              <switch class='blue sm ' bindchange="onBeizhuSwitchChange_R" checked='{{!beizhuDisabled_R}}'></switch>
             </view>
           </view>
         </view>
@@ -373,11 +373,11 @@
       <!-- 底部按钮 -->
       <view class="btn-block bg-white shadow" hidden='{{isLook || isRightClose}}'>
         <view class="flex margin-special">
-          <button class='cu-btn line-green shadow ' style="margin-right: 15rpx;" form-type="submit" bindtap='submit'>
+          <button class='cu-btn line-blue shadow ' style="margin-right: 15rpx;" form-type="submit" bindtap='submit'>
             提交录入
           </button>
           <!-- disabled='{{caseInfo.right.submit_button==0}}'
-                    <button class='cu-btn bg-green shadow ' style="margin-left: 15rpx;" form-type="submit" bindtap='verify ' disabled='{{isCreateCase || caseInfo.approve_button==2 }} '>
+                    <button class='cu-btn bg-blue shadow ' style="margin-left: 15rpx;" form-type="submit" bindtap='verify ' disabled='{{isCreateCase || caseInfo.approve_button==2 }} '>
                         {{caseInfo.right.state != 2 ?"确认审核":"解除锁定"}}
                     </button> -->
         </view>
@@ -390,7 +390,7 @@
   <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;">
     <view class="cu-bar bg-white solid-bottom">
       <view class='action' style="font-size: 24rpx;">
-        <text class='icon-title text-green '></text>{{imageModalName}}
+        <text class='icon-title text-blue '></text>{{imageModalName}}
       </view>
     </view>
     <view class="cu-form-group margin-top centerPlace">
@@ -431,7 +431,7 @@
   <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;">
     <view class="cu-bar bg-white solid-bottom">
       <view class='action ' style="font-size: 24rpx;">
-        <text class='icon-title text-green '></text>{{imageModalName}}
+        <text class='icon-title text-blue '></text>{{imageModalName}}
       </view>
     </view>
     <view class="cu-form-group margin-top centerPlace">
@@ -509,8 +509,8 @@
   </view>
 </view>
 <view class='load-progress {{loadProgress!=0? "show": "hide"}} ' style="top:{{CustomBar}}px;">
-  <view class='load-progress-bar bg-green ' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
-  <view class='load-progress-spinner text-green '></view>
+  <view class='load-progress-bar bg-blue ' style="transform: translate3d(-{{100-loadProgress}}%, 0px, 0px);"></view>
+  <view class='load-progress-spinner text-blue '></view>
 </view>
 <view class='cu-load load-modal ' wx:if="{{loadModal}}">
   <view class='gray-text '>处理中...</view>

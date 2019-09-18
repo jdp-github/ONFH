@@ -1,8 +1,8 @@
 {
     "pages": [
         "pages/auth/auth",
-        "pages/followup/detail/detail",
         "pages/followup/followup",
+        "pages/followup/detail/detail",
         "pages/center/case/detail/detail",
         "pages/center/case/case",
         "pages/center/center",
@@ -21,7 +21,7 @@
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
         "navigationBarTitleText": "ONFH-登记系统",
-        "navigationBarBackgroundColor": "#23292D",
+        "navigationBarBackgroundColor": "#0081ff",
         "enablePullDownRefresh": false
     },
     "tabBar": {
