@@ -181,6 +181,14 @@ map, .mapBox {
     flex-direction: column;
 }
 
+.item-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0prx;
+    margin: 0rpx;
+}
+
 .notice-block {
     height: 100%;
     margin: 15rpx 30rpx;
@@ -201,8 +209,8 @@ map, .mapBox {
 
 .notice-tag {
     position: absolute;
-    top: 95rpx;
-    left: 35rpx;
+    top: 5rpx;
+    left: 5rpx;
     z-index: 1;
 }
 
@@ -220,6 +228,8 @@ map, .mapBox {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
+    margin-left: 50rpx;
 }
 
 .notice-content {
@@ -244,5 +254,4 @@ map, .mapBox {
     right: 50rpx;
     font-size: 24rpx;
     margin-left: 30rpx;
-    margin-top: 5rpx;
 }

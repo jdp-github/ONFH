@@ -24,7 +24,7 @@ Page({
     // -------- tab切换 begin -------- //
     TabCur: 0,
     VerticalNavTop: 0,
-    TabTitle: ['左髋', '右髋'],
+    TabTitle: ['左髋随访', '右髋随访'],
     // ShowBasic: true,
     ShowDiagnose: true,
     ShowAdmission: false,

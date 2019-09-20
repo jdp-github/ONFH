@@ -58,7 +58,7 @@
       <view class="padding-left-special">
         <view class='cu-bar solid-bottom bg-white'>
           <view class='action'>
-            <text class='icon-title text-blue'></text>左髋</view>
+            <text class='icon-title text-blue'></text>左髋随访</view>
         </view>
         <!-- item -->
         <view class="cu-list menu menu-avatar">
@@ -223,7 +223,7 @@
       <view class="padding-left-special">
         <view class='cu-bar solid-bottom bg-white '>
           <view class='action '>
-            <text class='icon-title text-blue '></text>右髋</view>
+            <text class='icon-title text-blue '></text>右髋随访</view>
         </view>
         <!-- item -->
         <view class="cu-list menu menu-avatar">

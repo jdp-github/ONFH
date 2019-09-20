@@ -18,10 +18,14 @@ Page({
         emitter: null,
         centerId: '',
         noticeList: [],
+
+        selectedItem: {},
+        title: '',
         currNoticeContent: "",
         currNoticeId: "",
         currIsTop: false,
-        isAdd: true,
+        // 0:查看，1:新增，2:编辑
+        noticeState: 0,
     },
 
     onLoad: function(options) {
@@ -76,7 +80,13 @@ Page({
         })
         this.requestNotice()
     },
-    deleNotice() {
+    onDele(e) {
+        this.setData({
+            modalName: 'DeleteNoticeModal',
+            selectedItem: e.currentTarget.dataset.item
+        })
+    },
+    dele(e) {
         let that = this;
         that.showLoading();
         wx.request({
@@ -85,7 +95,7 @@ Page({
                 service: 'Notice.DeleteNotice',
                 openid: app.globalData.openid,
                 center_id: that.data.centerId,
-                notice_id: that.data.currNoticeId
+                notice_id: that.data.selectedItem.id
             },
             header: {
                 'content-type': 'application/json'
@@ -97,7 +107,7 @@ Page({
                 if (res.data.data.code == constant.response_success) {
                     that.requestNotice()
                 } else {
-                    that.showToast(res.data.msg);
+                    that.showToast(res.data.data.msg);
                 }
             },
             fail(res) {
@@ -136,7 +146,13 @@ Page({
             }
         });
     },
-    editNotice() {
+    onEdit(e) {
+        this.setData({
+            noticeState: 2,
+            modalName: "NoticeDialog"
+        })
+    },
+    edit() {
         let that = this;
         that.showLoading();
         wx.request({
@@ -145,7 +161,7 @@ Page({
                 service: 'Notice.EditNotice',
                 openid: app.globalData.openid,
                 center_id: that.data.centerId,
-                notice_id: that.data.currNoticeId,
+                notice_id: e.currentTarget.dataset.item.id,
                 content: that.data.currNoticeContent,
                 is_top: that.data.currIsTop ? 1 : 0
             },
@@ -172,35 +188,13 @@ Page({
         console.log("onitemclick:" + JSON.stringify(e))
         let that = this
         that.setData({
-            isAdd: false,
-            modalName: "AddNotice",
+            noticeState: 0,
+            modalName: "NoticeDialog",
             currNoticeContent: e.currentTarget.dataset.item.content,
             currNoticeId: e.currentTarget.dataset.item.id,
             currIsTop: e.currentTarget.dataset.item.is_top == 1
         })
-        // that.showLoading();
-        // wx.request({
-        //     url: constant.basePath,
-        //     data: {
-        //         service: 'Notice.GetNoticeInfo',
-        //         notice_id: that.data.currNotice.id,
-        //     },
-        //     header: {
-        //         'content-type': 'application/json'
-        //     },
-        //     success(res) {
-        //         console.log("Notice.GetNoticeInfo:" + JSON.stringify(res))
-        //         that.hideLoading();
-        //         if (res.data.data.code == constant.response_success) {
-        //             // that.requestNotice()
-        //         } else {
-        //             that.showToast(res.data.msg);
-        //         }
-        //     },
-        //     fail(res) {
-        //         that.hideLoading();
-        //     }
-        // });
+
     },
     onTopChange(e) {
         this.setData({
@@ -269,14 +263,19 @@ Page({
             modalName: null
         });
     },
-    showModal: function(e) {
+    onAddNotice: function(e) {
         this.setData({
-            modalName: "AddNotice",
-            isAdd: true,
+            modalName: "NoticeDialog",
+            noticeState: 1,
             currNoticeContent: "",
             currNoticeId: "",
             currIsTop: false,
         })
+    },
+    onTitleInput: function(e) {
+        this.setData({
+            title: e.detail.value
+        });
     },
     onNoticeInput: function(e) {
         this.setData({
@@ -286,6 +285,30 @@ Page({
     onSearchChange: function(e) {
         this.setData({
             searchValue: e.detail.value
+        });
+    },
+    ListTouchStart: function(e) {
+        this.setData({
+            ListTouchStart: e.touches[0].pageX
+        });
+    },
+    ListTouchMove: function(e) {
+        this.setData({
+            ListTouchDirection: e.touches[0].pageX - this.data.ListTouchStart > 0 ? 'right' : 'left'
+        });
+    },
+    ListTouchEnd: function(e) {
+        if (this.data.ListTouchDirection == 'left') {
+            this.setData({
+                modalName: e.currentTarget.dataset.target
+            });
+        } else {
+            this.setData({
+                modalName: null
+            });
+        }
+        this.setData({
+            ListTouchDirection: null
         });
     },
     // ============== UI end ============== //

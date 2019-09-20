@@ -20,7 +20,7 @@
     <view class="cu-list menu menu-avatar">
         <view style='display:flex;flex-direction:row'>
             <view class="flex-sub">
-                <button class='cu-btn bg-blue shadow margin-btn block' bindtap='showModal'>
+                <button class='cu-btn bg-blue shadow margin-btn block' bindtap='onAddNotice'>
                     发布公告
                 </button>
             </view>
@@ -30,27 +30,36 @@
                 </button>
             </view>
         </view>
-        <!-- 列表 -->
-        <view class="notice-list">
-            <view class="notice-block" wx:for="{{noticeList}}" wx:key="{{item.id}}" bindtap='onItemClick' data-item="{{item}}">
-                <!-- item -->
-                <view class="notice-tag">
-                    <view wx:if="{{item.is_top == 1}}" class='cu-tag radius bg-blue small fl'><i class="fa fa-bookmark"></i></view>
-                </view>
-                <view class="notice-avatar">
-                    <view class="cu-avatar round xl bg-gray margin-xs" style="background-image:url({{item.staff_avatar}});"></view>
-                </view>
-                <view class='notice-middle'>
-                    <view class="notice-content">
-                        {{item.content}}
+
+        <!-- 列表item -->
+        <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" style="height:120rpx;padding:0rpx" wx:for="{{noticeList}}" wx:key="{{item.id}}" bindtouchstart='ListTouchStart' bindtouchmove='ListTouchMove' bindtouchend='ListTouchEnd' data-target="move-box-{{index}}"
+            bindtap='onItemClick' data-item="{{item}}">
+            <view class='content'>
+                <view class="item-container">
+                    <view class="notice-tag">
+                        <view wx:if="{{item.is_top == 1}}" class='cu-tag radius bg-blue small fl'>
+                            <i class="fa fa-bookmark"></i>
+                        </view>
                     </view>
-                    <view class="notice-time">
-                        {{item.ctime}}
+                    <view class="notice-avatar">
+                        <view class="cu-avatar round xl bg-gray margin-xs" style="background-image:url({{item.staff_avatar}});"></view>
+                    </view>
+                    <view class='notice-middle'>
+                        <view class="notice-content">
+                            {{item.content}}
+                        </view>
+                        <view class="notice-time">
+                            {{item.ctime}}
+                        </view>
+                    </view>
+                    <view class="notice-icon">
+                        <text class='icon-right'></text>
                     </view>
                 </view>
-                <view class="notice-icon">
-                    <text class='icon-right'></text>
-                </view>
+            </view>
+            <view class='move'>
+                <view class='bg-olive' style="background:#0081ff" data-item="{{item}}" catchtap="onEdit">编辑</view>
+                <view class='bg-red' data-item="{{item}}" catchtap='onDele' hidden='true'>删除</view>
             </view>
         </view>
         <!-- ONFH设计结束: 公告列表 -->
@@ -61,7 +70,7 @@
     <view class='load-progress-spinner text-blue'></view>
 </view>
 <!-- dialog -->
-<view class="cu-modal show" wx:if="{{modalName=='AddNotice'}}">
+<view class="cu-modal show" wx:if="{{modalName=='NoticeDialog'}}">
     <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
             <view class='content'>{{isAdd?"新增":"编辑"}}公告</view>
@@ -71,6 +80,7 @@
         </view>
         <view class='padding-xl'>
             <view class="cu-form-group" style='height:150px'>
+                <input class='radius' placeholder="请输入公告标题" type="text" bindinput="onTitleInput" value="{{title}}" />
                 <textarea class='radius' placeholder="请输入公告内容" bindinput='onNoticeInput' value='{{currNoticeContent}}' />
             </view>
             <view class="cu-form-group">
@@ -82,9 +92,7 @@
         </view>
         <view class="cu-bar bg-white justify-end">
             <view class='action'>
-                <button wx:if="{{!isAdd}}" class='cu-btn bg-blue margin-left' bindtap="editNotice" style='margin-left:10rpx'>编辑</button>
-                <button wx:if="{{isAdd}}" class='cu-btn bg-blue margin-left' bindtap="addNotice" style='margin-left:10rpx'>确定</button>
-                <button wx:if="{{!isAdd}}" class='cu-btn bg-blue margin-left' bindtap="deleNotice" style='margin-left:10rpx'>删除</button>
+                <button class='cu-btn bg-blue margin-left' style='margin-left:10rpx'>确定</button>
                 <button class='cu-btn line-blue text-blue' bindtap='hideModal' style='margin-left:10rpx'>取消</button>
             </view>
         </view>
@@ -96,3 +104,36 @@
     <view class='gray-text'>处理中...</view>
 </view>
 <view class="load-curtain" wx:if="{{loadProgress!=0}}"></view>
+
+<view class="cu-modal {{modalName=='DeleteNoticeModal'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class='content'>删除</view>
+            <view class='action' bindtap='hideModal'>
+                <text class='icon-close text-red'></text>
+            </view>
+        </view>
+        <view class='padding-xl'>
+            <view class='flex-sub text-center'>
+                <view class='solid-bottom text-sl padding'>
+                    <text class='icon-warnfill text-red'></text>
+                </view>
+                <view class='padding'>是否删除</view>
+            </view>
+        </view>
+        <!-- <view class='solids-bottom padding-xs flex align-center' wx:if='{{!isAdmin}}'>
+            <view class='flex-sub text-center'>
+                <view class='solid-bottom text-sl padding'>
+                    <text class='icon-warnfill text-red'></text>
+                </view>
+                <view class='padding'>当前用户暂无权限</view>
+            </view>
+        </view> -->
+        <view class="cu-bar bg-white justify-end">
+            <view class='action'>
+                <button class='cu-btn line-blue text-blue' bindtap='hideModal'>取消</button>
+                <button class='cu-btn bg-blue' style="margin-left:20rpx;" bindtap='hideModal' bindtap="dele">确定</button>
+            </view>
+        </view>
+    </view>
+</view>
