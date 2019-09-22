@@ -6,8 +6,14 @@ let regeneratorRuntime = require('../../lib/regenerator-runtime/runtime');
 
 const app = getApp();
 
+const VIEW_STATE = 0;
+const ADD_STATE = 1;
+const EDIT_STATE = 2;
+
 Page({
     data: {
+        currAvatar: '',
+        currDate: '',
         loadProgress: 0,
         loadModal: false,
         StatusBar: app.globalData.StatusBar,
@@ -24,13 +30,16 @@ Page({
         currNoticeContent: "",
         currNoticeId: "",
         currIsTop: false,
+        currNoticeDate: '',
         // 0:查看，1:新增，2:编辑
-        noticeState: 0,
+        noticeState: VIEW_STATE,
     },
 
     onLoad: function(options) {
         this.setData({
             centerId: options.centerId,
+            currAvatar: app.globalData.avatarUrl,
+            currNoticeDate: util.formatTime(new Date() / 1000, 'Y-M-D')
         });
         this.initData();
     },
@@ -63,7 +72,7 @@ Page({
                         noticeList: res.data.data.list
                     });
                 } else {
-                    that.showToast(res.data.msg);
+                    that.showToast(res.data.data.msg);
                 }
             },
             fail(res) {
@@ -116,6 +125,15 @@ Page({
             }
         });
     },
+    onAddNotice: function(e) {
+        this.setData({
+            modalName: "NoticeDialog",
+            noticeState: ADD_STATE,
+            currNoticeContent: "",
+            currNoticeId: "",
+            currIsTop: false,
+        })
+    },
     addNotice() {
         let that = this;
         that.showLoading();
@@ -134,10 +152,11 @@ Page({
                 console.log("Notice.CreateNotice:" + JSON.stringify(res))
                 that.hideLoading();
                 that.hideModal();
+                that.clearData()
                 if (res.data.data.code == constant.response_success) {
                     that.requestNotice()
                 } else {
-                    that.showToast(res.data.msg);
+                    that.showToast(res.data.data.msg);
                 }
             },
             fail(res) {
@@ -148,11 +167,14 @@ Page({
     },
     onEdit(e) {
         this.setData({
-            noticeState: 2,
-            modalName: "NoticeDialog"
+            noticeState: EDIT_STATE,
+            modalName: "NoticeDialog",
+            currNoticeContent: e.currentTarget.dataset.item.content,
+            currNoticeId: e.currentTarget.dataset.item.id,
+            currIsTop: e.currentTarget.dataset.item.is_top == 1
         })
     },
-    edit() {
+    editNotice() {
         let that = this;
         that.showLoading();
         wx.request({
@@ -161,7 +183,7 @@ Page({
                 service: 'Notice.EditNotice',
                 openid: app.globalData.openid,
                 center_id: that.data.centerId,
-                notice_id: e.currentTarget.dataset.item.id,
+                notice_id: that.data.currNoticeId,
                 content: that.data.currNoticeContent,
                 is_top: that.data.currIsTop ? 1 : 0
             },
@@ -172,10 +194,11 @@ Page({
                 console.log("Notice.CreateNotice:" + JSON.stringify(res))
                 that.hideLoading();
                 that.hideModal();
+                that.clearData()
                 if (res.data.data.code == constant.response_success) {
                     that.requestNotice()
                 } else {
-                    that.showToast(res.data.msg);
+                    that.showToast(res.data.data.msg);
                 }
             },
             fail(res) {
@@ -184,22 +207,38 @@ Page({
             }
         });
     },
-    onItemClick(e) {
-        console.log("onitemclick:" + JSON.stringify(e))
+    showNotice(e) {
         let that = this
         that.setData({
-            noticeState: 0,
+            noticeState: VIEW_STATE,
             modalName: "NoticeDialog",
             currNoticeContent: e.currentTarget.dataset.item.content,
             currNoticeId: e.currentTarget.dataset.item.id,
             currIsTop: e.currentTarget.dataset.item.is_top == 1
         })
-
     },
     onTopChange(e) {
         this.setData({
             currIsTop: e.detail.value
         });
+    },
+    onSubmit(e) {
+        if (this.data.noticeState == EDIT_STATE) {
+            this.editNotice()
+        } else if (this.data.noticeState == ADD_STATE) {
+            this.addNotice()
+        }
+    },
+    clearData() {
+        this.setData({
+            selectedItem: {},
+            title: '',
+            currNoticeContent: '',
+            currNoticeId: '',
+            currIsTop: false,
+            currNoticeDate: '',
+            noticeState: VIEW_STATE
+        })
     },
     // ============== UI begin ============== //
     onHide: function() {
@@ -262,15 +301,6 @@ Page({
         this.setData({
             modalName: null
         });
-    },
-    onAddNotice: function(e) {
-        this.setData({
-            modalName: "NoticeDialog",
-            noticeState: 1,
-            currNoticeContent: "",
-            currNoticeId: "",
-            currIsTop: false,
-        })
     },
     onTitleInput: function(e) {
         this.setData({

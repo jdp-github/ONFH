@@ -33,7 +33,7 @@
 
         <!-- 列表item -->
         <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" style="height:120rpx;padding:0rpx" wx:for="{{noticeList}}" wx:key="{{item.id}}" bindtouchstart='ListTouchStart' bindtouchmove='ListTouchMove' bindtouchend='ListTouchEnd' data-target="move-box-{{index}}"
-            bindtap='onItemClick' data-item="{{item}}">
+            bindtap='showNotice' data-item="{{item}}">
             <view class='content'>
                 <view class="item-container">
                     <view class="notice-tag">
@@ -73,31 +73,34 @@
 <view class="cu-modal show" wx:if="{{modalName=='NoticeDialog'}}">
     <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
-            <view class='content'>{{isAdd?"新增":"编辑"}}公告</view>
+            <view class='content'>{{noticeState == 0?"查看":noticeState == 1?"新增":"编辑"}}公告</view>
             <view class='action' bindtap='hideModal'>
                 <text class='icon-close text-red'></text>
             </view>
         </view>
         <view class='padding-xl'>
-            <view class="cu-form-group" style='height:150px'>
-                <input class='radius' placeholder="请输入公告标题" type="text" bindinput="onTitleInput" value="{{title}}" />
-                <textarea class='radius' placeholder="请输入公告内容" bindinput='onNoticeInput' value='{{currNoticeContent}}' />
-            </view>
-            <view class="cu-form-group">
-                <view style='display:flex;flex-direction: column; '>
-                    <view class='title' style='text-align:left'>置顶</view>
+            <view class="cu-form-group" style='height:200px'>
+                <view class="notice-dialog-container">
+                    <input class='radius' style="flex-grow:1" placeholder="请输入公告标题" type="text" bindinput="onTitleInput" value="{{title}}"/>
+                    <textarea class='notice-dialog-content radius' style="padding:5px;flex-grow:3;" placeholder="请输入公告内容" bindinput='onNoticeInput' value='{{currNoticeContent}}'/>
                 </view>
-                <switch class='blue sm' bindchange="onTopChange" style='margin-left:15rpx;' checked='{{currIsTop}}'></switch>
+            </view>
+            <view class="cu-form-group" style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;">
+                <view class="cu-avatar round xl bg-gray margin-xs" style="background-image:url({{currAvatar}});"></view>
+                <view>{{currNoticeDate}}</view>
+                <view style="display:flex;flex-direction:row;">
+                    <view class='title'>置顶</view>
+                    <switch class='blue sm' bindchange="onTopChange" checked='{{currIsTop}}'></switch>
+                </view>
             </view>
         </view>
-        <view class="cu-bar bg-white justify-end">
+        <view class="cu-bar bg-white justify-end" wx:if="{{noticeState != 0}}">
             <view class='action'>
-                <button class='cu-btn bg-blue margin-left' style='margin-left:10rpx'>确定</button>
+                <button class='cu-btn bg-blue margin-left' style='margin-left:10rpx' bindtap="onSubmit">确定</button>
                 <button class='cu-btn line-blue text-blue' bindtap='hideModal' style='margin-left:10rpx'>取消</button>
             </view>
         </view>
     </view>
-
 </view>
 
 <view class='cu-load load-modal' wx:if="{{loadModal}}">
