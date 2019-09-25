@@ -46,7 +46,7 @@
                     </view>
                     <view class='notice-middle'>
                         <view class="notice-content">
-                            {{item.content}}
+                            {{item.title}}
                         </view>
                         <view class="notice-time">
                             {{item.ctime}}
@@ -81,7 +81,7 @@
         <view class='padding-xl'>
             <view class="cu-form-group" style='height:200px'>
                 <view class="notice-dialog-container">
-                    <input class='radius' style="flex-grow:1" placeholder="请输入公告标题" type="text" bindinput="onTitleInput" value="{{title}}"/>
+                    <input class='radius' style="flex-grow:1" placeholder="请输入公告标题" type="text" bindinput="onTitleInput" value="{{currNoticeTitle}}"/>
                     <textarea class='notice-dialog-content radius' style="padding:5px;flex-grow:3;" placeholder="请输入公告内容" bindinput='onNoticeInput' value='{{currNoticeContent}}'/>
                 </view>
             </view>
@@ -90,7 +90,7 @@
                 <view>{{currNoticeDate}}</view>
                 <view style="display:flex;flex-direction:row;">
                     <view class='title'>置顶</view>
-                    <switch class='blue sm' bindchange="onTopChange" checked='{{currIsTop}}'></switch>
+                    <switch class='blue sm' disabled="{{noticeState == 0}}" bindchange="onTopChange" checked='{{currIsTop}}'></switch>
                 </view>
             </view>
         </view>

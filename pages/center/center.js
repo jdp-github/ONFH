@@ -19,6 +19,7 @@ Page({
         centerTempList: [], // 存储中心列表，取消搜索时恢复数据用
         visibleCenter: false,
         centerName: '',
+        noticeTitle:'',
         noticeContent: ""
     },
     onHide: function() {
@@ -198,8 +199,8 @@ Page({
                 console.log("Notice.GetDisplayNotice:" + JSON.stringify(res))
                 that.hideLoading();
                 if (res.data.data.code == constant.response_success) {
-
                     that.setData({
+                        noticeTitle: res.data.data.info.title,
                         noticeContent: res.data.data.info.content
                     });
                 } else {
