@@ -70,7 +70,7 @@
             </view>
 
             <view class="center-btn-inner">
-                <button class='cu-btn bg-gray shadow lg block'>
+                <button class='cu-btn bg-gray shadow lg block' bindtap="onClickSpecimen">
                     <view style="width: 100%; height: 100%;">
                         <view class="center-btn-icon">
                             <text class='icon-flashlightopen'></text>

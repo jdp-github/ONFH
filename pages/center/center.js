@@ -19,7 +19,7 @@ Page({
         centerTempList: [], // 存储中心列表，取消搜索时恢复数据用
         visibleCenter: false,
         centerName: '',
-        noticeTitle:'',
+        noticeTitle: '',
         noticeContent: ""
     },
     onHide: function() {
@@ -175,7 +175,7 @@ Page({
                     that.showToast(res.data.msg);
                 }
 
-                if (that.data.centerList && that.data.centerList.length > 0) { 
+                if (that.data.centerList && that.data.centerList.length > 0) {
                     that.requestNotice(that.data.centerList[0].center_id)
                 }
             },
@@ -276,22 +276,23 @@ Page({
             url: '../center/member/member?centerId=' + e.currentTarget.dataset.centerid
         });
     },
-    // onClickSpecimen: function(e) {
-    //     wx.navigateTo({
-    //         url: '../center/specimen/specimen?centerId=' + e.target.dataset.center.center_id + "&centerName=" + e.target.dataset.center.center_name
-    //     })
-    // },
+    onClickSpecimen: function(e) {
+        // wx.navigateTo({
+        //     url: '../center/specimen/specimen?centerId=' + e.target.dataset.center.center_id + "&centerName=" + e.target.dataset.center.center_name
+        // })
+        this.showToast("此版本标本管理系统暂不可用")
+    },
     onClickNoticeManagement: function(e) {
         wx.navigateTo({
             url: '../notice/notice?centerId=' + e.currentTarget.dataset.centerid
         })
     },
-    centerNameInput: function (e) {
+    centerNameInput: function(e) {
         this.setData({
             centerName: e.detail.value
         });
     },
-    addCenter: function () {
+    addCenter: function() {
         let that = this;
         if (that.data.centerName.length == 0) {
             that.showToast('请输入中心名');

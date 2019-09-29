@@ -1,0 +1,14 @@
+<view class='UCenter-bg'>
+    <view class='text-xl'>
+        ONFH-登记系统
+        <text class='text-df'>v2.0</text>
+    </view>
+</view>
+<view class='padding-xl'>
+    <view class='basis-xs margin-xs padding-sm radius'>
+        <div style="font-size:16px;">ONFH登记系统用于ONFH病例的登记，以便数据管理以及开展相关临床研究。小程序收集的头像，手机号码，邮箱等信息仅用于小程序内部使用。</div>
+        <button style="margin-top:20px" class='cu-btn  bg-blue shadow lg block' bindtap="onClick">
+            前往登录
+        </button>
+    </view>
+</view>

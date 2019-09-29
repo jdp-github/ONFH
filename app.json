@@ -1,5 +1,6 @@
 {
     "pages": [
+        "pages/description/description",
         "pages/auth/auth",
         "pages/followup/followup",
         "pages/followup/detail/detail",
